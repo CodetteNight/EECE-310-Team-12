@@ -4,53 +4,31 @@
   <groupId>ca.ubc.jpacman</groupId>
   <artifactId>jpacman-undo</artifactId>
   <version>1.0-SNAPSHOT</version>
-
+  <developers>
+      <developer>
+        <id>CodetteNight</id>
+        <name>Natasha Kumar</name>
+        <organization>UBC-EECE310/team12</organization>
+      </developer>
+      <developer>
+        <id>ijcheng</id>
+        <name>Isaac Cheng</name>
+        <organization>UBC-EECE310/team12</organization>
+      </developer>
+      <developer>
+        <id>VWJF</id>
+        <name>Ishan Sahay</name>
+        <organization>UBC-EECE310/team12</organization>
+      </developer>
+      <developer>
+        <id>g4-SL</id>
+        <name>Sarah Leong</name>
+        <organization>UBC-EECE310/team12</organization>
+      </developer>
+    </developers>
   <name>JPacman with undo functionality</name>
   <description>Reference solution for the jpacman exercises.</description>
-	
-	<developers>
-    	<developer>
-      		<id>VWJF</id>
-      		<name>Ishan Sahay</name>
-      		<organization>EECE310-Team12</organization>
-      		<roles>
-		        <role>developer</role>
-      		</roles>
-      		<timezone>-8</timezone>
-    	</developer>
 
-    	<developer>
-      		<id>ijcheng</id>
-      		<name>Isaac Cheng</name>
-      		<organization>EECE310-Team12</organization>
-      		<roles>
-		        <role>developer</role>
-      		</roles>
-      		<timezone>-8</timezone>
-    	
-    	</developer>
-	    	<developer>
-      		<id>CodetteNight</id>
-      		<name>Natasha Kumar</name>
-      		<organization>EECE310-Team12</organization>
-      		<roles>
-		        <role>developer</role>
-      		</roles>
-      		<timezone>-8</timezone>
-    	</developer>
-    	
-	    <developer>
-      		<id>g4-SL</id>
-      		<name>Sarah Leong</name>
-      		<organization>EECE310-Team12</organization>
-      		<roles>
-		        <role>developer</role>
-      		</roles>
-      		<timezone>-8</timezone>
-    	</developer>
-    	
-	</developers>
-	  
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<targetJdk>1.6</targetJdk>
