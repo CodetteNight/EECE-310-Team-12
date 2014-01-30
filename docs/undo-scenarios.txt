@@ -1,0 +1,23 @@
+STORY 7 -- UNDO:
+
+As a player
+I want to be able to undo a move I regret, including all ghost moves made since my previous move,
+so that I can continue the game in the state just before my last move.
+
+Scenario S7.1: Undo the player moves. (Isaac) (Sprint 1)
+
+Scenario S7.2: Undo the player eats. (Isaac) (Sprint 2)
+
+Scenario S7.3: Undo a ghost moves. (Ishan) (Sprint 1) 
+
+Scenario S7.4: Undo the ghost moves over food. (S7.5) (Natasha) (Sprint 2)
+
+Scenario S7.5: Undo the ghost leaves a food cell. (Natasha) (Sprint 2)
+
+Scenario S7.6: Undo at start of game. (Sarah) (Sprint 3)
+
+Scenario S7.7: Undo at end game. (Sarah) (Sprint 3)
+
+Scenario S7.8: Undo at suspended game. (Ishan) (Sprint 3)
+
+
