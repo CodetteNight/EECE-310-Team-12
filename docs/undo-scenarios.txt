@@ -4,9 +4,12 @@ As a player
 I want to be able to undo a move I regret, including all ghost moves made since my previous move,
 so that I can continue the game in the state just before my last move.
 
+
 Scenario S7.1: Undo the player moves. (Isaac) (Sprint 1)
 
+
 Scenario S7.2: Undo the player eats. (Isaac) (Sprint 2)
+
 
 Scenario S7.3: Undo the ghost moves. (Ishan) (Sprint 1) 
 Given the game has started
@@ -18,13 +21,30 @@ Test with multiple Ghosts (reverse the movements of each Ghost)
 Test with repeated presses to the "Undo" button (each press should undo the Ghosts' movement in the reverse order that they were performed)
 Test after all the actions have been "Undo"ne (Further modifications to the game should not be made)
 
+
+
 Scenario S7.4: Undo the ghost moves over food. (S7.5) (Natasha) (Sprint 2)
+
 
 Scenario S7.5: Undo the ghost leaves a food cell. (Natasha) (Sprint 2)
 
+
 Scenario S7.6: Undo at start of game. (Sarah) (Sprint 3)
+Given the game has started,
+	and my Pacman has not made a single movement since the start of the game;
+When I press the Undo button;
+Then my Pacman will stay on the same cell,
+	and the ghost will move to the original position at the start of the game.
+
+
 
 Scenario S7.7: Undo at end game. (Sarah) (Sprint 3)
+Given the game has ended;
+When I press the Undo button;
+Then the game will not do any undo movements.
+
+
+
 
 Scenario S7.8: Undo at suspended game. (Ishan) (Sprint 3)
 Given the game has started
