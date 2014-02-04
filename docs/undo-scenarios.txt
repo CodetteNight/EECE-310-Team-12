@@ -24,10 +24,14 @@ Test after all the actions have been "Undo"ne (Further modifications to the game
 
 
 Scenario S7.4: Undo the ghost moves over food. (S7.5) (Natasha) (Sprint 2)
-
+Given the game has started and a Ghost has moved over food (ghost does not eat food)
+When a user presses the "Undo" button
+Then the game should reverse the Ghost movement and display food where the ghost was
 
 Scenario S7.5: Undo the ghost leaves a food cell. (Natasha) (Sprint 2)
-
+Given the game has started and a Ghost has moved off a piece of food
+When a user presses the "Undo" button
+Then the game should reverse the Ghost movement and display the ghost where the food was (ghost does not eat food)
 
 Scenario S7.6: Undo at start of game. (Sarah) (Sprint 3)
 Given the game has started,
