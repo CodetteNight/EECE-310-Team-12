@@ -4,14 +4,24 @@ As a player
 I want to be able to undo a move I regret, including all ghost moves made since my previous move,
 so that I can continue the game in the state just before my last move.
 
+STORY 7.1 -- UNDO MOVE THE PLAYER (ISAAC)
 
-Scenario S7.1: Undo the player moves. (Isaac) (Sprint 1)
+As a player
+I want to press the "UNDO" button
+so that my last move is undone
+
+	Scenario S7.11: Undo the player moves. 
 
 
-Scenario S7.2: Undo the player eats. (Isaac) (Sprint 2)
+	Scenario S7.12: Undo the player eats.
 
+STORY 7.2 -- UNDO MOVE THE GHOST (NATASHA)
 
-Scenario S7.3: Undo the ghost moves. (Ishan) (Sprint 1) 
+As a ghost
+I want to move back to a previous tile when the user presses "UNDO"
+So that the game returns to a previous state
+
+Scenario S7.21: Undo the ghost moves. 
 Given the game has started
   and a Ghost has made movements
 When  the user presses the "Undo" button
@@ -21,40 +31,60 @@ Test with multiple Ghosts (reverse the movements of each Ghost)
 Test with repeated presses to the "Undo" button (each press should undo the Ghosts' movement in the reverse order that they were performed)
 Test after all the actions have been "Undo"ne (Further modifications to the game should not be made)
 
-
-
-Scenario S7.4: Undo the ghost moves over food. (S7.5) (Natasha) (Sprint 2)
-Given the game has started and a Ghost has moved over food (ghost does not eat food)
+Scenario S7.22: Undo the ghost moves over food.
+Given the game has started 
+	and a Ghost has moved over food (ghost does not eat food)
 When a user presses the "Undo" button
 Then the game should reverse the Ghost movement and display food where the ghost was
 
-Scenario S7.5: Undo the ghost leaves a food cell. (Natasha) (Sprint 2)
-Given the game has started and a Ghost has moved off a piece of food
+Scenario S7.23: Undo the ghost leaves a food cell.
+Given the game has started 
+	and a Ghost has moved off a piece of food
 When a user presses the "Undo" button
 Then the game should reverse the Ghost movement and display the ghost where the food was (ghost does not eat food)
 
-Scenario S7.6: Undo at start of game. (Sarah) (Sprint 3)
+STORY 7.3 -- STARTUP (ISHAN)
+As a player
+ I want to start the game
+so that I can actually play
+
+Scenario S7.31: Undo at start of game.
 Given the game has started,
 	and my Pacman has not made a single movement since the start of the game;
 When I press the Undo button;
 Then my Pacman will stay on the same cell,
 	and the ghost will move to the original position at the start of the game.
 
+STORY 7.4 -- RESTART THE GAME (ISHAN)
+As a player,
+ I want to be able to restart the game after winning or loosing;
+So that I can enjoy another JPacman game.
 
-
-Scenario S7.7: Undo at end game. (Sarah) (Sprint 3)
+Scenario S7.41: Undo at end game.
 Given the game has ended;
 When I press the Undo button;
 Then the game will not do any undo movements.
 
+STORY 7.5: SUSPEND THE GAME (SARAH)
+As a player,
+ I want to be able to suspend the game;
+So that I can pause and do something else.
 
-
-
-Scenario S7.8: Undo at suspended game. (Ishan) (Sprint 3)
+Scenario S7.51: Undo at suspended game.
 Given the game has started
   and movements have been made
   and the game is "Suspended"
 When  the user presses the "Undo" button
 Then  the game should not be able to undo any movements
+
+STORY 7.6: SHOW CONTROLS (SARAH)
+As a player
+	I want to be able to see the game controls
+So that I know how to play the game
+
+Scenario S7.61: Show "UNDO" button
+Given that the game is launched
+Then the game should show the "UNDO" button
+
 
 
