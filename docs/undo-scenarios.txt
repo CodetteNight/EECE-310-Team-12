@@ -11,9 +11,19 @@ I want to press the "UNDO" button
 so that my last move is undone
 
 	Scenario S7.11: Undo the player moves. 
+Given the game has started,
+  and my Pacman has made a movement;
+When the user presses the "Undo" button;
+Then my Pacman should revert to its previous cell.
 
 
 	Scenario S7.12: Undo the player eats.
+Given the game has started,
+  and my Pacman is on a cell that contained food;
+When  I press the "Undo" button;
+Then my Pacman should revert to its previous cell,
+  and I lose the points for that cell,
+  and the food re-appears on that cell.		
 
 STORY 7.2 -- UNDO MOVE THE GHOST (NATASHA)
 
