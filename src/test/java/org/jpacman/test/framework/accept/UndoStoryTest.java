@@ -93,7 +93,6 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// and the food re-appears on that cell.
 		// assertTrue("Top Sprite reappeared", foodTile.containsSprite(foodTileSprite));
 		assertEquals(IBoardInspector.SpriteType.FOOD, foodTileSprite);
-
 	}
 
 	@Test
@@ -115,7 +114,6 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// then
 		// Then the game should reverse the previous Ghost movement
 		assertEquals(theGhost().getTile(), ghostTile);
-
 	}
 
 	@Test
@@ -192,7 +190,6 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// and the ghost will move to the original position at the start of the game.
 		assertEquals(theGhost().getTile(), ghostTile);
-
 	}
 
 	@Test
@@ -216,62 +213,6 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Then the game will not do any undo movements.
 		assertEquals(getPlayer().getTile(), playerTile);
 		assertEquals(theGhost().getTile(), ghostTile);
-
-	}
-
-	@Test
-	public void test_S7_51_UndoAtSuspend() {
-
-		// given
-		// Given the game has started,
-		getEngine().start();
-
-		// Player Makes some movements
-		getEngine().left(); // eat first food
-
-		// Ghost makes some movements
-		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
-
-
-		Tile playerTile = getPlayer().getTile();
-		Tile ghostTile = theGhost().getTile();
-		int foodRemaining = getUI().getGame().getPointManager().totalFoodInGame();
-		int playerPoints = getPlayer().getPoints();
-
-		getEngine().stop(); // Suspend Game
-
-		// when
-		// When the user presses the "Undo" button;
-		getUI().undo();
-
-		// then
-		// Then the game should not be able to undo any movements
-
-		// Player and Ghost positions unchanged.
-		assertEquals(getPlayer().getTile(), playerTile);
-		assertEquals(theGhost().getTile(), ghostTile);
-
-		// Player Points and Available Food unchanged
-		assertTrue(playerPoints == getPlayer().getPoints());
-		assertTrue(foodRemaining == getUI().getGame().getPointManager().totalFoodInGame());
-
-	}
-
-	@Test
-	public void test_S7_61_UndoButtonVisible() {
-
-		// given
-		// Given the game has started,
-		getEngine().start();
-
-		// when
-
-		// then
-		// Then the game should show the "UNDO" button
-
-		// getUI().eventHandler().undo(); //Currently not implemented.
-		fail("Test not complete.");
-
 	}
 
 	@Test
@@ -298,6 +239,57 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Then the game will not do any undo movements.
 		assertEquals(getPlayer().getTile(), playerTile);
 		assertEquals(theGhost().getTile(), ghostTile);
-
 	}
+
+	@Test
+	public void test_S7_51_UndoAtSuspend() {
+
+		// given
+		// Given the game has started,
+		getEngine().start();
+
+		// Player Makes some movements
+		getEngine().left(); // eat first food
+
+		// Ghost makes some movements
+		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
+
+		Tile playerTile = getPlayer().getTile();
+		Tile ghostTile = theGhost().getTile();
+		int foodRemaining = getUI().getGame().getPointManager().totalFoodInGame();
+		int playerPoints = getPlayer().getPoints();
+
+		getEngine().stop(); // Suspend Game
+
+		// when
+		// When the user presses the "Undo" button;
+		getUI().undo();
+
+		// then
+		// Then the game should not be able to undo any movements
+		// Player and Ghost positions unchanged.
+		assertEquals(getPlayer().getTile(), playerTile);
+		assertEquals(theGhost().getTile(), ghostTile);
+
+		// Player Points and Available Food unchanged
+		assertTrue(playerPoints == getPlayer().getPoints());
+		assertTrue(foodRemaining == getUI().getGame().getPointManager().totalFoodInGame());
+	}
+
+	@Test
+	public void test_S7_61_UndoButtonVisible() {
+
+		// given
+		// Given the game has started,
+		getEngine().start();
+
+		// when
+
+		// then
+		// Then the game should show the "UNDO" button
+
+		// getUI().eventHandler().undo(); //Currently not implemented.
+		fail("Test not complete.");
+	}
+
 }
