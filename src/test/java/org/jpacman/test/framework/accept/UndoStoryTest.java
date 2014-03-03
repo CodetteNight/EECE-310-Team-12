@@ -177,7 +177,10 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// and a Ghost has made movements
 		Tile ghostTile = theGhost().getTile();
 		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
-		assertNotSame(ghostTile, theGhost().getTile());
+		// assertNotSame(ghostTile, theGhost().getTile());
+
+		assertEquals(ghostTile, theGhost().getTile());
+		// assertThat("Ghost has moved", ghostTile, is(not(theGhost().getTile())) );
 
 		// when
 		// When the user presses the "Undo" button;
@@ -189,7 +192,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		assertEquals(getPlayer().getTile(), playerTile);
 
 		// and the ghost will move to the original position at the start of the game.
-		assertEquals(theGhost().getTile(), ghostTile);
+		assertEquals("Ghost undone", theGhost().getTile(), ghostTile);
 	}
 
 	@Test
