@@ -54,7 +54,7 @@ public class UndoablePacman extends MainUI {
 	 */
 	@Override
 	public void main() throws FactoryException {
-		initialize().withFactory(new UndoGameFactory());
+		initialize();
 		start();
 	}
 
@@ -82,6 +82,7 @@ public class UndoablePacman extends MainUI {
 		pi = new PacmanInteractionWithUndo();
 		buttonPanel = (UndoButtonPanel) new UndoButtonPanel().withParent(this).withInteractor(pi);
 
+		super.withFactory(new UndoGameFactory());
 		super.withModelInteractor(eventHandler());
 		super.withModelInteractor(pi).withButtonPanel(buttonPanel);
 		super.initialize();
@@ -91,12 +92,6 @@ public class UndoablePacman extends MainUI {
 		return this;
 	}
 
-	/**
-	 * Create a new UI for the default board.
-	 */
-	/*
-	 * public UndoablePacman() { level = new Level(); }
-	 */
 	/**
 	 * @return The mapping between keyboard events and model events.
 	 */
