@@ -53,6 +53,7 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 	public void undo() {
 		// TODO Temporary Action
 		super.stop();
+
 		// super.updateState();
 		// TODO: additional updates as needed here
 	}
@@ -70,4 +71,7 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 		return this;
 	}
 
+	/*
+	 * PacmanInteractionWithUndo(){ super.withGameInteractor(new IGameInteractorWithUndo); }
+	 */
 }
