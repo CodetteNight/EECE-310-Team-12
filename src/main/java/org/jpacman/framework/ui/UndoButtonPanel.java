@@ -41,6 +41,7 @@ public class UndoButtonPanel extends ButtonPanel {
 		});
 		undoButton.setName("jpacman.undo");
 		undoButton.requestFocusInWindow();
+		undoButton.setEnabled(false);
 	}
 
 
@@ -78,6 +79,18 @@ public class UndoButtonPanel extends ButtonPanel {
 		((IPacmanInteractionWithUndo) getPacmanInteractor()).undo();
 		pause();
 		// undoButton.setEnabled(true);
+	}
+
+	@Override
+	public void pause() {
+		super.pause();
+		undoButton.setEnabled(false);
+	}
+
+	@Override
+	public void start() {
+		super.start();
+		undoButton.setEnabled(true);
 	}
 
 }

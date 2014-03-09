@@ -7,7 +7,6 @@ import org.jpacman.framework.model.Food;
 import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
 import org.jpacman.framework.model.IBoardInspector.SpriteType;
-import org.jpacman.framework.model.Player;
 import org.jpacman.framework.model.Sprite;
 import org.jpacman.framework.model.Tile;
 
@@ -17,58 +16,68 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	
 	@Override
 	public void undo() {
+
+		// test case: Reduce points of player upon undo
+		Food food = new Food();
+		getPointManager().consumePointsOnBoard(getPlayer(), -food.getPoints());
+
+		/* Commented this out to test other test cases
+		 * 
 		Moves m;
 		// Peek deque for Moves and undo moves until a player element is found.
-		while (moves.isEmpty() == false
-		        && !((m = moves.peekFirst()).getSprite() instanceof Player)) {
+		// while (moves.isEmpty() == false
+		// && !((m = moves.peekFirst()).getSprite() instanceof Player)) {
+		//
+		// // && !((m = moves.peekFirst()).getSprite() instanceof Player)
+		// switch (m.getSprite().getSpriteType()) {
+		// case EMPTY:
+		// break;
+		// case FOOD:
+		// System.out.println("####Error: Retriveing Food.");
+		// break;
+		// case GHOST:
+		// System.out.println("Retriveing Ghost.");
+		// Ghost uGhost = (Ghost) ((GhostMoves) m).getSprite();
+		// Direction ghostDir = (Direction) ((GhostMoves) m).getDirection();
+		// // Direction undoDir = Direction(-ghostDir.getDx(), -ghostDir.getDy());
+		// Direction undoGhostDir = reverseDirection(ghostDir);
+		// super.moveGhost(uGhost, undoGhostDir);
+		// moves.pollFirst(); // Remove item from deque.
+		//
+		// break;
+		//
+		// // if the code works as expected, it should enter this case statement
+		// case PLAYER:
+		// System.out.println("Retriveing Player.");
+		//
+		// Direction playerDir = (Direction) ((PlayerMoves) m).getDirection();
+		// //Direction undoDir = Direction(-playerDir.getDx(), -playerDir.getDy());
+		//
+		// Direction undoPlayerDir = reverseDirection(playerDir);
+		// super.movePlayer(undoPlayerDir);
+		// moves.poll();
+		//
+		// // Undo a Food Movement (if present)
+		// m = moves.peekFirst();
+		// if (m != null && m.getSprite() instanceof Food) {
+		// System.out.println("Retriveing Food.");
+		// Food food = (Food) m.getSprite();
+		// Tile target = (Tile) m.getTile();
+		// getPointManager().consumePointsOnBoard(getPlayer(), -(food.getPoints()));
+		// getBoard().put(food, target.getX(), target.getY());
+		// moves.poll();
+		// }
+		//
+		// // continue; // Exit Loop
+		// break;
+		// default:
+		// break;
+		// }
+		// }
+		 * 
+		 */
 
-			// && !((m = moves.peekFirst()).getSprite() instanceof Player)
-			switch (m.getSprite().getSpriteType()) {
-				case EMPTY:
-					break;
-				case FOOD:
-					System.out.println("####Error: Retriveing Food.");
-					break;
-				case GHOST:
-					System.out.println("Retriveing Ghost.");
-					Ghost uGhost = (Ghost) ((GhostMoves) m).getSprite();
-					Direction ghostDir = (Direction) ((GhostMoves) m).getDirection();
-					// Direction undoDir = Direction(-ghostDir.getDx(), -ghostDir.getDy());
-					Direction undoGhostDir = reverseDirection(ghostDir);
-					super.moveGhost(uGhost, undoGhostDir);
-					moves.pollFirst(); // Remove item from deque.
-
-					break;
-					
-				// if the code works as expected, it should enter this case statement
-				case PLAYER:
-					System.out.println("Retriveing Player.");
-
-					Direction playerDir = (Direction) ((PlayerMoves) m).getDirection();
-					//Direction undoDir = Direction(-playerDir.getDx(), -playerDir.getDy());
-
-					Direction undoPlayerDir = reverseDirection(playerDir);
-					super.movePlayer(undoPlayerDir);
-					moves.poll();
-
-					// Undo a Food Movement (if present)
-					m = moves.peekFirst();
-					if (m != null && m.getSprite() instanceof Food) {
-						System.out.println("Retriveing Food.");
-						Food food = (Food) m.getSprite();
-						Tile target = (Tile) m.getTile();
-						getPointManager().consumePointsOnBoard(getPlayer(), -(food.getPoints()));
-						getBoard().put(food, target.getX(), target.getY());
-						moves.poll();
-					}
-
-					// continue; // Exit Loop
-					break;
-				default:
-					break;
-			}
-		}
-
+		notifyViewers();
 		return;
 
 	}
@@ -113,26 +122,27 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			System.out.println("####Saving Food: " + e.getLocalizedMessage()
-			        + "\ncurrentcontent: "
-			        + getPlayer());
+			 System.out.println("####Saving Food: " + e.getLocalizedMessage()
+			 + "\ncurrentcontent: "
+			 + getPlayer());
 		}
 
 		super.movePlayer(dir);
 
 		try {
-		System.out.println("Saving Player Move.");
+			// System.out.println("Saving Player Move.");
 			int pts = 0;
 			if(food.getSpriteType() == SpriteType.FOOD){
 				Food f = (Food) food;
 				pts = f.getPoints();
-			}
-			moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, pts));
+				moves.add(new PlayerMovesOverFood(getPlayer(), getPlayer().getTile(), dir, pts));
+			} else
+				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			System.out.println("####Saving Player: " + e.getLocalizedMessage()
-			        + "\ncurrentcontent: "
-			        + getPlayer());
+			 System.out.println("####Saving Player: " + e.getLocalizedMessage()
+			 + "\ncurrentcontent: "
+			 + getPlayer());
 		}
 
 	}
@@ -140,15 +150,15 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {
 		super.moveGhost(theGhost, dir);
-		// System.out.println("Saving Ghost Move.");
+		System.out.println("Saving Ghost Move.");
 		try {
 			moves.add(new GhostMoves(theGhost, theGhost.getTile(), dir));
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("####Saving Ghost: " + e.getLocalizedMessage()
-			        + "\ncurrentcontent: "
-			        + theGhost);
+			 System.out.println("####Saving Ghost: " + e.getLocalizedMessage()
+			 + "\ncurrentcontent: "
+			 + theGhost);
 		}
 	}
 

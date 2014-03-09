@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import main.java.org.jpacman.framework.ui.UndoablePacman;
 
@@ -13,6 +12,7 @@ import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.IBoardInspector;
 import org.jpacman.framework.model.IBoardInspector.SpriteType;
 import org.jpacman.framework.model.Tile;
+import org.jpacman.framework.ui.PacmanInteraction.MatchState;
 import org.junit.Test;
 
 public class UndoStoryTest extends MovePlayerStoryTest {
@@ -103,11 +103,11 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		int previousPoints = getPlayer().getPoints();
 		getEngine().left();
 		assertThat(getPlayer().getPoints(), greaterThan(0));
+		assertEquals(getEngine().getCurrentState(), MatchState.PLAYING);
 
 		// when
 		// When the user presses the "Undo" button;
 		getUI().undo();
-		getEngine().start();
 
 		// and I lose the points for that cell,
 		assertEquals(previousPoints, getPlayer().getPoints());
@@ -222,6 +222,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Given the game has started,
 		getEngine().start();
 		Tile playerTile = getPlayer().getTile();
+		Tile ghostTile = theGhost().getTile();
 
 		// and the player dies
 		getPlayer().die();
@@ -233,6 +234,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// then
 		// Then the game will not do any undo movements.
 		assertEquals(playerTile, getPlayer().getTile());
+		assertEquals(ghostTile, theGhost().getTile());
 	}
 
 	@Test
@@ -244,8 +246,9 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		getEngine().start();
 
 		// and the player eats all food
-		getPlayer().addPoints(1780);
+		getPlayer().addPoints(getUI().getGame().getPointManager().totalFoodInGame());
 		Tile playerTile = getPlayer().getTile();
+		Tile ghostTile = theGhost().getTile();
 
 		// when
 		// When the user presses the "Undo" button;
@@ -254,6 +257,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// then
 		// Then the game will not do any undo movements.
 		assertEquals(playerTile, getPlayer().getTile());
+		assertEquals(ghostTile, theGhost().getTile());
 	}
 
 	@Test
@@ -283,12 +287,13 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// then
 		// Then the game should not be able to undo any movements
 		// Player and Ghost positions unchanged.
+		assertEquals(getEngine().getCurrentState(), MatchState.PAUSING);
 		assertEquals(getPlayer().getTile(), playerTile);
 		assertEquals(theGhost().getTile(), ghostTile);
 
 		// Player Points and Available Food unchanged
-		assertTrue(playerPoints == getPlayer().getPoints());
-		assertTrue(foodRemaining == getUI().getGame().getPointManager().totalFoodInGame());
+		assertEquals(playerPoints, getPlayer().getPoints());
+		assertEquals(foodRemaining, getUI().getGame().getPointManager().totalFoodInGame());
 	}
 
 	@Test
