@@ -57,10 +57,11 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 	public void undo() {
 		// TODO Temporary Action
 		// super.stop();
-		System.out.println("####Error: Retriveing Food.");
+		System.out.println("Entering undo state");
 		if (getCurrentState() == MatchState.PLAYING) {
 			((IGameInteractorWithUndo) this.getGame()).undo();
 			// getGame().undo();
+			System.out.println("Returned from undo");
 			updateState();
 		}
 

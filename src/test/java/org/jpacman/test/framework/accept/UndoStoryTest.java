@@ -96,6 +96,25 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 	}
 
 	@Test
+	public void test_S7_13_UndoPlayerPoints() {
+		// given
+		// Given the game has started,
+		getEngine().start();
+		int previousPoints = getPlayer().getPoints();
+		getEngine().left();
+		assertThat(getPlayer().getPoints(), greaterThan(0));
+
+		// when
+		// When the user presses the "Undo" button;
+		getUI().undo();
+		getEngine().start();
+
+		// and I lose the points for that cell,
+		assertEquals(previousPoints, getPlayer().getPoints());
+		
+	}
+
+	@Test
 	public void test_S7_21_UndoGhostMoves() {
 		// given
 		// Given the game has started,
@@ -202,11 +221,10 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// given
 		// Given the game has started,
 		getEngine().start();
-
 		Tile playerTile = getPlayer().getTile();
-		Tile ghostTile = theGhost().getTile();
 
-		getEngine().right(); // Player Looses, Game ends.
+		// and the player dies
+		getPlayer().die();
 
 		// when
 		// When the user presses the "Undo" button;
@@ -214,8 +232,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// then
 		// Then the game will not do any undo movements.
-		assertEquals(getPlayer().getTile(), playerTile);
-		assertEquals(theGhost().getTile(), ghostTile);
+		assertEquals(playerTile, getPlayer().getTile());
 	}
 
 	@Test
@@ -226,13 +243,9 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Given the game has started,
 		getEngine().start();
 
+		// and the player eats all food
+		getPlayer().addPoints(1780);
 		Tile playerTile = getPlayer().getTile();
-		Tile ghostTile = theGhost().getTile();
-		getEngine().start();
-		getEngine().left(); // eat first food
-		getEngine().right(); // go back
-		getEngine().up(); // move next to final food
-		getEngine().right(); // Player Wins, Game ends.
 
 		// when
 		// When the user presses the "Undo" button;
@@ -240,8 +253,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// then
 		// Then the game will not do any undo movements.
-		assertEquals(getPlayer().getTile(), playerTile);
-		assertEquals(theGhost().getTile(), ghostTile);
+		assertEquals(playerTile, getPlayer().getTile());
 	}
 
 	@Test

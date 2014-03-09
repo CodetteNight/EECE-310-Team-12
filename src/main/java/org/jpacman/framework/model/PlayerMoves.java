@@ -6,17 +6,11 @@ import org.jpacman.framework.model.Tile;
 
 public class PlayerMoves extends Moves {
 
-	final int points;
 	final Direction dir;
 
-	public PlayerMoves(Sprite s, Tile t, Direction d, int pts) {
+	PlayerMoves(Sprite s, Tile t, Direction d) {
 		super(s, t);
-		points = pts;
 		dir = d;
-	}
-
-	public int getFoodPoint() {
-		return points;
 	}
 	
 	public Direction getDirection() {
