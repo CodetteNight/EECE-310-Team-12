@@ -39,6 +39,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 					moves.pollFirst(); // Remove item from deque.
 
 					break;
+					
+				// if the code works as expected, it should enter this case statement
 				case PLAYER:
 					System.out.println("Retriveing Player.");
 
@@ -91,7 +93,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		}
 
 		assert result != null : "UndoableGame: Direction & reverse Direction not null";
-		return dir;
+		// return dir;
+		return result;
 	}
 
 	@Override
@@ -100,14 +103,14 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		
 		Tile target = getBoard().tileAtDirection(getPlayer().getTile(), dir);
 
+		// if top sprite on tile target is food, save food sprite before moving player
 		Sprite food = null;
 		try {
 			food = target.topSprite();
-		if (food.getSpriteType() == SpriteType.FOOD) {
-			System.out.println("Saving Food Move.");
-
+			if (food.getSpriteType() == SpriteType.FOOD) {
+				System.out.println("Saving Food Move.");
 				moves.add(new FoodMoves(food, food.getTile()));
-		}
+			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("####Saving Food: " + e.getLocalizedMessage()
@@ -137,7 +140,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {
 		super.moveGhost(theGhost, dir);
-		System.out.println("Saving Ghost Move.");
+		// System.out.println("Saving Ghost Move.");
 		try {
 			moves.add(new GhostMoves(theGhost, theGhost.getTile(), dir));
 		} catch (NullPointerException e) {
@@ -149,47 +152,48 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		}
 	}
 
-	/**
-	 * Player intends to move towards tile already occupied: if there's food there, eat it.
-	 * 
-	 * @param p
-	 *            The player
-	 * @param currentSprite
-	 *            who is currently occupying the tile.
-	 */
-	private void eatFood(Player player, Sprite currentSprite) {
-		if (currentSprite instanceof Food) {
-			Food food = (Food) currentSprite;
-			getPointManager().consumePointsOnBoard(player, food.getPoints());
-			// moves.add(currentSprite);
-			food.deoccupy();
-		}
-	}
-
-	/**
-	 * Player intends to move towards an occupied tile: if there's a ghost there, the game is over.
-	 * 
-	 * @param p
-	 *            The player
-	 * @param currentSprite
-	 */
-	private void dieIfGhost(Player p, Sprite currentSprite) {
-		if (currentSprite instanceof Ghost) {
-			p.die();
-		}
-	}
-
-	/**
-	 * Check if there's room on the target tile for another sprite.
-	 * 
-	 * @param target
-	 *            Tile to be occupied by another sprite.
-	 * @return true iff target tile can be occupied.
-	 */
-	private boolean tileCanBeOccupied(Tile target) {
-		assert target != null : "PRE: Argument can't be null";
-		Sprite currentOccupier = target.topSprite();
-		return currentOccupier == null || currentOccupier.getSpriteType() != SpriteType.WALL;
-	}
+	// /**
+	// * Player intends to move towards tile already occupied: if there's food there, eat it.
+	// *
+	// * @param p
+	// * The player
+	// * @param currentSprite
+	// * who is currently occupying the tile.
+	// */
+	// private void eatFood(Player player, Sprite currentSprite) {
+	// if (currentSprite instanceof Food) {
+	// Food food = (Food) currentSprite;
+	// getPointManager().consumePointsOnBoard(player, food.getPoints());
+	// // moves.add(currentSprite);
+	// food.deoccupy();
+	// }
+	// }
+	//
+	// /**
+	// * Player intends to move towards an occupied tile: if there's a ghost there, the game is
+	// over.
+	// *
+	// * @param p
+	// * The player
+	// * @param currentSprite
+	// */
+	// private void dieIfGhost(Player p, Sprite currentSprite) {
+	// if (currentSprite instanceof Ghost) {
+	// p.die();
+	// }
+	// }
+	//
+	// /**
+	// * Check if there's room on the target tile for another sprite.
+	// *
+	// * @param target
+	// * Tile to be occupied by another sprite.
+	// * @return true iff target tile can be occupied.
+	// */
+	// private boolean tileCanBeOccupied(Tile target) {
+	// assert target != null : "PRE: Argument can't be null";
+	// Sprite currentOccupier = target.topSprite();
+	// return currentOccupier == null || currentOccupier.getSpriteType() != SpriteType.WALL;
+	// }
 
 }
