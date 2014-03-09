@@ -1,6 +1,7 @@
 package main.java.org.jpacman.framework.model;
 
 import java.util.ArrayDeque;
+import java.util.NoSuchElementException;
 
 import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.Food;
@@ -18,8 +19,25 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	public void undo() {
 
 		// test case: Reduce points of player upon undo
-		Food food = new Food();
-		getPointManager().consumePointsOnBoard(getPlayer(), -food.getPoints());
+		while (!moves.isEmpty()
+		        && moves.peekFirst().getSprite().getSpriteType() != SpriteType.FOOD) {
+			moves.remove();
+		}
+
+		if (moves.peekFirst() != null
+		        && moves.peekFirst().getSprite().getSpriteType() == SpriteType.FOOD) {
+			try {
+				int foodPts = ((Food) moves.getFirst().getSprite()).getPoints();
+				getPointManager().consumePointsOnBoard(getPlayer(), -foodPts);
+			} catch (NoSuchElementException e) {
+				e.printStackTrace();
+				System.out.println("####Reducing points: " + e.getLocalizedMessage()
+				        + "\ncurrentcontent: " + getPlayer());
+			}
+		}
+
+		// Food food = new Food();
+		// getPointManager().consumePointsOnBoard(getPlayer(), -food.getPoints());
 
 		/* Commented this out to test other test cases
 		 * 
@@ -102,47 +120,52 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		}
 
 		assert result != null : "UndoableGame: Direction & reverse Direction not null";
-		// return dir;
 		return result;
 	}
 
 	@Override
 	public void movePlayer(Direction dir) {
 		assert getBoard() != null : "Board can't be null when moving";
-		
+
 		Tile target = getBoard().tileAtDirection(getPlayer().getTile(), dir);
 
 		// if top sprite on tile target is food, save food sprite before moving player
 		Sprite food = null;
-		try {
-			food = target.topSprite();
-			if (food.getSpriteType() == SpriteType.FOOD) {
-				System.out.println("Saving Food Move.");
-				moves.add(new FoodMoves(food, food.getTile()));
+		while (target.topSprite() != null) {
+			try {
+				food = target.topSprite();
+				if (food.getSpriteType() == SpriteType.FOOD) {
+					System.out.println("Saving Food Move.");
+					moves.add(new FoodMoves(food, food.getTile()));
+				}
+				break;
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				System.out.println("####Saving Food: " + e.getLocalizedMessage()
+				        + "\ncurrentcontent: " + getPlayer());
 			}
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			 System.out.println("####Saving Food: " + e.getLocalizedMessage()
-			 + "\ncurrentcontent: "
-			 + getPlayer());
 		}
 
 		super.movePlayer(dir);
 
 		try {
-			// System.out.println("Saving Player Move.");
+			System.out.println("Saving Player Move.");
 			int pts = 0;
-			if(food.getSpriteType() == SpriteType.FOOD){
-				Food f = (Food) food;
-				pts = f.getPoints();
-				moves.add(new PlayerMovesOverFood(getPlayer(), getPlayer().getTile(), dir, pts));
-			} else
+			while (food != null) {
+				if (food.getSpriteType() == SpriteType.FOOD) {
+					Food f = (Food) food;
+					pts = f.getPoints();
+					moves.add(new PlayerMovesOverFood(getPlayer(), getPlayer().getTile(), dir,
+					        pts));
+				}
+				break;
+			}
+			if (food == null)
 				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			 System.out.println("####Saving Player: " + e.getLocalizedMessage()
-			 + "\ncurrentcontent: "
-			 + getPlayer());
+			System.out.println("####Saving Player: " + e.getLocalizedMessage()
+			        + "\ncurrentcontent: " + getPlayer());
 		}
 
 	}
@@ -154,56 +177,11 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		try {
 			moves.add(new GhostMoves(theGhost, theGhost.getTile(), dir));
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			 System.out.println("####Saving Ghost: " + e.getLocalizedMessage()
 			 + "\ncurrentcontent: "
 			 + theGhost);
 		}
 	}
-
-	// /**
-	// * Player intends to move towards tile already occupied: if there's food there, eat it.
-	// *
-	// * @param p
-	// * The player
-	// * @param currentSprite
-	// * who is currently occupying the tile.
-	// */
-	// private void eatFood(Player player, Sprite currentSprite) {
-	// if (currentSprite instanceof Food) {
-	// Food food = (Food) currentSprite;
-	// getPointManager().consumePointsOnBoard(player, food.getPoints());
-	// // moves.add(currentSprite);
-	// food.deoccupy();
-	// }
-	// }
-	//
-	// /**
-	// * Player intends to move towards an occupied tile: if there's a ghost there, the game is
-	// over.
-	// *
-	// * @param p
-	// * The player
-	// * @param currentSprite
-	// */
-	// private void dieIfGhost(Player p, Sprite currentSprite) {
-	// if (currentSprite instanceof Ghost) {
-	// p.die();
-	// }
-	// }
-	//
-	// /**
-	// * Check if there's room on the target tile for another sprite.
-	// *
-	// * @param target
-	// * Tile to be occupied by another sprite.
-	// * @return true iff target tile can be occupied.
-	// */
-	// private boolean tileCanBeOccupied(Tile target) {
-	// assert target != null : "PRE: Argument can't be null";
-	// Sprite currentOccupier = target.topSprite();
-	// return currentOccupier == null || currentOccupier.getSpriteType() != SpriteType.WALL;
-	// }
 
 }
