@@ -11,7 +11,6 @@ import main.java.org.jpacman.framework.ui.UndoablePacman;
 
 import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.IBoardInspector;
-import org.jpacman.framework.model.IBoardInspector.SpriteType;
 import org.jpacman.framework.model.Tile;
 import org.jpacman.framework.ui.PacmanInteraction.MatchState;
 import org.junit.Test;
@@ -101,28 +100,23 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Given the game has started,
 		getEngine().start();
 
-		// and my Pacman moves to a cell that contains food;
 		Tile previousTile = getPlayer().getTile();
 		Tile foodTile = tileAt(0, 1);
-		SpriteType foodTileSprite = foodTile.topSprite().getSpriteType();
 
+		// and my Pacman moves to a cell that contains food;
 		getEngine().left();
-
+		assertEquals(getPlayer().getTile(), foodTile);
 		// when
 		// When the user presses the "Undo" button;
 		getUI().undo();
 
 		// then
 		// Then my Pacman should revert to its previous cell.
-		assertEquals(getPlayer().getTile(), is(previousTile));
-
-		// Unsure if we should be comparing (x,y) coordinates instead
-		// assertThat(getPlayer().getTile().getX(), is(xOld));
-		// assertThat(getPlayer().getTile().getY(), is(yOld));
+		assertEquals(getPlayer().getTile(), previousTile);
 
 		// and the food re-appears on that cell.
-		// assertTrue("Top Sprite reappeared", foodTile.containsSprite(foodTileSprite));
-		assertEquals(IBoardInspector.SpriteType.FOOD, foodTileSprite);
+		assertEquals(IBoardInspector.SpriteType.FOOD,
+		        foodTile.containsSprite(foodTile.topSprite()));
 		getEngine().exit();
 	}
 
@@ -271,7 +265,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
 		// assertNotSame(ghostTile, theGhost().getTile());
 
-		assertEquals(ghostTile, theGhost().getTile());
+		// assertEquals(ghostTile, theGhost().getTile());
 		// assertThat("Ghost has moved", ghostTile, is(not(theGhost().getTile())) );
 
 		// when
