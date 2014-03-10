@@ -77,8 +77,8 @@ public class UndoButtonPanel extends ButtonPanel {
 	public void undo() {
 		// TODO: Temporary action
 		((IPacmanInteractionWithUndo) getPacmanInteractor()).undo();
-		pause();
-		// undoButton.setEnabled(true);
+		// pause();
+		undoButton.setEnabled(true);
 	}
 
 	@Override
