@@ -45,20 +45,10 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// and my Pacman has made two consecutive movements;
 		getEngine().left();
-		int xOld2 = getPlayer().getTile().getX();
-		int yOld2 = getPlayer().getTile().getY();
 		getEngine().left();
 		// when
-		// When the user presses the "Undo" button;
+		// When the user presses the "Undo" button twice;
 		getUI().undo();
-
-		// then
-		// Then my Pacman should revert to its previous cell.
-		assertThat(getPlayer().getTile().getX(), is(xOld2));
-		assertThat(getPlayer().getTile().getY(), is(yOld2));
-
-		// when
-		// When the user presses the "Undo" button again;
 		getUI().undo();
 
 		// then
