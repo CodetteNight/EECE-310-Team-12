@@ -42,8 +42,16 @@ public class UndoableGameTest extends GameTest {
 		return theGame;
 	}
 
+	//
+	// Player Moves Test Cases
+	//
+	/**
+	 * Player Moves to an Empty Cell & Undo
+	 * 
+	 * @throws FactoryException
+	 */
 	@Test
-	public void testC1a_PlayerMovesToEmptyAndUndo() throws FactoryException {
+	public void testP1_PlayerMovesToEmptyAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("P #");
 		g.movePlayer(Direction.RIGHT);
 
@@ -57,8 +65,13 @@ public class UndoableGameTest extends GameTest {
 
 	}
 
+	/**
+	 * Player Moves into a Wall & Undo
+	 * 
+	 * @throws FactoryException
+	 */
 	@Test
-	public void testC2a_PlayerMovesToWallAndUndo() throws FactoryException {
+	public void testP2_PlayerMovesToWallAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("#P.");
 		g.movePlayer(Direction.LEFT);
 		assertThat("Still at the start", tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
@@ -78,30 +91,15 @@ public class UndoableGameTest extends GameTest {
 		assertThat(msg2, tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
 	}
 
-	@Test
-	public void testC3_PlayerMovesToGhostAndUndo() throws FactoryException {
-		UndoableGame g = makePlay("PG#");
-		Player p = g.getPlayer();
-
-		g.movePlayer(Direction.RIGHT);
-
-		assertFalse("Move kills player", p.isAlive());
-		assertThat(tileAt(g, 1, 0), equalTo(p.getTile()));
-
-		g.undo();
-		assertFalse("Player remains dead", p.isAlive());
-
-		assertThat("Player remains unmoved", tileAt(g, 1, 0), equalTo(p.getTile()));
-	}
 
 	/**
-	 * Test that a player indeed consumes food if he enters food.
+	 * Player Moves to a Food cell & Undo
 	 * 
 	 * @throws FactoryException
 	 *             Never.
 	 */
 	@Test
-	public void testC4_PlayerMovesToFoodAndUndo() throws FactoryException {
+	public void testP3_PlayerMovesToFoodAndUndo() throws FactoryException {
 		UndoableGame game = makePlay("P.#");
 		Food food = (Food) game.getBoard().spriteAt(1, 0);
 		Player player = game.getPlayer();
@@ -126,4 +124,125 @@ public class UndoableGameTest extends GameTest {
 		assertTrue("Food replaced", newTile.containsSprite(food));
 	}
 
+	/**
+	 * Player Moves to Ghost & Undo
+	 * 
+	 * @throws FactoryException
+	 */
+	@Test
+	public void testP4_PlayerMovesToGhostAndUndo() throws FactoryException {
+		UndoableGame g = makePlay("PG#");
+		Player p = g.getPlayer();
+
+		g.movePlayer(Direction.RIGHT);
+
+		assertFalse("Move kills player", p.isAlive());
+		assertThat(tileAt(g, 1, 0), equalTo(p.getTile()));
+
+		g.undo();
+		assertFalse("Player remains dead", p.isAlive());
+
+		assertThat("Player remains unmoved", tileAt(g, 1, 0), equalTo(p.getTile()));
+	}
+
+	/**
+	 * Undo Player at the start of the game.
+	 * 
+	 * @throws FactoryException
+	 */
+	@Test
+	public void testP5_PlayerMovesToEmptyAndUndo() throws FactoryException {
+		UndoableGame g = makePlay("P #");
+
+		g.undo();
+		assertTrue("Player remains alive", g.getPlayer().isAlive());
+		assertEquals("Undo Player moved", tileAt(g, 0, 0), g.getPlayer().getTile());
+
+	}
+
+	//
+	// Player Composite Moves Test Cases
+	//
+	/**
+	 * Player moves into Empty cell, original position, then Wall & 4xUndo
+	 * 
+	 * @throws FactoryException
+	 */
+	@Test
+	public void testP_C1_PlayerCompositeMoveEmptyWallAndUndo() throws FactoryException {
+		UndoableGame g = makePlay("#P ");
+		g.movePlayer(Direction.RIGHT);
+		g.movePlayer(Direction.LEFT);
+		g.movePlayer(Direction.LEFT);
+		assertThat("Still at the start", tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
+
+		g.undo();
+		g.undo();
+		g.undo();
+		g.undo();
+
+		String msg =
+		        "Still at the start after undo (original,current) " + tileAt(g, 1, 0) + " "
+		                + g.getPlayer().getTile();
+		assertThat(msg, tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
+
+	}
+
+	/**
+	 * Player moves across two Empty Cells and 3xUndo
+	 * 
+	 * @throws FactoryException
+	 */
+	@Test
+	public void testP_C2_PlayerCompositeMoveMultipleEmptyAndUndo() throws FactoryException {
+		UndoableGame g = makePlay("P  #");
+		g.movePlayer(Direction.RIGHT);
+		g.movePlayer(Direction.RIGHT);
+		g.movePlayer(Direction.RIGHT);
+
+		g.undo();
+		g.undo();
+		g.undo();
+
+		String msg =
+		        "Still at the start after undo (original,current) " + tileAt(g, 0, 0) + " "
+		                + g.getPlayer().getTile();
+		assertThat(msg, tileAt(g, 0, 0), equalTo(g.getPlayer().getTile()));
+
+	}
+
+	/**
+	 * Move across Food, Empty Cells, Wall and 3xUndo
+	 * 
+	 * @throws FactoryException
+	 */
+	@Test
+	public void testP_C3_PlayerCompositeMoveFoodWallAndUndo() throws FactoryException {
+		UndoableGame g = makePlay("P. #");
+		Food food = (Food) g.getBoard().spriteAt(1, 0);
+		Tile foodTile = tileAt(g, 1, 0);
+
+		int pts = g.getPlayer().getPoints();
+
+		g.movePlayer(Direction.RIGHT);
+		g.movePlayer(Direction.LEFT);
+		g.movePlayer(Direction.LEFT);
+		assertThat("Still at the start", tileAt(g, 0, 0), equalTo(g.getPlayer().getTile()));
+
+		g.undo();
+		g.undo();
+		g.undo();
+
+		Tile oldTile = tileAt(g, 0, 0);
+
+		assertEquals("Player moved undo", oldTile.topSprite(), g.getPlayer());
+		assertEquals("Player points removed", pts, g.getPlayer().getPoints());
+		assertTrue("Food replaced", foodTile.containsSprite(food));
+	}
+
+	//
+	// Ghost Move Test Cases
+	//
+
+	// TODO: Test cases missing
 }
