@@ -55,7 +55,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 //			}
 //		}
 
-		// test case S7_21, S7_22, S7_23: Undo Ghost Moves (WORKS!)
+		// test case S7_21, S7_22, S7_23, S7_24: Undo Ghost Moves (WORKS!)
 		while (!moves.isEmpty()
 		        && moves.peekLast().getSprite().getSpriteType() != SpriteType.PLAYER
 		        && moves.peekLast().getSprite().getSpriteType() != SpriteType.FOOD) {
