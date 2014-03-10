@@ -3,8 +3,11 @@ package main.java.org.jpacman.framework.model;
 import java.util.ArrayDeque;
 
 import org.jpacman.framework.model.Direction;
+import org.jpacman.framework.model.Food;
 import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
+import org.jpacman.framework.model.IBoardInspector.SpriteType;
+import org.jpacman.framework.model.Sprite;
 import org.jpacman.framework.model.Tile;
 
 public class UndoableGame extends Game implements IGameInteractorWithUndo {
@@ -15,11 +18,13 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	public void undo() {
 		System.out.println(".. From UndoableGame.");
 		System.out.println(".. Loops");
+		// Debug Info:
+		System.out.println(".. Player Points: " + getPlayer().getPoints() + " Points Eaten: "
+		        + getPointManager().getFoodEaten() + " Food in Game: "
+		        + getPointManager().totalFoodInGame());
+		System.out.println("PRE Loop:moves: " + moves.size());
 
 		Moves m;
-
-		System.out.println("PRE:moves: "+moves.size());
-
 		m = moves.peek();
 		// Peek deque for Moves and undo moves until a player element is found.
 		while (moves.isEmpty() == false) {
@@ -27,8 +32,19 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			// && !((m = moves.peekFirst()).getSprite() instanceof Player)
 			switch (m.getSprite().getSpriteType()) {
 				case FOOD:
+					// Undo a Food Movement (if present)
+					if (m != null && m.getSprite() instanceof Food) {
+						System.out.println("Retriveing Food.");
+						Food food = (Food) m.getSprite();
+						Tile target = (Tile) m.getTile();
+
+						getPointManager().consumePointsOnBoard(getPlayer(), -(food.getPoints()));
+						getBoard().put(food, target.getX(), target.getY());
+						moves.pop();
+					}
 					break;
 				case GHOST:
+					// TODO: Incomplete. Similar to PLAYER CASE.
 					break;
 					
 				case EMPTY:
@@ -40,17 +56,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 					super.movePlayer(playerDir);
 					moves.pop();
 
-					// Undo a Food Movement (if present)
-					// m = moves.peekFirst();
-					// if (m != null && m.getSprite() instanceof Food) {
-					// System.out.println("Retriveing Food.");
-					// Food food = (Food) m.getSprite();
-					// Tile target = (Tile) m.getTile();
-					// getPointManager().consumePointsOnBoard(getPlayer(), -(food.getPoints()));
-					// getBoard().put(food, target.getX(), target.getY());
-					// moves.pop();
-					// }
-
 					System.out.println("POST:moves: " + moves.size());
 					return; // Exit Loop
 					// break;
@@ -61,7 +66,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			m = moves.peek();
 			notifyViewers();
 		}
-		System.out.println("POST:moves: "+moves.size());
+		System.out.println("POST Loop:moves: " + moves.size());
 		return;
 
 	}
@@ -93,11 +98,24 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	public void movePlayer(Direction dir) {
 		assert getBoard() != null : "Board can't be null when moving";
 		
+		// The deque should store all othe Sprite Moves before a Player Move.
+
 		Tile target = getBoard().tileAtDirection(getPlayer().getTile(), dir);
 
-		int pts = getPlayer().getPoints();
 		int preX = getPlayer().getTile().getX();
 		int preY = getPlayer().getTile().getY();
+
+		// Save the Food Sprite if it is about to be consumed.
+		Sprite food = null;
+		Tile foodTile = null;
+		try {
+			food = target.topSprite();
+			foodTile = food.getTile();
+		} catch (NullPointerException npe) {
+			// e.printStackTrace();
+			System.out.println("####Saving Food/FoodTile: " + npe.getLocalizedMessage()
+			        + "\ncurrentcontent: " + getPlayer());
+		}
 
 		super.movePlayer(dir);
 
@@ -114,11 +132,21 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 		try {
 			System.out.println("Saving Player Move.");
+			int pts = 0;
+
 			moves.push(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, pts
 			        - getPlayer().getPoints()));
-		} catch (NullPointerException e) {
+
+			if (food != null && foodTile != null && food.getSpriteType() == SpriteType.FOOD) {
+				Food f = (Food) food;
+				pts = f.getPoints();
+				System.out.println("Saving Food Move.");
+
+				moves.push(new FoodMoves(food, foodTile));
+			}
+		} catch (NullPointerException npe) {
 			// e.printStackTrace();
-			System.out.println("#### Player not saved. Player: " + e.getLocalizedMessage()
+			System.out.println("#### Player not saved. Player: " + npe.getLocalizedMessage()
 			        + "\ncurrentcontent: " + getPlayer());
 		}
 
@@ -129,6 +157,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		// int g = getGhosts().indexOf(theGhost);
 		// Ghost preGhost = getGhosts().get(g);
 
+		// TODO: Similar to Player case (without accouting for Food)
 		super.moveGhost(theGhost, dir);
 
 	}

@@ -105,6 +105,8 @@ public class UndoableGameTest extends GameTest {
 		Player player = game.getPlayer();
 
 		int pts = game.getPlayer().getPoints();
+		int ptsInGameTotal = game.getPointManager().totalFoodInGame();
+		int ptsEaten = game.getPointManager().getFoodEaten();
 
 		game.movePlayer(Direction.RIGHT);
 
@@ -115,13 +117,19 @@ public class UndoableGameTest extends GameTest {
 
 		game.undo();
 
+
 		player = game.getPlayer();
 		Tile oldTile = tileAt(game, 0, 0);
+		// int ptsEaten = game.getPointManager().getFoodEaten();
 
-		System.out.println("PlayerMovesToFoodUndo");
 		assertEquals("Player moved undo", oldTile.topSprite(), player);
 		assertEquals("Player points removed", pts, game.getPlayer().getPoints());
-		assertTrue("Food replaced", newTile.containsSprite(food));
+
+		assertEquals("Food points replaced", game.getPointManager().getFoodEaten(), ptsEaten);
+		assertTrue("Food Tile replaced", newTile.containsSprite(food));
+
+		assertEquals("Points in Game", ptsInGameTotal, game.getPointManager()
+		        .totalFoodInGame());
 	}
 
 	/**
@@ -151,12 +159,32 @@ public class UndoableGameTest extends GameTest {
 	 * @throws FactoryException
 	 */
 	@Test
-	public void testP5_PlayerMovesToEmptyAndUndo() throws FactoryException {
+	public void testP5_PlayerGameStartsAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("P #");
 
 		g.undo();
 		assertTrue("Player remains alive", g.getPlayer().isAlive());
 		assertEquals("Undo Player moved", tileAt(g, 0, 0), g.getPlayer().getTile());
+	}
+
+	/**
+	 * Test that tunnels (empty cells on the border) are properly handled.
+	 * 
+	 * @throws FactoryException
+	 *             Never.
+	 */
+	@Test
+	public void testP6_PlayerTunneledMoveAndUndo() throws FactoryException {
+		UndoableGame g = makePlay("P# ");
+		g.movePlayer(Direction.LEFT);
+
+		Tile newTile = g.getPlayer().getTile();
+		assertThat("Player moved", tileAt(g, 2, 0), equalTo(newTile));
+
+		g.undo();
+
+		newTile = g.getPlayer().getTile();
+		assertThat("Player moved undo", tileAt(g, 0, 0), equalTo(newTile));
 
 	}
 
@@ -189,7 +217,7 @@ public class UndoableGameTest extends GameTest {
 	}
 
 	/**
-	 * Player moves across two Empty Cells and 3xUndo
+	 * Player moves across two Empty Cells & into Wall and 3xUndo
 	 * 
 	 * @throws FactoryException
 	 */
@@ -225,9 +253,11 @@ public class UndoableGameTest extends GameTest {
 		int pts = g.getPlayer().getPoints();
 
 		g.movePlayer(Direction.RIGHT);
-		g.movePlayer(Direction.LEFT);
-		g.movePlayer(Direction.LEFT);
-		assertThat("Still at the start", tileAt(g, 0, 0), equalTo(g.getPlayer().getTile()));
+		g.movePlayer(Direction.RIGHT);
+		Tile acceptableTile = g.getPlayer().getTile();
+
+		g.movePlayer(Direction.RIGHT); // Move into Wall
+		assertThat("Still at the start", acceptableTile, equalTo(g.getPlayer().getTile()));
 
 		g.undo();
 		g.undo();
@@ -244,5 +274,5 @@ public class UndoableGameTest extends GameTest {
 	// Ghost Move Test Cases
 	//
 
-	// TODO: Test cases missing
+	// TODO: Test cases missing.
 }
