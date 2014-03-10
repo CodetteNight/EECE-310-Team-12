@@ -150,10 +150,9 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Given the game has started,
 		getEngine().start();
 
-		// and a Ghost has made movements
+		// and a Ghost and player has made several movements
 		Tile ghostTile = theGhost().getTile();
 		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
-
 		assertNotSame(ghostTile, theGhost().getTile());
 
 		// when
@@ -191,28 +190,24 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 	}
 
 	@Test
-	public void test_S7_23_UndoGhostLeavesFoodCell() {
-
+	public void test_S7_23_UndoGhostMovesAgainstWall() {
 		// given
-		// Given the game has started
-		Tile foodTile = tileAt(2, 0);
-		test_S7_22_UndoGhostMovesOverFood();
+		// Given the game has started,
+		getEngine().start();
 
-		// and a Ghost has moved off a piece of food
-		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
+		// and a Ghost and player has made several movements
 		Tile ghostTile = theGhost().getTile();
+		getUI().getGame().moveGhost(theGhost(), Direction.RIGHT);
+
+		assertEquals(ghostTile, theGhost().getTile());
 
 		// when
-		// When a user presses the "Undo" button
+		// When the user presses the "Undo" button;
 		getUI().undo();
 
 		// then
-		// Then the game should reverse the Ghost movement and display the ghost where the food was
-		// (ghost does not eat food)
-		assertEquals(ghostTile, theGhost().getTile());
-		assertEquals(IBoardInspector.SpriteType.GHOST, foodTile.topSprite().getSpriteType());
-
-		fail("Test not written.");
+		// Then the game should reverse the previous Ghost movement
+		assertEquals(theGhost().getTile(), ghostTile);
 	}
 
 	@Test
