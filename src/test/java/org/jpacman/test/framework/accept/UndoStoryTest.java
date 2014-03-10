@@ -114,8 +114,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		assertEquals(getPlayer().getTile(), previousTile);
 
 		// and the food re-appears on that cell.
-		assertEquals(IBoardInspector.SpriteType.FOOD,
-		        foodTile.containsSprite(foodTile.topSprite()));
+		assertEquals(IBoardInspector.SpriteType.FOOD, foodTile.topSprite().getSpriteType());
 		getEngine().exit();
 	}
 
