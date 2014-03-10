@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -82,7 +83,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// then
 		// Then my Pacman should revert to its previous cell.
-		assertEquals("Player Tiles", getPlayer().getTile(), is(previousTile));
+		assertEquals("Player Tiles", getPlayer().getTile(), previousTile);
 
 		// Unsure if we should be comparing (x,y) coordinates instead
 		// assertThat(getPlayer().getTile().getX(), is(xOld));
@@ -197,17 +198,19 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 	}
 
 	@Test
-	public void test_S7_41_UndoAtEnd() {
+	public void test_S7_41_UndoAtEndLose() {
 		// Undo at End of Game after Loosing.
 
 		// given
 		// Given the game has started,
 		getEngine().start();
 
+		getEngine().right(); // Player Looses, Game ends.
+
+		assertFalse("Move kills player", getPlayer().isAlive());
+
 		Tile playerTile = getPlayer().getTile();
 		Tile ghostTile = theGhost().getTile();
-
-		getEngine().right(); // Player Looses, Game ends.
 
 		// when
 		// When the user presses the "Undo" button;
@@ -227,13 +230,16 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Given the game has started,
 		getEngine().start();
 
-		Tile playerTile = getPlayer().getTile();
-		Tile ghostTile = theGhost().getTile();
 		getEngine().start();
 		getEngine().left(); // eat first food
 		getEngine().right(); // go back
 		getEngine().up(); // move next to final food
 		getEngine().right(); // Player Wins, Game ends.
+
+		assertTrue(getUI().getGame().getPointManager().allEaten());
+
+		Tile playerTile = getPlayer().getTile();
+		Tile ghostTile = theGhost().getTile();
 
 		// when
 		// When the user presses the "Undo" button;
@@ -241,8 +247,8 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// then
 		// Then the game will not do any undo movements.
-		assertEquals(getPlayer().getTile(), playerTile);
-		assertEquals(theGhost().getTile(), ghostTile);
+		assertEquals("Player", playerTile, getPlayer().getTile());
+		assertEquals("Ghost", ghostTile, theGhost().getTile());
 	}
 
 	@Test
@@ -272,8 +278,8 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// then
 		// Then the game should not be able to undo any movements
 		// Player and Ghost positions unchanged.
-		assertEquals(getPlayer().getTile(), playerTile);
-		assertEquals(theGhost().getTile(), ghostTile);
+		assertEquals("Player", playerTile, getPlayer().getTile());
+		assertEquals("Ghost", ghostTile, theGhost().getTile());
 
 		// Player Points and Available Food unchanged
 		assertTrue(playerPoints == getPlayer().getPoints());
