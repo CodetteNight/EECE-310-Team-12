@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import main.java.org.jpacman.framework.ui.PacmanInteractionWithUndo;
 import main.java.org.jpacman.framework.ui.UndoablePacman;
 
 import org.jpacman.framework.model.Direction;
@@ -48,12 +49,12 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When the user presses the "Undo" button;
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then my Pacman should revert to its previous cell.
-		assertThat(getPlayer().getTile().getX(), is(xOld));
-		assertThat(getPlayer().getTile().getY(), is(yOld));
+		assertThat("x-coord", getPlayer().getTile().getX(), is(xOld));
+		assertThat("y-coord", getPlayer().getTile().getY(), is(yOld));
 	}
 
 	@Test
@@ -73,26 +74,26 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		getEngine().left();
 
-		assertThat(getPlayer().getPoints(), greaterThan(0));
+		assertThat("Points", getPlayer().getPoints(), greaterThan(0));
 
 		// when
 		// When the user presses the "Undo" button;
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then my Pacman should revert to its previous cell.
-		assertEquals(getPlayer().getTile(), is(previousTile));
+		assertEquals("Player Tiles", getPlayer().getTile(), is(previousTile));
 
 		// Unsure if we should be comparing (x,y) coordinates instead
 		// assertThat(getPlayer().getTile().getX(), is(xOld));
 		// assertThat(getPlayer().getTile().getY(), is(yOld));
 
 		// and I lose the points for that cell,
-		assertEquals(previousPoints, getPlayer().getPoints());
+		assertEquals("Player Points", previousPoints, getPlayer().getPoints());
 
 		// and the food re-appears on that cell.
 		// assertTrue("Top Sprite reappeared", foodTile.containsSprite(foodTileSprite));
-		assertEquals(IBoardInspector.SpriteType.FOOD, foodTileSprite);
+		assertEquals("Food Reappears", IBoardInspector.SpriteType.FOOD, foodTileSprite);
 	}
 
 	@Test
@@ -109,11 +110,11 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When the user presses the "Undo" button;
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then the game should reverse the previous Ghost movement
-		assertEquals(theGhost().getTile(), ghostTile);
+		assertEquals("Ghost Tile", theGhost().getTile(), ghostTile);
 	}
 
 	@Test
@@ -133,7 +134,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When a user presses the "Undo" button
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then the game should reverse the Ghost movement and display food where the ghost was
@@ -155,7 +156,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When a user presses the "Undo" button
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then the game should reverse the Ghost movement and display the ghost where the food was
@@ -184,12 +185,12 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When the user presses the "Undo" button;
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then my Pacman will stay on the same cell,
 
-		assertEquals(getPlayer().getTile(), playerTile);
+		assertEquals("Player Unchanged", getPlayer().getTile(), playerTile);
 
 		// and the ghost will move to the original position at the start of the game.
 		assertEquals("Ghost undone", theGhost().getTile(), ghostTile);
@@ -210,7 +211,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When the user presses the "Undo" button;
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then the game will not do any undo movements.
@@ -236,7 +237,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When the user presses the "Undo" button;
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then the game will not do any undo movements.
@@ -266,7 +267,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// when
 		// When the user presses the "Undo" button;
-		getUI().undo();
+		((PacmanInteractionWithUndo) getEngine()).undo();
 
 		// then
 		// Then the game should not be able to undo any movements

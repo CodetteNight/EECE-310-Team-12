@@ -2,6 +2,8 @@ package main.java.org.jpacman.framework.ui;
 
 import java.util.Observable;
 
+import main.java.org.jpacman.framework.model.IGameInteractorWithUndo;
+
 import org.jpacman.framework.controller.IController;
 import org.jpacman.framework.ui.PacmanInteraction;
 
@@ -53,7 +55,9 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 	public void undo() {
 		// TODO Temporary Action
 		super.stop();
-		// super.updateState();
+
+		((IGameInteractorWithUndo) this.getGame()).undo();
+		super.updateState();
 		// TODO: additional updates as needed here
 	}
 

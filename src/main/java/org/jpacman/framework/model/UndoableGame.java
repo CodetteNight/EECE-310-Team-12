@@ -3,64 +3,65 @@ package main.java.org.jpacman.framework.model;
 import java.util.ArrayDeque;
 
 import org.jpacman.framework.model.Direction;
-import org.jpacman.framework.model.Food;
 import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
-import org.jpacman.framework.model.IBoardInspector.SpriteType;
-import org.jpacman.framework.model.Player;
-import org.jpacman.framework.model.Sprite;
 import org.jpacman.framework.model.Tile;
 
-public class UndoableGame extends Game {
+public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
-	private static ArrayDeque<Moves> moves = new ArrayDeque<Moves>();
+	private ArrayDeque<Moves> moves = new ArrayDeque<Moves>();
 	
+	@Override
 	public void undo() {
-		Moves m;
-		// Peek deque for Moves and undo moves until a player element is found.
-		while (moves.isEmpty() == false
-		        && !((m = moves.peekFirst()).getSprite() instanceof Player)) {
+		System.out.println(".. From UndoableGame.");
+		System.out.println(".. Loops");
 
+		Moves m;
+
+		System.out.println("PRE:moves: "+moves.size());
+
+		m = moves.peek();
+		// Peek deque for Moves and undo moves until a player element is found.
+		while (moves.isEmpty() == false) {
+			// && !((m = moves.pop()).getSprite() instanceof Player)) {
 			// && !((m = moves.peekFirst()).getSprite() instanceof Player)
 			switch (m.getSprite().getSpriteType()) {
-				case EMPTY:
-					break;
 				case FOOD:
 					break;
 				case GHOST:
-					Ghost uGhost = (GhostMove) m.getSprite();
-					Direction ghostDir = (GhostMove) m.getDirection();
-					// Direction undoDir = Direction(-ghostDir.getDx(), -ghostDir.getDy());
-					Direction undoGhostDir = reverseDirection(ghostDir);
-					super.moveGhost(uGhost, undoGhostDir);
-					moves.pollFirst(); // Remove item from deque.
-
 					break;
+					
+				case EMPTY:
 				case PLAYER:
-					Direction playerDir = (PlayerMove) m.getDirection();
-					//Direction undoDir = Direction(-playerDir.getDx(), -playerDir.getDy());
+					System.out.println("Retriveing Player.");
 
-					Direction undoPlayerDir = reverseDirection(playerDir);
-					super.movePlayer(undoPlayerDir);
-					moves.poll();
+					Direction playerDir = ((PlayerMoves) m).reverseDirection();
+
+					super.movePlayer(playerDir);
+					moves.pop();
 
 					// Undo a Food Movement (if present)
-					m = moves.peekFirst();
-					if (m != null && m.getSprite() instanceof Food) {
-						Food food = (Food) m.getSprite();
-						Tile target = (Tile) m.getTile();
-						getPointManager().consumePointsOnBoard(getPlayer(), -(food.getPoints()));
-						getBoard().put(food, target.getX(), target.getY());
-						moves.poll();
-					}
+					// m = moves.peekFirst();
+					// if (m != null && m.getSprite() instanceof Food) {
+					// System.out.println("Retriveing Food.");
+					// Food food = (Food) m.getSprite();
+					// Tile target = (Tile) m.getTile();
+					// getPointManager().consumePointsOnBoard(getPlayer(), -(food.getPoints()));
+					// getBoard().put(food, target.getX(), target.getY());
+					// moves.pop();
+					// }
 
-					continue; // Exit Loop
-					break;
+					System.out.println("POST:moves: " + moves.size());
+					return; // Exit Loop
+					// break;
 				default:
+					System.out.println("Nothing to retrive.");
 					break;
 			}
+			m = moves.peek();
+			notifyViewers();
 		}
-
+		System.out.println("POST:moves: "+moves.size());
 		return;
 
 	}
@@ -85,77 +86,52 @@ public class UndoableGame extends Game {
 		}
 
 		assert result != null : "UndoableGame: Direction & reverse Direction not null";
-		return dir;
+		return result;
 	}
 
 	@Override
 	public void movePlayer(Direction dir) {
+		assert getBoard() != null : "Board can't be null when moving";
+		
+		Tile target = getBoard().tileAtDirection(getPlayer().getTile(), dir);
+
+		int pts = getPlayer().getPoints();
+		int preX = getPlayer().getTile().getX();
+		int preY = getPlayer().getTile().getY();
+
 		super.movePlayer(dir);
-		System.out.println("Saving Player Move.");
+
+		// Post Movement.
+		int postX = getPlayer().getTile().getX();
+		int postY = getPlayer().getTile().getY();
+
+		if (preX == postX && preY == postY) {
+			// Player did not complete move.
+			System.out.println("###1 Player not saved. "
+			        + "Player did not complete move. Player: " + getPlayer());
+			return;
+		}
+
 		try {
-			moves.add(new Moves(getPlayer(), getPlayer().getTile()));
+			System.out.println("Saving Player Move.");
+			moves.push(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, pts
+			        - getPlayer().getPoints()));
 		} catch (NullPointerException e) {
-			System.out.println("Saving Player: " + e.getLocalizedMessage() + "\ncurrentcontent: "
-			        + getPlayer());
+			// e.printStackTrace();
+			System.out.println("#### Player not saved. Player: " + e.getLocalizedMessage()
+			        + "\ncurrentcontent: " + getPlayer());
 		}
 
 	}
 
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {
+		// int g = getGhosts().indexOf(theGhost);
+		// Ghost preGhost = getGhosts().get(g);
+
 		super.moveGhost(theGhost, dir);
-		System.out.println("Saving Ghost Move.");
-		try {
-			moves.add(new Moves(theGhost, theGhost.getTile()));
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			System.out.println("Saving Ghost: " + e.getLocalizedMessage() + "\ncurrentcontent: "
-			        + theGhost);
-		}
+
 	}
 
-	/**
-	 * Player intends to move towards tile already occupied: if there's food there, eat it.
-	 * 
-	 * @param p
-	 *            The player
-	 * @param currentSprite
-	 *            who is currently occupying the tile.
-	 */
-	private void eatFood(Player player, Sprite currentSprite) {
-		if (currentSprite instanceof Food) {
-			Food food = (Food) currentSprite;
-			getPointManager().consumePointsOnBoard(player, food.getPoints());
-			// moves.add(currentSprite);
-			food.deoccupy();
-		}
-	}
-
-	/**
-	 * Player intends to move towards an occupied tile: if there's a ghost there, the game is over.
-	 * 
-	 * @param p
-	 *            The player
-	 * @param currentSprite
-	 */
-	private void dieIfGhost(Player p, Sprite currentSprite) {
-		if (currentSprite instanceof Ghost) {
-			p.die();
-		}
-	}
-
-	/**
-	 * Check if there's room on the target tile for another sprite.
-	 * 
-	 * @param target
-	 *            Tile to be occupied by another sprite.
-	 * @return true iff target tile can be occupied.
-	 */
-	private boolean tileCanBeOccupied(Tile target) {
-		assert target != null : "PRE: Argument can't be null";
-		Sprite currentOccupier = target.topSprite();
-		return currentOccupier == null || currentOccupier.getSpriteType() != SpriteType.WALL;
-	}
 
 }
