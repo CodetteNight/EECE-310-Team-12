@@ -58,8 +58,12 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 		// test case S7_21, S7_22, S7_23, S7_24: Undo Ghost Moves (WORKS!)
 		while (!moves.isEmpty()
-		        && moves.peekLast().getSprite().getSpriteType() != SpriteType.PLAYER
-		        && moves.peekLast().getSprite().getSpriteType() != SpriteType.FOOD) {
+		        && (moves.peekLast().getSprite().getSpriteType() == SpriteType.GHOST || moves
+		                .peekLast().getSprite().getSpriteType() == SpriteType.FOOD)) {
+			if (moves.peekLast().getSprite().getSpriteType() == SpriteType.FOOD) {
+				moves.removeLast();
+				continue;
+			}
 			Moves currMoves = moves.peekLast();
 			Direction revDir = reverseDirection(((GhostMoves) currMoves).getDirection());
 			super.moveGhost((Ghost) currMoves.getSprite(), revDir);
@@ -70,7 +74,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			moves.removeLast();
 		}
 
-		if (!moves.isEmpty() && moves.peekLast().getSprite().getSpriteType() != SpriteType.GHOST) {
+		if (!moves.isEmpty() && moves.peekLast().getSprite().getSpriteType() == SpriteType.PLAYER) {
 			Moves currMoves = moves.peekLast();
 			Direction revDir = reverseDirection(((PlayerMoves) moves.peekLast()).getDirection());
 			super.movePlayer(revDir);
