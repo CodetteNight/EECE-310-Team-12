@@ -34,26 +34,6 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 	}
 
 	@Test
-	public void test_S7_15_UndoPlayerMultipleMoves() {
-		// given
-		// Given the game has started,
-		getEngine().start();
-		Tile playerTile = getPlayer().getTile();
-
-		// and my Pacman has made two consecutive movements;
-		getEngine().left();
-		getEngine().left();
-		// when
-		// When the user presses the "Undo" button twice;
-		getUI().undo();
-		getUI().undo();
-
-		// then
-		// Then my Pacman should revert to its original cell.
-		assertEquals(getPlayer().getTile(), playerTile);
-	}
-
-	@Test
 	public void test_S7_11_UndoPlayerMoves() {
 		// given
 		// Given the game has started,
@@ -135,14 +115,55 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Given the game has started, and player has zero points
 		getEngine().start();
 
-		System.out.println(" Starting game ");
 		int previousPoints = getPlayer().getPoints();
 		// when player undo
 		getUI().undo();
-		System.out.println(" $$$: " + getPlayer().getPoints());
 
 		// points remain zero
 		assertEquals(previousPoints, getPlayer().getPoints());
+	}
+
+	@Test
+	public void test_S7_15_UndoPlayerMultipleMoves() {
+		// given
+		// Given the game has started,
+		getEngine().start();
+		Tile playerTile = getPlayer().getTile();
+
+		// and my Pacman has made two consecutive movements;
+		getEngine().left();
+		getEngine().left();
+		// when
+		// When the user presses the "Undo" button twice;
+		getUI().undo();
+		getUI().undo();
+
+		// then
+		// Then my Pacman should revert to its original cell.
+		assertEquals(getPlayer().getTile(), playerTile);
+	}
+
+	@Test
+	public void test_S7_17_UndoPlayerMovesAgainstWall() {
+		// given
+		// Given the game has started,
+		getEngine().start();
+		Tile playerTile = getPlayer().getTile();
+		getEngine().up();
+
+		// and a player moves towards a wall
+		Tile playerTileWall = getPlayer().getTile();
+		getEngine().left();
+
+		assertEquals(playerTileWall, getPlayer().getTile());
+
+		// when
+		// When the user presses the "Undo" button;
+		getUI().undo();
+
+		// then
+		// Then the game undo to the movement before player moves towards the wall
+		assertEquals(getPlayer().getTile(), playerTile);
 	}
 
 	@Test
@@ -219,12 +240,14 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// given
 		// Given the game has started,
 		getEngine().start();
+		Tile ghostTile = theGhost().getTile();
+		getUI().getGame().moveGhost(theGhost(), Direction.UP);
 
 		// and a Ghost and player has made several movements
-		Tile ghostTile = theGhost().getTile();
+		Tile ghostTileNew = theGhost().getTile();
 		getUI().getGame().moveGhost(theGhost(), Direction.RIGHT);
 
-		assertEquals(ghostTile, theGhost().getTile());
+		assertEquals(ghostTileNew, theGhost().getTile());
 
 		// when
 		// When the user presses the "Undo" button;
@@ -360,7 +383,6 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 
 		// then
 		// Then the game should show the "UNDO" button
-
 		getUI().eventHandler().undo(); // Currently not implemented.
 		// fail("Test not complete.");
 	}

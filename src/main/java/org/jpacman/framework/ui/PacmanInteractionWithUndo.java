@@ -49,7 +49,6 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		updateState();
 	}
 

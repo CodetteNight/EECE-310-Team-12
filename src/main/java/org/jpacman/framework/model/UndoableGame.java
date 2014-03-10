@@ -18,44 +18,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	@Override
 	public void undo() {
 
-		// test case S7_12: Food reappears on the previous player's cell upon undo
-		// while (!moves.isEmpty()
-		// && moves.peekLast().getSprite().getSpriteType() != SpriteType.PLAYER) {
-		// moves.remove();
-		// }
-		//
-		// if (!moves.isEmpty() && moves.peekLast().getSprite().getSpriteType() ==
-		// SpriteType.PLAYER) {
-		// System.out.println("####Retrieving player ");
-		// Direction revDir = reverseDirection(((PlayerMoves) moves.peekLast()).getDirection());
-		// super.movePlayer(revDir);
-		// moves.removeLast();
-		// }
-
-		// if (!moves.isEmpty() && moves.peekFirst().getSprite().getSpriteType() == SpriteType.FOOD)
-		// {
-		// addFood(((Food) moves.getFirst().getSprite()));
-		// }
-
-		// test case S7_13: Reduce points of player upon undo
-//		while (!moves.isEmpty()
-//		        && moves.peekLast().getSprite().getSpriteType() != SpriteType.FOOD) {
-//			moves.removeLast();
-//		}
-//
-//		if (!moves.isEmpty() && moves.peekLast() != null
-//		        && moves.peekLast().getSprite().getSpriteType() == SpriteType.FOOD) {
-//			try {
-//				int foodPts = ((Food) moves.getLast().getSprite()).getPoints();
-//				System.out.println("####Retrieving food " + foodPts);
-//				getPointManager().consumePointsOnBoard(getPlayer(), -foodPts);
-//			} catch (NoSuchElementException e) {
-//				e.printStackTrace();
-//				System.out.println("####Reducing points: " + e.getLocalizedMessage()
-//				        + "\ncurrentcontent: " + getPlayer());
-//			}
-//		}
-
 		// test case S7_21, S7_22, S7_23, S7_24: Undo Ghost Moves (WORKS!)
 		while (!moves.isEmpty()
 		        && moves.peekLast().getSprite().getSpriteType() == SpriteType.GHOST) {
@@ -79,6 +41,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			        + ((Player) currMoves.getSprite()).getTile() + " from " + currMoves.getTile()
 			        + " " + revDir);
 			moves.removeLast();
+
 			if (!moves.isEmpty()
 			        && moves.peekLast().getSprite().getSpriteType() == SpriteType.FOOD) {
 				currMoves = moves.peekLast();
