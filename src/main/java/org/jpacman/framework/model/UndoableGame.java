@@ -7,6 +7,7 @@ import org.jpacman.framework.model.Food;
 import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
 import org.jpacman.framework.model.IBoardInspector.SpriteType;
+import org.jpacman.framework.model.Player;
 import org.jpacman.framework.model.Sprite;
 import org.jpacman.framework.model.Tile;
 
@@ -65,6 +66,17 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			System.out.println("Removing Ghost Move of "
 			        + ((Ghost) currMoves.getSprite()).hashCode() + " at "
 			        + ((Ghost) currMoves.getSprite()).getTile() + " from " + currMoves.getTile()
+			        + " " + revDir);
+			moves.removeLast();
+		}
+
+		if (!moves.isEmpty() && moves.peekLast().getSprite().getSpriteType() != SpriteType.GHOST) {
+			Moves currMoves = moves.peekLast();
+			Direction revDir = reverseDirection(((PlayerMoves) moves.peekLast()).getDirection());
+			super.movePlayer(revDir);
+			System.out.println("Removing Player Move of "
+			        + ((Player) currMoves.getSprite()).hashCode() + " at "
+			        + ((Player) currMoves.getSprite()).getTile() + " from " + currMoves.getTile()
 			        + " " + revDir);
 			moves.removeLast();
 		}
