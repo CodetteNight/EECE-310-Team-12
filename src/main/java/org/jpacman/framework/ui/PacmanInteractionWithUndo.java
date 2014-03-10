@@ -2,11 +2,15 @@ package main.java.org.jpacman.framework.ui;
 
 import java.util.Observable;
 
+import main.java.org.jpacman.framework.model.IGameInteractorWithUndo;
+
 import org.jpacman.framework.controller.IController;
 import org.jpacman.framework.ui.PacmanInteraction;
 
 public class PacmanInteractionWithUndo extends PacmanInteraction
         implements IPacmanInteractionWithUndo {
+
+	private IGameInteractorWithUndo gameInteractorUndo;
 
 	@Override
 	public void up() {
@@ -52,7 +56,15 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 	@Override
 	public void undo() {
 		// TODO Temporary Action
-		super.stop();
+		// super.stop();
+		System.out.println("Entering undo state");
+		System.out.println(getCurrentState());
+		if (getCurrentState() == MatchState.PLAYING) {
+			((IGameInteractorWithUndo) this.getGame()).undo();
+			System.out.println("Returned from undo");
+			updateState();
+		}
+
 		// super.updateState();
 		// TODO: additional updates as needed here
 	}
@@ -70,4 +82,7 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 		return this;
 	}
 
+	/*
+	 * PacmanInteractionWithUndo(){ super.withGameInteractor(new IGameInteractorWithUndo); }
+	 */
 }
