@@ -4,9 +4,10 @@
 package main.java.org.jpacman.framework.ui;
 
 import main.java.org.jpacman.framework.factory.UndoGameFactory;
+import main.java.org.jpacman.framework.model.IGameInteractorWithUndo;
+import main.java.org.jpacman.framework.model.UndoableGame;
 
 import org.jpacman.framework.factory.FactoryException;
-import org.jpacman.framework.model.IGameInteractor;
 import org.jpacman.framework.ui.MainUI;
 import org.jpacman.framework.ui.PacmanInteraction;
 
@@ -32,18 +33,19 @@ public class UndoablePacman extends MainUI {
 
 	private UndoButtonPanel buttonPanel;
 
-
 	// TODO:
 	public void undo() {
-
+		System.out.println("From UndoButtonPanel.");
+		eventHandler().undo();
+		eventHandler().stop();
 	}
 
 
 	/**
 	 * @return The underlying game.
 	 */
-	public IGameInteractor getGame() {
-		return super.getGame();
+	public IGameInteractorWithUndo getGame() {
+		return (IGameInteractorWithUndo) super.getGame();
 	}
 
 	/**
@@ -54,7 +56,7 @@ public class UndoablePacman extends MainUI {
 	 */
 	@Override
 	public void main() throws FactoryException {
-		initialize().withFactory(new UndoGameFactory());
+		initialize();
 		start();
 	}
 
@@ -80,8 +82,10 @@ public class UndoablePacman extends MainUI {
 	@Override
 	public UndoablePacman initialize() throws FactoryException {
 		pi = new PacmanInteractionWithUndo();
+		pi.withGameInteractor(new UndoableGame());
 		buttonPanel = (UndoButtonPanel) new UndoButtonPanel().withParent(this).withInteractor(pi);
 
+		super.withFactory(new UndoGameFactory());
 		super.withModelInteractor(eventHandler());
 		super.withModelInteractor(pi).withButtonPanel(buttonPanel);
 		super.initialize();
@@ -91,12 +95,6 @@ public class UndoablePacman extends MainUI {
 		return this;
 	}
 
-	/**
-	 * Create a new UI for the default board.
-	 */
-	/*
-	 * public UndoablePacman() { level = new Level(); }
-	 */
 	/**
 	 * @return The mapping between keyboard events and model events.
 	 */
