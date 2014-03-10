@@ -36,6 +36,39 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 	}
 
 	@Test
+	public void test_S7_15_UndoPlayerMultipleMoves() {
+		// given
+		// Given the game has started,
+		getEngine().start();
+		int xOld = getPlayer().getTile().getX();
+		int yOld = getPlayer().getTile().getY();
+
+		// and my Pacman has made two consecutive movements;
+		getEngine().left();
+		int xOld2 = getPlayer().getTile().getX();
+		int yOld2 = getPlayer().getTile().getY();
+		getEngine().left();
+		// when
+		// When the user presses the "Undo" button;
+		getUI().undo();
+
+		// then
+		// Then my Pacman should revert to its previous cell.
+		assertThat(getPlayer().getTile().getX(), is(xOld2));
+		assertThat(getPlayer().getTile().getY(), is(yOld2));
+
+		// when
+		// When the user presses the "Undo" button again;
+		getUI().undo();
+
+		// then
+		// Then my Pacman should revert to its original cell.
+		assertThat(getPlayer().getTile().getX(), is(xOld));
+		assertThat(getPlayer().getTile().getY(), is(yOld));
+		getEngine().exit();
+	}
+
+	@Test
 	public void test_S7_11_UndoPlayerMoves() {
 		// given
 		// Given the game has started,
