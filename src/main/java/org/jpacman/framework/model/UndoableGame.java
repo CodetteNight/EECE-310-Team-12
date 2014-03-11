@@ -12,8 +12,8 @@ import org.jpacman.framework.model.Tile;
 
 public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
-	private static ArrayDeque<Moves> moves = new ArrayDeque<Moves>();
-	
+	private ArrayDeque<Moves> moves = new ArrayDeque<Moves>();
+
 	@Override
 	public void undo() {
 
@@ -47,7 +47,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 		Moves m;
 		// Peek deque for Moves and undo moves until a player element is found.
-		while (!moves.isEmpty() && getPlayer().isAlive()) {
+		while (!moves.isEmpty()
+ && getPlayer().isAlive()) {
 			m = moves.peekLast();
 			if (m != null) {
 				switch (m.getSprite().getSpriteType()) {
@@ -66,6 +67,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 					case PLAYER:
 						super.movePlayer(((PlayerMoves) m).getRevDir());
+						getPlayer().setDirection(((PlayerMoves) m).getDirection());
 						moves.removeLast();
 
 						// if the payer ate a food while doing move, put back food before returning
@@ -117,7 +119,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		super.movePlayer(dir);
 
 		try {
-			System.out.println("Saving Player Move.");
+			System.out.println("Saving Player Move. " + getPlayer());
 			while (food != null) {
 				if (food.getSpriteType() == SpriteType.FOOD) {
 					moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, true));
@@ -136,8 +138,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {
-		System.out.println("Saving Ghost Move of " + theGhost.hashCode() + " at "
-		        + theGhost.getTile() + " " + dir);
+		// System.out.println("Saving Ghost Move of " + theGhost.hashCode() + " at "
+		// + theGhost.getTile() + " " + dir);
 		Tile ghostTile = theGhost.getTile();
 		super.moveGhost(theGhost, dir);
 		if (ghostTile != theGhost.getTile()) {
