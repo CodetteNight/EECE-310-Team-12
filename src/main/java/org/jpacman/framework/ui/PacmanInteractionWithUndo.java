@@ -54,7 +54,6 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 
 	@Override
 	public void undo() {
-		// TODO Temporary Action
 		// super.stop();
 		System.out.println("Entering undo state");
 		System.out.println(getCurrentState());

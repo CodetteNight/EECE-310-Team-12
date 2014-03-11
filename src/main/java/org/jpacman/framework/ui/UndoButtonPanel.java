@@ -77,6 +77,7 @@ public class UndoButtonPanel extends ButtonPanel {
 	public void undo() {
 		((IPacmanInteractionWithUndo) getPacmanInteractor()).undo();
 		pause();
+		assert invariant();
 	}
 
 	@Override
