@@ -1,4 +1,11 @@
-.DS_Store
+.DS_STORE
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
 # For our emacs users
 *~
 
