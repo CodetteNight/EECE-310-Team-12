@@ -46,7 +46,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		// notifyViewers();
 
 		Moves m;
-		Direction revDir;
 		// Peek deque for Moves and undo moves until a player element is found.
 		while (!moves.isEmpty()) {
 			m = moves.peekLast();
