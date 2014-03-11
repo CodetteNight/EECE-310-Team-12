@@ -57,12 +57,15 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 		// super.stop();
 		System.out.println("Entering undo state");
 		System.out.println(getCurrentState());
-		if (getCurrentState() == MatchState.PLAYING || getCurrentState() == MatchState.PAUSING) {
+		if (getGame().died() || getGame().won())
+			System.out.println("won/lost");
+		else if (getCurrentState() == MatchState.PLAYING
+		        || getCurrentState() == MatchState.PAUSING) {
 			((IGameInteractorWithUndo) this.getGame()).undo();
 			System.out.println("Returned from undo");
+			stop();
 			updateState();
 		}
-
 		// super.updateState();
 		// TODO: additional updates as needed here
 	}
