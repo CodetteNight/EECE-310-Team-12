@@ -53,6 +53,10 @@ public class UndoableGameTest extends GameTest {
 	@Test
 	public void testP1_PlayerMovesToEmptyAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("P #");
+
+		Direction originalOrientation = g.getPlayer().getDirection();
+		// String orientation = originalOrientation.toString();
+
 		g.movePlayer(Direction.RIGHT);
 
 		assertEquals("Player moved", tileAt(g, 1, 0), g.getPlayer().getTile());
@@ -61,8 +65,8 @@ public class UndoableGameTest extends GameTest {
 
 		g.undo();
 		assertEquals("Undo Player moved", tileAt(g, 0, 0), g.getPlayer().getTile());
-		assertEquals(Direction.LEFT, g.getPlayer().getDirection());
-
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer()
+		        .getDirection());
 	}
 
 	/**
@@ -73,6 +77,10 @@ public class UndoableGameTest extends GameTest {
 	@Test
 	public void testP2_PlayerMovesToWallAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("#P.");
+
+		Direction originalOrientation = g.getPlayer().getDirection();
+		// String orientation = originalOrientation.toString();
+
 		g.movePlayer(Direction.LEFT);
 		assertThat("Still at the start", tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
 		g.undo();
@@ -81,6 +89,8 @@ public class UndoableGameTest extends GameTest {
 		                + g.getPlayer().getTile();
 		assertThat(msg, tileAt(g, 1, 0), equalTo(g.getPlayer()
 		        .getTile()));
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer()
+		        .getDirection());
 
 		g.movePlayer(Direction.LEFT);
 		assertThat("A2.Still at the start", tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
@@ -89,6 +99,9 @@ public class UndoableGameTest extends GameTest {
 		        "A2.Still at the start after undo (original,current) " + tileAt(g, 1, 0) + " "
 		                + g.getPlayer().getTile();
 		assertThat(msg2, tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
+
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer()
+		        .getDirection());
 	}
 
 
@@ -103,6 +116,9 @@ public class UndoableGameTest extends GameTest {
 		UndoableGame game = makePlay("P.#");
 		Food food = (Food) game.getBoard().spriteAt(1, 0);
 		Player player = game.getPlayer();
+
+		Direction originalOrientation = game.getPlayer().getDirection();
+		// String orientation = originalOrientation.toString();
 
 		int pts = game.getPlayer().getPoints();
 		int ptsInGameTotal = game.getPointManager().totalFoodInGame();
@@ -130,6 +146,9 @@ public class UndoableGameTest extends GameTest {
 
 		assertEquals("Points in Game", ptsInGameTotal, game.getPointManager()
 		        .totalFoodInGame());
+
+		assertEquals("Original Orientation ", originalOrientation, game.getPlayer()
+		        .getDirection());
 	}
 
 	/**
@@ -144,6 +163,8 @@ public class UndoableGameTest extends GameTest {
 
 		g.movePlayer(Direction.RIGHT);
 
+		Direction finalOrientation = g.getPlayer().getDirection();
+
 		assertFalse("Move kills player", p.isAlive());
 		assertThat(tileAt(g, 1, 0), equalTo(p.getTile()));
 
@@ -151,6 +172,7 @@ public class UndoableGameTest extends GameTest {
 		assertFalse("Player remains dead", p.isAlive());
 
 		assertThat("Player remains unmoved", tileAt(g, 1, 0), equalTo(p.getTile()));
+		assertEquals("Original Orientation ", finalOrientation, g.getPlayer().getDirection());
 	}
 
 	/**
@@ -162,9 +184,12 @@ public class UndoableGameTest extends GameTest {
 	public void testP5_PlayerGameStartsAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("P #");
 
+		Direction originalOrientation = g.getPlayer().getDirection();
+
 		g.undo();
 		assertTrue("Player remains alive", g.getPlayer().isAlive());
 		assertEquals("Undo Player moved", tileAt(g, 0, 0), g.getPlayer().getTile());
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer().getDirection());
 	}
 
 	/**
@@ -176,6 +201,9 @@ public class UndoableGameTest extends GameTest {
 	@Test
 	public void testP6_PlayerTunneledMoveAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("P# ");
+
+		Direction originalOrientation = g.getPlayer().getDirection();
+
 		g.movePlayer(Direction.LEFT);
 
 		Tile newTile = g.getPlayer().getTile();
@@ -185,6 +213,8 @@ public class UndoableGameTest extends GameTest {
 
 		newTile = g.getPlayer().getTile();
 		assertThat("Player moved undo", tileAt(g, 0, 0), equalTo(newTile));
+
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer().getDirection());
 
 	}
 
@@ -199,6 +229,9 @@ public class UndoableGameTest extends GameTest {
 	@Test
 	public void testP_C1_PlayerCompositeMoveEmptyWallAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("#P ");
+
+		Direction originalOrientation = g.getPlayer().getDirection();
+
 		g.movePlayer(Direction.RIGHT);
 		g.movePlayer(Direction.LEFT);
 		g.movePlayer(Direction.LEFT);
@@ -214,6 +247,8 @@ public class UndoableGameTest extends GameTest {
 		                + g.getPlayer().getTile();
 		assertThat(msg, tileAt(g, 1, 0), equalTo(g.getPlayer().getTile()));
 
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer().getDirection());
+
 	}
 
 	/**
@@ -224,6 +259,9 @@ public class UndoableGameTest extends GameTest {
 	@Test
 	public void testP_C2_PlayerCompositeMoveMultipleEmptyAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("P  #");
+
+		Direction originalOrientation = g.getPlayer().getDirection();
+
 		g.movePlayer(Direction.RIGHT);
 		g.movePlayer(Direction.RIGHT);
 		g.movePlayer(Direction.RIGHT);
@@ -237,6 +275,7 @@ public class UndoableGameTest extends GameTest {
 		                + g.getPlayer().getTile();
 		assertThat(msg, tileAt(g, 0, 0), equalTo(g.getPlayer().getTile()));
 
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer().getDirection());
 	}
 
 	/**
@@ -249,6 +288,7 @@ public class UndoableGameTest extends GameTest {
 		UndoableGame g = makePlay("P. #");
 		Food food = (Food) g.getBoard().spriteAt(1, 0);
 		Tile foodTile = tileAt(g, 1, 0);
+		Direction originalOrientation = g.getPlayer().getDirection();
 
 		int pts = g.getPlayer().getPoints();
 
@@ -268,6 +308,7 @@ public class UndoableGameTest extends GameTest {
 		assertEquals("Player moved undo", oldTile.topSprite(), g.getPlayer());
 		assertEquals("Player points removed", pts, g.getPlayer().getPoints());
 		assertTrue("Food replaced", foodTile.containsSprite(food));
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer().getDirection());
 	}
 
 	//

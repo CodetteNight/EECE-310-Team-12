@@ -46,13 +46,13 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		getUI().undo();
 
 		// Then my Pacman should revert to its previous cell.
-		assertEquals(getPlayer().getTile(), playerTile);
+		assertEquals(playerTile, getPlayer().getTile());
 
 		// test undo left
 		getEngine().start();
 		getEngine().left();
 		getUI().undo();
-		assertEquals(getPlayer().getTile(), playerTile);
+		assertEquals(playerTile, getPlayer().getTile());
 	}
 
 	@Test

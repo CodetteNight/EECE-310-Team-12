@@ -67,7 +67,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 					case PLAYER:
 						super.movePlayer(((PlayerMoves) m).getRevDir());
-						getPlayer().setDirection(((PlayerMoves) m).getDirection());
+						getPlayer().setDirection(((PlayerMoves) m).getOrientation());
 						moves.removeLast();
 
 						// if the payer ate a food while doing move, put back food before returning
@@ -105,7 +105,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			try {
 				food = target.topSprite();
 				if (food.getSpriteType() == SpriteType.FOOD) {
-					System.out.println("Saving Food Move.");
+					System.out.println("Saving Food Move. " + food);
 					moves.add(new FoodMoves(food, food.getTile(), ((Food) food).getPoints()));
 				}
 				break;
@@ -116,18 +116,22 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			}
 		}
 
+		Direction orientation = getPlayer().getDirection();
+
 		super.movePlayer(dir);
 
 		try {
 			System.out.println("Saving Player Move. " + getPlayer());
 			while (food != null) {
 				if (food.getSpriteType() == SpriteType.FOOD) {
-					moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, true));
+					moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, true,
+					        orientation));
 				}
 				break;
 			}
 			if (food == null)
-				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, false));
+				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, false,
+				        orientation));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("####Saving Player: " + e.getLocalizedMessage()
