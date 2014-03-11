@@ -337,11 +337,32 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		assertEquals(ghostTile, theGhost().getTile());
 	}
 
+	/**
+	 * player is not allowed to make undo movements during suspended game // @Test // public void
+	 * test_S7_51_UndoAtSuspend() { // // given // // Given the game has started, //
+	 * getEngine().start(); // // // Player Makes some movements // getEngine().left(); // eat first
+	 * food // // // Ghost makes some movements // getUI().getGame().moveGhost(theGhost(),
+	 * Direction.DOWN); // // Tile playerTile = getPlayer().getTile(); // Tile ghostTile =
+	 * theGhost().getTile(); // int foodRemaining =
+	 * getUI().getGame().getPointManager().totalFoodInGame(); // int playerPoints =
+	 * getPlayer().getPoints(); // // getEngine().stop(); // Suspend Game // // // when // // When
+	 * the user presses the "Undo" button; // getUI().undo(); // // // then // // Then the game
+	 * should not be able to undo any movements // // Player and Ghost positions unchanged. //
+	 * assertEquals(getEngine().getCurrentState(), MatchState.PAUSING); //
+	 * assertEquals(getPlayer().getTile(), playerTile); // assertEquals(theGhost().getTile(),
+	 * ghostTile); // // // Player Points and Available Food unchanged // assertEquals(playerPoints,
+	 * getPlayer().getPoints()); // assertEquals(foodRemaining,
+	 * getUI().getGame().getPointManager().totalFoodInGame()); // }
+	 */
+
+	/* Player is allowed to make undo movement during suspended game */
 	@Test
 	public void test_S7_51_UndoAtSuspend() {
 		// given
 		// Given the game has started,
 		getEngine().start();
+		Tile playerTile = getPlayer().getTile();
+		Tile ghostTile = theGhost().getTile();
 
 		// Player Makes some movements
 		getEngine().left(); // eat first food
@@ -349,11 +370,13 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Ghost makes some movements
 		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
 
-		Tile playerTile = getPlayer().getTile();
-		Tile ghostTile = theGhost().getTile();
-		int foodRemaining = getUI().getGame().getPointManager().totalFoodInGame();
+		Tile playerTileNew = getPlayer().getTile();
+		Tile ghostTileNew = theGhost().getTile();
 		int playerPoints = getPlayer().getPoints();
 
+		assertNotSame(playerTileNew, playerTile);
+		assertNotSame(ghostTileNew, ghostTile);
+		assertThat(playerPoints, greaterThan(0));
 		getEngine().stop(); // Suspend Game
 
 		// when
@@ -368,8 +391,7 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		assertEquals(theGhost().getTile(), ghostTile);
 
 		// Player Points and Available Food unchanged
-		assertEquals(playerPoints, getPlayer().getPoints());
-		assertEquals(foodRemaining, getUI().getGame().getPointManager().totalFoodInGame());
+		assertEquals(0, getPlayer().getPoints());
 	}
 
 	@Test
