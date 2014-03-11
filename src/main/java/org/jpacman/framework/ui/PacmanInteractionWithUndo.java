@@ -79,8 +79,4 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 		super.controlling(controller);
 		return this;
 	}
-
-	/*
-	 * PacmanInteractionWithUndo(){ super.withGameInteractor(new IGameInteractorWithUndo); }
-	 */
 }

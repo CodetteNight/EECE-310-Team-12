@@ -45,35 +45,6 @@ public class UndoButtonPanel extends ButtonPanel {
 	}
 
 
-		/**
-	 * Provide the parent window.
-	 * 
-	 * @param parent
-	 *            The containing parent window
-	 * @return Itself for fluency.
-	 */
-	/*
-	 * public UndoButtonPanel withParent(JFrame parent) { this.parent = parent; return this; }
-	 */
-	/**
-	 * Set the listener capable of exercising the requested events.
-	 * 
-	 * @param pi
-	 *            The new pacman interactor
-	 * @return Itself for fluency.
-	 */
-	/*
-	 * @Override public UndoButtonPanel withInteractor(PacmanInteraction pi) { pacmanInteractor =
-	 * pi; pi.addObserver(this); return this; }
-	 */
-	/**
-	 * Obtain the handler capable of dealing with button events.
-	 * 
-	 * @return The pacman interactor.
-	 */
-	/*
-	 * public IPacmanInteractionWithUndo getPacmanInteractor() { return pacmanInteractor; }
-	 */
 	public void undo() {
 		((IPacmanInteractionWithUndo) getPacmanInteractor()).undo();
 		pause();

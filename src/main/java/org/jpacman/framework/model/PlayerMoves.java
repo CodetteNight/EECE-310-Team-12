@@ -54,7 +54,7 @@ public class PlayerMoves extends Moves {
 				break;
 		}
 
-		assert result != null : "UndoableGame: Direction & reverse Direction not null";
+		assert result != null : "PlayerMoves: Direction & reverse Direction not null";
 		return result;
 	}
 
