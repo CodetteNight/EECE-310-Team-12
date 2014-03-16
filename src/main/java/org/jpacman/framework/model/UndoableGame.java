@@ -96,7 +96,39 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	public void movePlayer(Direction dir) {
 		assert getBoard() != null : "Board can't be null when moving";
 
-		Tile target = getBoard().tileAtDirection(getPlayer().getTile(), dir);
+		System.out.println("Saving Player Before Move. " + getPlayer());
+
+		Tile player_tile = getPlayer().getTile();
+		Direction player_orientation = getPlayer().getDirection();
+
+		Sprite food = getAndSaveFood(dir);
+
+		super.movePlayer(dir);
+
+		if (player_tile != getPlayer().getTile()) {
+			savePlayer(dir, player_orientation, food);
+		}
+
+	}
+
+	private void savePlayer(Direction dir, Direction player_orientation, Sprite food) {
+		try {
+			System.out.println("Saving Player After Move. " + getPlayer());
+			if (food != null && food.getSpriteType() == SpriteType.FOOD) {
+				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, true,
+				        player_orientation));
+			} else
+				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, false,
+				        player_orientation));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("####Saving Player: " + e.getLocalizedMessage()
+			        + "\ncurrentcontent: " + getPlayer());
+		}
+	}
+
+	private Sprite getAndSaveFood(Direction dir) {
+	    Tile target = getBoard().tileAtDirection(getPlayer().getTile(), dir);
 
 		// if top sprite on tile target is food, save food sprite before moving player
 		Sprite food = null;
@@ -114,30 +146,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 				        + "\ncurrentcontent: " + getPlayer());
 			}
 		}
-
-		Direction orientation = getPlayer().getDirection();
-
-		super.movePlayer(dir);
-
-		try {
-			System.out.println("Saving Player Move. " + getPlayer());
-			while (food != null) {
-				if (food.getSpriteType() == SpriteType.FOOD) {
-					moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, true,
-					        orientation));
-				}
-				break;
-			}
-			if (food == null)
-				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, false,
-				        orientation));
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			System.out.println("####Saving Player: " + e.getLocalizedMessage()
-			        + "\ncurrentcontent: " + getPlayer());
-		}
-
-	}
+	    return food;
+    }
 
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {

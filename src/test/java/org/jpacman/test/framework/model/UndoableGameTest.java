@@ -51,7 +51,7 @@ public class UndoableGameTest extends GameTest {
 	 * @throws FactoryException
 	 */
 	@Test
-	public void testP1_PlayerMovesToEmptyAndUndo() throws FactoryException {
+	public void testP1a_PlayerMovesToEmptyAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("P #");
 
 		Direction originalOrientation = g.getPlayer().getDirection();
@@ -75,7 +75,7 @@ public class UndoableGameTest extends GameTest {
 	 * @throws FactoryException
 	 */
 	@Test
-	public void testP2_PlayerMovesToWallAndUndo() throws FactoryException {
+	public void testP2a_PlayerMovesToWallAndUndo() throws FactoryException {
 		UndoableGame g = makePlay("#P.");
 
 		Direction originalOrientation = g.getPlayer().getDirection();
@@ -104,6 +104,30 @@ public class UndoableGameTest extends GameTest {
 		        .getDirection());
 	}
 
+	/**
+	 * Player Moves to Wall & Undo. Different Map scenario.
+	 * 
+	 * @throws FactoryException
+	 */
+	@Test
+	public void testP2b_PlayerMoveWallAndUndo() throws FactoryException {
+		UndoableGame g = makePlay(" P#");
+
+		Direction originalOrientation = g.getPlayer().getDirection();
+
+		g.movePlayer(Direction.RIGHT);
+
+		Tile newTile = g.getPlayer().getTile();
+		assertThat("Player not moved", tileAt(g, 1, 0), equalTo(newTile));
+
+		g.undo();
+
+		newTile = g.getPlayer().getTile();
+		assertThat("Player moved undo", tileAt(g, 1, 0), equalTo(newTile));
+
+		assertEquals("Original Orientation ", originalOrientation, g.getPlayer().getDirection());
+
+	}
 
 	/**
 	 * Player Moves to a Food cell & Undo
