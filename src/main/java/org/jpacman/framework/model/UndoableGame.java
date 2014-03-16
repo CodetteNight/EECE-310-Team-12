@@ -149,6 +149,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	    return food;
     }
 
+
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {
 		// System.out.println("Saving Ghost Move of " + theGhost.hashCode() + " at "

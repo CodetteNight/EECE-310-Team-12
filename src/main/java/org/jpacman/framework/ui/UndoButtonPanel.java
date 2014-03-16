@@ -32,6 +32,7 @@ public class UndoButtonPanel extends ButtonPanel {
 	 * Create the start button.
 	 */
 	protected void initializeUndoButton() {
+		undoButton.setEnabled(true);
 		undoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -40,8 +41,8 @@ public class UndoButtonPanel extends ButtonPanel {
 			}
 		});
 		undoButton.setName("jpacman.undo");
-		undoButton.requestFocusInWindow();
-		undoButton.setEnabled(false);
+		// undoButton.requestFocusInWindow();
+
 	}
 
 
