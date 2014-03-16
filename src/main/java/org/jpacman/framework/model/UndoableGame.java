@@ -117,24 +117,27 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 		Direction orientation = getPlayer().getDirection();
 
+		Tile playerTile = getPlayer().getTile();
 		super.movePlayer(dir);
+		if (playerTile != getPlayer().getTile()) {
 
-		try {
-			System.out.println("Saving Player Move. " + getPlayer());
-			while (food != null) {
-				if (food.getSpriteType() == SpriteType.FOOD) {
-					moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, true,
-					        orientation));
+			try {
+				System.out.println("Saving Player Move. " + getPlayer());
+				while (food != null) {
+					if (food.getSpriteType() == SpriteType.FOOD) {
+						moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, true,
+						        orientation));
+					}
+					break;
 				}
-				break;
+				if (food == null)
+					moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, false,
+					        orientation));
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				System.out.println("####Saving Player: " + e.getLocalizedMessage()
+				        + "\ncurrentcontent: " + getPlayer());
 			}
-			if (food == null)
-				moves.add(new PlayerMoves(getPlayer(), getPlayer().getTile(), dir, false,
-				        orientation));
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			System.out.println("####Saving Player: " + e.getLocalizedMessage()
-			        + "\ncurrentcontent: " + getPlayer());
 		}
 
 	}
