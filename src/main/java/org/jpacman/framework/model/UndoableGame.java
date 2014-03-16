@@ -17,34 +17,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	@Override
 	public void undo() {
 
-		// // test case S7_21, S7_22, S7_23, S7_24: Undo Ghost Moves (WORKS!)
-		// while (!moves.isEmpty()
-		// && moves.peekLast().getSprite().getSpriteType() == SpriteType.GHOST) {
-		// Moves currMoves = moves.peekLast();
-		// Direction revDir = reverseDirection(((GhostMoves) currMoves).getDirection());
-		// super.moveGhost((Ghost) currMoves.getSprite(), revDir);
-		// moves.removeLast();
-		// }
-		//
-		// if (!moves.isEmpty() && moves.peekLast().getSprite().getSpriteType() ==
-		// SpriteType.PLAYER) {
-		// Moves currMoves = moves.peekLast();
-		// Direction revDir = reverseDirection(((PlayerMoves) moves.peekLast()).getDirection());
-		// super.movePlayer(revDir);
-		// moves.removeLast();
-		//
-		// if (!moves.isEmpty()
-		// && moves.peekLast().getSprite().getSpriteType() == SpriteType.FOOD) {
-		// currMoves = moves.peekLast();
-		// currMoves.getSprite().occupy(currMoves.getTile());
-		// super.getPointManager().consumePointsOnBoard(getPlayer(),
-		// -((Food) currMoves.getSprite()).getPoints());
-		// moves.removeLast();
-		// }
-		// }
-		//
-		// notifyViewers();
-
 		Moves m;
 		// Peek deque for Moves and undo moves until a player element is found.
 		while (!moves.isEmpty() && getPlayer().isAlive()) {
