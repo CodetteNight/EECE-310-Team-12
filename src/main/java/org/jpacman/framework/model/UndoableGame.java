@@ -39,7 +39,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 				move = moves.peekLast();
 				if( move.getSprite().getSpriteType() == SpriteType.FOOD ){
 					move.getSprite().occupy(move.getTile());
-					super.getPointManager().consumePointsOnBoard(getPlayer(),-((FoodMoves) move).foodPts);
+					super.getPointManager().consumePointsOnBoard(getPlayer(),-((FoodMoves) move).getFoodPts());
 					moves.removeLast();
 				}
 			}
