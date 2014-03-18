@@ -41,7 +41,6 @@ public class UndoButtonPanel extends ButtonPanel {
 			}
 		});
 		undoButton.setName("jpacman.undo");
-		// undoButton.requestFocusInWindow();
 
 	}
 

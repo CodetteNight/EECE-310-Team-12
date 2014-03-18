@@ -73,7 +73,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		Tile player_tile = getPlayer().getTile();
 		Direction player_orientation = getPlayer().getDirection();
 
-		Sprite food = getAndSaveFood(dir);
+		Sprite food = checkFood(dir);
 
 		super.movePlayer(dir);
 
@@ -99,7 +99,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		}
 	}
 
-	private Sprite getAndSaveFood(Direction dir) {
+	private Sprite checkFood(Direction dir) {
 	    Tile target = getBoard().tileAtDirection(getPlayer().getTile(), dir);
 
 		// if top sprite on tile target is food, save food sprite before moving player
