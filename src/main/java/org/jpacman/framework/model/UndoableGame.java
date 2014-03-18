@@ -116,8 +116,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {
-		// System.out.println("Saving Ghost Move of " + theGhost.hashCode() + " at "
-		// + theGhost.getTile() + " " + dir);
+		System.out.println("Saving Ghost Move of " + theGhost.hashCode() + " at " 
+				+ theGhost.getTile() + " " + dir);
 		Tile ghostTile = theGhost.getTile();
 		super.moveGhost(theGhost, dir);
 		if (ghostTile != theGhost.getTile()) {

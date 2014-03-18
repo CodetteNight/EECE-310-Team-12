@@ -38,8 +38,8 @@ public class GhostMoves extends Moves {
 			case UP:
 				result = Direction.DOWN;
 				break;
-			default:
-				break;
+//			default:
+//				break;
 		}
 
 		assert result != null : "GhostMoves: Direction & reverse Direction not null";

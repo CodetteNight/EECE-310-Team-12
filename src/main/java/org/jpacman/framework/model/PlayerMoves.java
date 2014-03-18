@@ -50,8 +50,6 @@ public class PlayerMoves extends Moves {
 			case UP:
 				result = Direction.DOWN;
 				break;
-			default:
-				break;
 		}
 
 		assert result != null : "PlayerMoves: Direction & reverse Direction not null";

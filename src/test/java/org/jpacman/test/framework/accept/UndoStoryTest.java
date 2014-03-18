@@ -37,10 +37,9 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		getEngine().start();
 		Tile playerTile = getPlayer().getTile();
 
+		// test undo up
 		getEngine().up(); // Pacman moves
-
 		getUI().undo();
-
 		// check the pacman has returned to original tile
 		assertEquals(playerTile, getPlayer().getTile());
 
@@ -54,7 +53,14 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		getUI().undo();
 		assertEquals(playerTile, getPlayer().getTile());
 
-		// do not test undo down because down is movement into wall at start
+		// moving down causes the pacman to move towards a wall
+		// place pacman at a tile so that undo pacman down can be tested
+		getEngine().up();
+		playerTile = getPlayer().getTile();
+		getEngine().down();
+		getUI().undo();
+		assertEquals(playerTile, getPlayer().getTile());
+		
 	}
 
 	@Test
