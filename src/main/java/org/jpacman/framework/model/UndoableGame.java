@@ -1,7 +1,6 @@
 package org.jpacman.framework.model;
 
 import java.util.ArrayDeque;
-
 import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.Food;
 import org.jpacman.framework.model.Game;
@@ -18,8 +17,10 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	public void undo() {
 		Moves move;
 		SpriteType sprite;
-		// Peek deque for Moves and undo moves until a player element is found.
 		if(!moves.isEmpty() && getPlayer().isAlive()) {
+			// Peek the deque for the last move made and attempt to remove 
+			// all consecutive ghost moves until a player move is found, 
+			// then attempt to remove the next consecutive ghost moves
 			move = moves.peekLast();
 			sprite = move.getSprite().getSpriteType();
 			while( sprite == SpriteType.GHOST ){
@@ -34,9 +35,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 				getPlayer().setDirection(((PlayerMoves) move).getOrientation());
 				moves.removeLast();
 
-				// if the payer ate a food while doing move, put back food before returning
-				//if (!((PlayerMoves) move).ateFood)
-					//notifyViewers();
 				if( moves.isEmpty() ) return;
 				move = moves.peekLast();
 				if( move.getSprite().getSpriteType() == SpriteType.FOOD ){
@@ -44,7 +42,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 					super.getPointManager().consumePointsOnBoard(getPlayer(),-((FoodMoves) move).foodPts);
 					moves.removeLast();
 				}
-				notifyViewers();
 			}
 			if( moves.isEmpty() ) return;
 			move = moves.peekLast();
@@ -56,47 +53,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 				move = moves.peekLast();
 				sprite = move.getSprite().getSpriteType();
 			}
-			/*if (m != null) {
-				switch (m.getSprite().getSpriteType()) {
-					case FOOD:
-						m.getSprite().occupy(m.getTile());
-						super.getPointManager().consumePointsOnBoard(getPlayer(),
-						        -((FoodMoves) m).foodPts);
-						moves.removeLast();
-						notifyViewers();
-						return;
-
-					case GHOST:
-						super.moveGhost((Ghost) m.getSprite(), ((GhostMoves) m).getRevDir());
-						moves.removeLast();
-						break;
-
-					case PLAYER:
-						super.movePlayer(((PlayerMoves) m).getRevDir());
-						getPlayer().setDirection(((PlayerMoves) m).getOrientation());
-						moves.removeLast();
-
-						// if the payer ate a food while doing move, put back food before returning
-						if (((PlayerMoves) m).ateFood)
-							break;
-						else {
-							notifyViewers();
-							return;
-						}
-
-					default:
-						System.out.println("Nothing to retrive.");
-						moves.removeLast();
-						notifyViewers();
-						break;
-				}
-			} else
-				moves.removeLast();*/
 		}
-
-		notifyViewers();
 		return;
-
 	}
 
 	@Override
@@ -115,7 +73,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		if (player_tile != getPlayer().getTile()) {
 			savePlayer(dir, player_orientation, food);
 		}
-
 	}
 
 	private void savePlayer(Direction dir, Direction player_orientation, Sprite food) {
@@ -173,5 +130,4 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 			}
 		}
 	}
-
 }
