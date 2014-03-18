@@ -42,7 +42,7 @@ public class GhostMoves extends Moves {
 				break;
 		}
 
-		assert result != null : "GhostMoves: Direction & reverse Direction not null";
+		assert result != null : "UndoableGame: Direction & reverse Direction not null";
 		return result;
 	}
 
