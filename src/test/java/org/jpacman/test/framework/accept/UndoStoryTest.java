@@ -178,13 +178,16 @@ public class UndoStoryTest extends MovePlayerStoryTest {
 		// Ghost movement onto a piece of food and player movement to set up test (allow undo of
 		// ghost movement off
 		// food and undo stop at player movement)
+		//Tile ghostTile = theGhost().getTile();
 		getUI().getGame().moveGhost(theGhost(), Direction.UP);
 		Tile ghostTile = theGhost().getTile();
+		assertEquals(ghostTile, foodTile);
 		getEngine().left();
 
 		// Ghost movement off a piece of food
 		getUI().getGame().moveGhost(theGhost(), Direction.DOWN);
 
+		getEngine().right();
 		getUI().undo();
 
 		// The game should reverse the Ghost movement and display the ghost where the food was
