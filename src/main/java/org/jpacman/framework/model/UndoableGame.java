@@ -16,12 +16,47 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 	@Override
 	public void undo() {
-
-		Moves m;
+		Moves move;
+		SpriteType sprite;
 		// Peek deque for Moves and undo moves until a player element is found.
-		while (!moves.isEmpty() && getPlayer().isAlive()) {
-			m = moves.peekLast();
-			if (m != null) {
+		if(!moves.isEmpty() && getPlayer().isAlive()) {
+			move = moves.peekLast();
+			sprite = move.getSprite().getSpriteType();
+			while( sprite == SpriteType.GHOST ){
+				super.moveGhost((Ghost) move.getSprite(), ((GhostMoves) move).getRevDir());
+				moves.removeLast();
+				if( moves.isEmpty() ) return;
+				move = moves.peekLast();
+				sprite = move.getSprite().getSpriteType();
+			}
+			if( sprite == SpriteType.PLAYER ){
+				super.movePlayer(((PlayerMoves) move).getRevDir());
+				getPlayer().setDirection(((PlayerMoves) move).getOrientation());
+				moves.removeLast();
+
+				// if the payer ate a food while doing move, put back food before returning
+				//if (!((PlayerMoves) move).ateFood)
+					//notifyViewers();
+				if( moves.isEmpty() ) return;
+				move = moves.peekLast();
+				if( move.getSprite().getSpriteType() == SpriteType.FOOD ){
+					move.getSprite().occupy(move.getTile());
+					super.getPointManager().consumePointsOnBoard(getPlayer(),-((FoodMoves) move).foodPts);
+					moves.removeLast();
+				}
+				notifyViewers();
+			}
+			if( moves.isEmpty() ) return;
+			move = moves.peekLast();
+			sprite = move.getSprite().getSpriteType();
+			while( sprite == SpriteType.GHOST ){
+				super.moveGhost((Ghost) move.getSprite(), ((GhostMoves) move).getRevDir());
+				moves.removeLast();
+				if( moves.isEmpty() ) return;
+				move = moves.peekLast();
+				sprite = move.getSprite().getSpriteType();
+			}
+			/*if (m != null) {
 				switch (m.getSprite().getSpriteType()) {
 					case FOOD:
 						m.getSprite().occupy(m.getTile());
@@ -56,7 +91,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 						break;
 				}
 			} else
-				moves.removeLast();
+				moves.removeLast();*/
 		}
 
 		notifyViewers();
