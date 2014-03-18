@@ -35,7 +35,7 @@ public class UndoablePacman extends MainUI {
 
 	// TODO:
 	public void undo() {
-		System.out.println("From UndoButtonPanel.");
+		System.out.println("From UndoablePacman.");
 		eventHandler().undo();
 		eventHandler().stop();
 	}
