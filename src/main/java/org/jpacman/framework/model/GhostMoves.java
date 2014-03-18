@@ -1,4 +1,4 @@
-package main.java.org.jpacman.framework.model;
+package org.jpacman.framework.model;
 
 import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.Sprite;

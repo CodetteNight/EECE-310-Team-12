@@ -1,10 +1,9 @@
-package main.java.org.jpacman.framework.ui;
+package org.jpacman.framework.ui;
 
 import java.util.Observable;
 
-import main.java.org.jpacman.framework.model.IGameInteractorWithUndo;
-
 import org.jpacman.framework.controller.IController;
+import org.jpacman.framework.model.IGameInteractorWithUndo;
 import org.jpacman.framework.ui.PacmanInteraction;
 
 public class PacmanInteractionWithUndo extends PacmanInteraction

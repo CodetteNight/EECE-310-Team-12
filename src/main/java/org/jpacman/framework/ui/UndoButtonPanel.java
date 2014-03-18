@@ -1,4 +1,4 @@
-package main.java.org.jpacman.framework.ui;
+package org.jpacman.framework.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

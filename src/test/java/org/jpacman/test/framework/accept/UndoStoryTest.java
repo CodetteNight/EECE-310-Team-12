@@ -1,4 +1,4 @@
-package test.java.org.jpacman.test.framework.accept;
+package org.jpacman.test.framework.accept;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -6,12 +6,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import main.java.org.jpacman.framework.ui.UndoablePacman;
-
 import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.IBoardInspector;
 import org.jpacman.framework.model.Tile;
 import org.jpacman.framework.ui.PacmanInteraction.MatchState;
+import org.jpacman.framework.ui.UndoablePacman;
 import org.junit.Test;
 
 public class UndoStoryTest extends MovePlayerStoryTest {

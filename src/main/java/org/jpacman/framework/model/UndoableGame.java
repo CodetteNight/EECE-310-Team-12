@@ -1,4 +1,4 @@
-package main.java.org.jpacman.framework.model;
+package org.jpacman.framework.model;
 
 import java.util.ArrayDeque;
 

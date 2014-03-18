@@ -1,13 +1,12 @@
 /**
  * 
  */
-package main.java.org.jpacman.framework.ui;
-
-import main.java.org.jpacman.framework.factory.UndoGameFactory;
-import main.java.org.jpacman.framework.model.IGameInteractorWithUndo;
-import main.java.org.jpacman.framework.model.UndoableGame;
+package org.jpacman.framework.ui;
 
 import org.jpacman.framework.factory.FactoryException;
+import org.jpacman.framework.factory.UndoGameFactory;
+import org.jpacman.framework.model.IGameInteractorWithUndo;
+import org.jpacman.framework.model.UndoableGame;
 import org.jpacman.framework.ui.MainUI;
 import org.jpacman.framework.ui.PacmanInteraction;
 

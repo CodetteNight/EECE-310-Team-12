@@ -1,8 +1,7 @@
-package main.java.org.jpacman.framework.factory;
-
-import main.java.org.jpacman.framework.model.UndoableGame;
+package org.jpacman.framework.factory;
 
 import org.jpacman.framework.factory.DefaultGameFactory;
+import org.jpacman.framework.model.UndoableGame;
 
 public class UndoGameFactory extends DefaultGameFactory {
 

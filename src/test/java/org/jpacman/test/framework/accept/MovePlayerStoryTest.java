@@ -1,4 +1,4 @@
-package test.java.org.jpacman.test.framework.accept;
+package org.jpacman.test.framework.accept;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;

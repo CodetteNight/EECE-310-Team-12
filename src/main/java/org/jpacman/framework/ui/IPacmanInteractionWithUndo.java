@@ -1,4 +1,4 @@
-package main.java.org.jpacman.framework.ui;
+package org.jpacman.framework.ui;
 
 import org.jpacman.framework.ui.IPacmanInteraction;
 
