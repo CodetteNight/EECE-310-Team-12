@@ -32,7 +32,6 @@ public class UndoablePacman extends MainUI {
 
 	private UndoButtonPanel buttonPanel;
 
-	// TODO:
 	public void undo() {
 		System.out.println("From UndoablePacman.");
 		eventHandler().undo();
@@ -100,9 +99,6 @@ public class UndoablePacman extends MainUI {
 	@Override
 	public PacmanInteractionWithUndo eventHandler() {
 		assert pi != null : "UndoablePacman: PacmanInteractionWithUndo";
-
 		return (PacmanInteractionWithUndo) pi;
-
-		// return (PacmanInteractionWithUndo) super.eventHandler();
 	}
 }

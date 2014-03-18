@@ -36,17 +36,13 @@ public class UndoButtonPanel extends ButtonPanel {
 		undoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				undo();
 			}
 		});
 		undoButton.setName("jpacman.undo");
-
 	}
 
-
 	public void undo() {
-		// pause();
 		((IPacmanInteractionWithUndo) getPacmanInteractor()).undo();
 		assert invariant();
 	}

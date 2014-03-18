@@ -53,7 +53,6 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 
 	@Override
 	public void undo() {
-		// super.stop();
 		System.out.println("Entering undo state");
 		System.out.println(getCurrentState());
 		if (getGame().died() || getGame().won())
@@ -65,8 +64,6 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 			stop();
 			updateState();
 		}
-		// super.updateState();
-		// TODO: additional updates as needed here
 	}
 
 	/**
