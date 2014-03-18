@@ -6,21 +6,21 @@ import org.jpacman.framework.model.Tile;
 
 public class GhostMoves extends Moves {
 
-	final Direction dir;
-	final Direction revDir;
+	private final Direction directionOfMovement;
+	private final Direction reverseDirection;
 
 	GhostMoves(Sprite s, Tile t, Direction d) {
 		super(s, t);
-		dir = d;
-		revDir = reverseDirection(d);
+		directionOfMovement = d;
+		reverseDirection = reverseDirection(d);
 	}
 
-	public Direction getDirection() {
-		return dir;
+	public Direction getDirectionOfMovement() {
+		return directionOfMovement;
 	}
 
 	public Direction getRevDir() {
-		return revDir;
+		return reverseDirection;
 	}
 
 	private Direction reverseDirection(Direction dir) {

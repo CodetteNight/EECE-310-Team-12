@@ -5,7 +5,7 @@ import org.jpacman.framework.model.Tile;
 
 public class FoodMoves extends Moves {
 
-	final int foodPts;
+	private final int foodPts;
 
 	FoodMoves(Sprite s, Tile t, int pts) {
 		super(s, t);
