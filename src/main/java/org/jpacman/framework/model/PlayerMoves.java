@@ -6,26 +6,14 @@ import org.jpacman.framework.model.Tile;
 
 public class PlayerMoves extends Moves {
 
-	private final Direction directionOfMovement;
 	private final Direction reverseDirection;
 	private final Direction orientation;
-	private final boolean ateFood;
 
 	PlayerMoves(Sprite s, Tile t, Direction d, boolean b, Direction orig) {
 		super(s, t);
-		directionOfMovement = d;
-		ateFood = b;
 		orientation = orig;
 		reverseDirection = reverseDirection(d);
 
-	}
-	
-	public Direction getDirectionOfMovement() {
-		return directionOfMovement;
-	}
-
-	public boolean eatenFood() {
-		return ateFood;
 	}
 
 	public Direction getOrientation() {
