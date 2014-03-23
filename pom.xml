@@ -4,6 +4,34 @@
   <groupId>ca.ubc.jpacman</groupId>
   <artifactId>jpacman-undo</artifactId>
   <version>1.0-SNAPSHOT</version>
+  
+  <repositories>
+    <repository>
+      	<id>spring</id>
+      	<url>http://mvnrepository.com/artifact/</url>
+	</repository>
+    
+ 	 <repository>
+    	<id>spring-milestones</id>
+    	<url>http://repo.springsource.org/libs-milestone/</url>
+  	</repository>
+  </repositories>
+  
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/libs-milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
+<!-- <parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-maven-plugin</artifactId>
+	<version>1.0.0.RC5</version>
+	<type>maven-plugin</type>
+	</parent>
+-->
   <developers>
       <developer>
         <id>CodetteNight</id>
@@ -64,6 +92,142 @@
   		<artifactId>hamcrest-all</artifactId>
   		<version>1.1</version>
   	</dependency>
+  	
+	<dependency>
+		<groupId>joda-time</groupId>
+		<artifactId>joda-time</artifactId>
+		<version>2.2</version>
+	</dependency>
+ 
+ 	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-maven-plugin</artifactId>
+  		<version>1.0.0.RC5</version>
+  	<!--	<type>maven-plugin</type> -->
+	</dependency>
+
+ <!--   <dependency>
+        <groupId>org.springframework.social</groupId>
+        <artifactId>spring-social-twitter</artifactId>
+        <version>1.0.5.RELEASE</version>
+    </dependency>
+  -->  
+    <dependency>
+  		<groupId>org.springframework.social</groupId>
+  		<artifactId>spring-social-twitter</artifactId>
+  		<version>1.1.0.M4</version>
+	</dependency>
+    
+<!--	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.0.0.RC5</version>
+	</dependency>
+-->			
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot</artifactId>
+		<version>1.0.0.RC5</version>
+	</dependency>
+	
+	<dependency>
+	  	<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-parent</artifactId>
+  		<version>1.0.0.RC5</version>
+  		<type>pom</type>
+	</dependency>
+	
+
+    
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+    	<version>1.0.0.RC5</version>
+    </dependency>
+<!--       
+	<dependency>
+  		<groupId>org.springframework.security</groupId>
+  		<artifactId>spring-security-crypto</artifactId>
+  		<version>3.2.2.RELEASE</version>
+	</dependency>
+-->
+<!-- 	
+	<dependency>
+  		<groupId>org.springframework.social</groupId>
+  		<artifactId>spring-social-config</artifactId>
+  		<version>1.1.0.M4</version>
+	</dependency>
+ -->
+ <!--	
+	<dependency>
+  		<groupId>org.springframework.social</groupId>
+  		<artifactId>spring-social-config</artifactId>
+		<version>1.1.0.RC1</version>
+	</dependency>
+-->	
+	<dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-crypto</artifactId>
+    	<version>3.1.4.RELEASE</version>
+    </dependency>
+    
+	<dependency>
+        <groupId>org.thymeleaf</groupId>
+    	<artifactId>thymeleaf-spring4</artifactId>
+    	<version>2.0.20</version>
+    </dependency>
+    
+    <!-- ***** -->
+<!--       <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-security</artifactId>
+      <version>1.1.0.RC1</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-crypto</artifactId>
+      <version>3.2.0.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-core</artifactId>
+      <version>1.1.0.RC1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-config</artifactId>
+      <version>1.1.0.RC1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+-->
   </dependencies>
 
 	<build>
@@ -198,7 +362,19 @@
 					</reportPlugins>
 				</configuration>
 			</plugin>
+			
+			
+			<plugin> 
+                <artifactId>maven-compiler-plugin</artifactId> 
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            
+            
 		</plugins>
+		
 	</build>
 
 
