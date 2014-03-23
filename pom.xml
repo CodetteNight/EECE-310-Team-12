@@ -88,9 +88,14 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>org.jpacman.framework.ui.MainUI</mainClass>
+							<mainClass>org.jpacman.framework.ui.UndoablePacman</mainClass>
+							<!-- <classpathPrefix>org.jpacman.framework</classpathPrefix> -->	
 						</manifest>
 					</archive>
+					<descriptorRefs>
+        					<descriptorRef>jar-with-dependencies</descriptorRef>
+        			</descriptorRefs>
+					
 				</configuration>
 			</plugin>
 		
@@ -102,6 +107,12 @@
 					<descriptors>
 						<descriptor>${basedir}/src-assembly.xml</descriptor>
 					</descriptors>
+					<archive>
+     					 <manifest>
+      						  <mainClass>org.jpacman.framework.ui.UndoablePacman</mainClass>
+    					  </manifest>
+    				</archive>
+    			
 				</configuration>
 				<executions>
 					<execution>
