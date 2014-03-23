@@ -9,10 +9,13 @@ import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.twitter.config.annotation.EnableTwitter;
 
 /**
- * TODO: Replace appID and appSecret with a valid one.
- * @author vwjf
+ * Based on Spring Social guide
+ * http://spring.io/guides/gs
  *
  */
+
+/** TODO: Replace appID and appSecret with a valid one.
+ * @author vwjf */
 @EnableTwitter(appId="3se6dplpiWhqJjDOfM6iQ", appSecret="NJpQGWSpnQZ6KV58XOabtKdzWDCZtNQHqLC2yPnE")
 @EnableInMemoryConnectionRepository
 public class TwitterConfig {
