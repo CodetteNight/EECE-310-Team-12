@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Based on Spring Social guide
- * http://spring.io/guides/gs
- *
+ * Spring application to obtain tweets "#springframework".
+ * From http://spring.io/guides/gs/accessing-twitter/
  */
+
 @Controller
 @RequestMapping("/")
 public class TwitterController {
@@ -39,7 +39,7 @@ public class TwitterController {
         model.addAttribute(twitter.userOperations().getUserProfile());
         CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
         model.addAttribute("friends", friends);
-        return "hello";
+        return "startpage";
     }
 
 }
