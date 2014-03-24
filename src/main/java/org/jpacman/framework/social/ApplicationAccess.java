@@ -22,6 +22,11 @@ public class ApplicationAccess {
      * SPRING BOOTSTRAP MAIN
      */
     public static void main(String[] args) {
+    	bootstrap(args);
+    	
+    }
+    
+    public static void bootstrap(String[] args){
         SpringApplication.run(ApplicationAccess.class, args);
     }
 
