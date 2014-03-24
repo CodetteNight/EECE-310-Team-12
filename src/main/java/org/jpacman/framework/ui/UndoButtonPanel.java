@@ -9,6 +9,7 @@ import org.jpacman.framework.ui.ButtonPanel;
 
 public class UndoButtonPanel extends ButtonPanel {
 
+	
 	PacmanInteractionWithUndo pacmanInteractor;
 	/**
 	 * 
@@ -16,6 +17,7 @@ public class UndoButtonPanel extends ButtonPanel {
 	private static final long serialVersionUID = 342724095694331357L;
 
 	private JButton undoButton;
+	private JButton postPointsButton;
 
 	/**
 	 * Actually create the buttons.
@@ -23,9 +25,13 @@ public class UndoButtonPanel extends ButtonPanel {
 	public void initialize() {
 		super.initialize();
 		undoButton = new JButton("Undo");
+		postPointsButton = new JButton("Share");
+		
 		initializeUndoButton();
+		initializePostPointsButton();
 
 		addButton(undoButton);
+		addButton(postPointsButton);
 	}
 
 	/**
@@ -40,6 +46,17 @@ public class UndoButtonPanel extends ButtonPanel {
 			}
 		});
 		undoButton.setName("jpacman.undo");
+	}
+	
+	protected void initializePostPointsButton() {
+		postPointsButton.setEnabled(true);
+		postPointsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				undo();
+			}
+		});
+		undoButton.setName("jpacman.postPoints");
 	}
 
 	public void undo() {
