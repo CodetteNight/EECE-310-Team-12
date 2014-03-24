@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
 import org.jpacman.framework.model.IGameInteractor;
 
@@ -40,7 +41,11 @@ IController {
     /**
      * Underlying game engine.
      */
-    private final IGameInteractor theGame;
+    //private final IGameInteractor theGame;
+    /**
+     * Underlying game engine.
+     */
+    private transient Game theGame;
 
     
     /**
@@ -59,7 +64,7 @@ IController {
      *
      * @param game The underlying model of the game.
      */
-    public AbstractGhostMover(IGameInteractor game) {
+    public AbstractGhostMover(Game game) {
         theGame = game;
         timer = new Timer(DELAY, this);
         assert controllerInvariant();

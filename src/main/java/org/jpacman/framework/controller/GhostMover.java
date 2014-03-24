@@ -1,9 +1,8 @@
 package org.jpacman.framework.controller;
 
 import org.jpacman.framework.model.Direction;
+import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
-import org.jpacman.framework.model.IGameInteractor;
-import org.jpacman.framework.model.Player;
 
 
 /**
@@ -20,7 +19,7 @@ public class GhostMover extends AbstractGhostMover {
      *
      * @param theEngine Engine used.
      */
-    public GhostMover(final IGameInteractor theEngine) {
+    public GhostMover(final Game theEngine) {
         super(theEngine);
     }
 

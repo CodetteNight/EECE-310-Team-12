@@ -192,7 +192,7 @@ public class MainUI extends JFrame implements Observer, IDisposable {
     public MainUI initialize() throws FactoryException {
         theGame = createModel();
         getGame().attach(this);
-        withGhostController(new GhostMover(getGame()));
+        withGhostController(new GhostMover((Game) getGame()));
         withFoodController(new RandomFoodChanger((Game) getGame()));
       	createUI();
       	return this;
