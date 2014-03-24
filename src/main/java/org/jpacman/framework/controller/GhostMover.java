@@ -1,8 +1,9 @@
 package org.jpacman.framework.controller;
 
+import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.Ghost;
 import org.jpacman.framework.model.IGameInteractor;
-import org.jpacman.framework.model.Direction;
+import org.jpacman.framework.model.Player;
 
 
 /**
@@ -10,14 +11,16 @@ import org.jpacman.framework.model.Direction;
  *
  * @author Arie van Deursen; Aug 18, 2003
  */
-public class RandomGhostMover extends AbstractGhostMover {
+public class GhostMover extends AbstractGhostMover {
 
+	private Ghost theGhost;
+	
     /**
      * Start a new mover with the given engine.
      *
      * @param theEngine Engine used.
      */
-    public RandomGhostMover(final IGameInteractor theEngine) {
+    public GhostMover(final IGameInteractor theEngine) {
         super(theEngine);
     }
 
@@ -26,13 +29,25 @@ public class RandomGhostMover extends AbstractGhostMover {
      */
     public void doTick() {
         synchronized (gameInteraction()) {
-            Ghost theGhost = getRandomGhost();
+            theGhost = getNextGhost();
             if (theGhost == null) {
                 return;
             }
-            int dirIndex = getRandomizer().nextInt(Direction.values().length);
-            final Direction dir = Direction.values()[dirIndex];
+            final Direction dir = randomMove();
             gameInteraction().moveGhost(theGhost, dir);
         }
     }
+    
+    private Direction randomMove() {
+    	int dirIndex = getRandomizer().nextInt(Direction.values().length);
+        final Direction dir = Direction.values()[dirIndex];
+        return dir;
+    }
+    
+//    private Direction chaseMove() {
+//    	final Direction dir = Direction.RIGHT;
+//    	
+//    	return dir;
+//    }
+    
 }

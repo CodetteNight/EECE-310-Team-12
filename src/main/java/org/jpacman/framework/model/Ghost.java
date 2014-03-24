@@ -9,6 +9,8 @@ import org.jpacman.framework.model.IBoardInspector.SpriteType;
  */
 public class Ghost extends Sprite {
 
+	private int xBounds, yBounds;
+	
 	/**
 	 * @return That this sprite is a ghost.
 	 */

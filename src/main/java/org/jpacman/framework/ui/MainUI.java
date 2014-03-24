@@ -8,9 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.jpacman.framework.controller.GhostMover;
 import org.jpacman.framework.controller.IController;
 import org.jpacman.framework.controller.RandomFoodChanger;
-import org.jpacman.framework.controller.RandomGhostMover;
 import org.jpacman.framework.factory.FactoryException;
 import org.jpacman.framework.factory.IGameFactory;
 import org.jpacman.framework.model.Game;
@@ -192,7 +192,7 @@ public class MainUI extends JFrame implements Observer, IDisposable {
     public MainUI initialize() throws FactoryException {
         theGame = createModel();
         getGame().attach(this);
-        withGhostController(new RandomGhostMover(getGame()));
+        withGhostController(new GhostMover(getGame()));
         withFoodController(new RandomFoodChanger((Game) getGame()));
       	createUI();
       	return this;

@@ -46,8 +46,13 @@ IController {
     /**
      * The default delay between ghost moves.
      */
-    public static final int DELAY = 40;
+    public static final int DELAY = 250;
 
+    /**
+     * Number of ghosts and iterator.
+     */
+   private int numGhosts, nextGhost;
+    
     /**
      * Create a new ghostcontroller using the default
      * delay and the given game engine.
@@ -88,6 +93,8 @@ IController {
         // contained.
         synchronized (theGame) {
             ghosts = theGame.getGhosts();
+            numGhosts = ghosts.size();
+            nextGhost = 0;
             timer.start();
             assert ghosts != null;
         }
@@ -106,11 +113,17 @@ IController {
      * are no ghosts in this game.
      * @return Random ghost or null;
      */
-    protected Ghost getRandomGhost() {
+    protected Ghost getNextGhost() {
         Ghost theGhost = null;
         if (!ghosts.isEmpty()) {
-            final int ghostIndex = randomizer.nextInt(ghosts.size());
-            theGhost = ghosts.get(ghostIndex);
+        	if (nextGhost < (numGhosts - 1)){
+                nextGhost += 1;
+        	}
+        	else {
+        		nextGhost = 0;
+        	}
+        	
+        	theGhost = ghosts.get(nextGhost);
         } 
         return theGhost;
     }
