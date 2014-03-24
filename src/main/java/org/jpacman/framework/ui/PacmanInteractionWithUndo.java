@@ -78,4 +78,12 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 		super.controlling(controller);
 		return this;
 	}
+
+	@Override
+	public void share() {
+		if (getGame().died() || getGame().won()){
+			((IGameInteractorWithUndo) this.getGame()).share();
+			updateState();
+		}
+	}
 }

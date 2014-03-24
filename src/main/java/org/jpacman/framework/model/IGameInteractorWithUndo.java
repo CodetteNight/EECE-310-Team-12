@@ -13,6 +13,10 @@ public interface IGameInteractorWithUndo extends IGameInteractor {
 	 * Undo player moves by altering the model.
 	 */
 	void undo();
-
+	
+	/**
+	 * Post points on social media
+	 */
+	void share();
 }
 	
