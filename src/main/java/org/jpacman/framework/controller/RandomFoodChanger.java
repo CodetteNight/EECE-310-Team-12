@@ -21,13 +21,16 @@ public class RandomFoodChanger extends AbstractFoodChanger {
                 return;
             }
             Tile t = f.getTile();
-            f.deoccupy();
+            if (t == null) {
+                return;
+            }
             Fruit fruit = new Fruit(15);
-            getGame().addFood(fruit);
+            getGame().getPointManager().addPointsToBoard(fruit.getPoints());
             getGame().remFood(f);
-            fruit.occupy(t);
-            @SuppressWarnings("unused")
+            f.deoccupy();
 			FruitChanger fc = new FruitChanger(getGame(),fruit);
+            fruit.setFC(fc);
+            fruit.occupy(t);
         }
     }
 }

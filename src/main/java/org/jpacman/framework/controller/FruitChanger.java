@@ -21,6 +21,9 @@ public class FruitChanger extends AbstractFruitChanger {
     public void doTick() {
         synchronized (getGame()) {
             Tile t = fruit.getTile();
+            if (t == null || fruit == null) {
+                return;
+            }
             Food f = new Food();
             getGame().addFood(f);
             getGame().getPointManager().remPointsToBoard(fruit.getPoints());

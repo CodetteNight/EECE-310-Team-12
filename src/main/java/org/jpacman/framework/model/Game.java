@@ -76,7 +76,11 @@ public class Game extends Observable
 	 */
 	private void eatFood(Player player, Sprite currentSprite) {
 		synchronized(this){
-			if (currentSprite instanceof Food) {
+			if (currentSprite instanceof Fruit) {
+				Fruit fruit = (Fruit) currentSprite;
+				pointManager.consumePointsOnBoard(player, fruit.getPoints());
+				fruit.deoccupy();
+			}else if (currentSprite instanceof Food) {
 				Food food = (Food) currentSprite;
 				pointManager.consumePointsOnBoard(player, food.getPoints());
 				foods.remove(food);
