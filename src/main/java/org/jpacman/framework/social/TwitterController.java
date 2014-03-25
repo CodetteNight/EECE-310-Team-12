@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.social.DuplicateStatusException;
+import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.SearchResults;
@@ -63,16 +64,25 @@ public class TwitterController {
         }
         System.out.println("TwitterController:helloTwitter(): points: ("+points+")");
 
+        try{
         //Retrieve points ??:
         //Retrieve friends list
         model.addAttribute(twitter.userOperations().getUserProfile());
         List<Tweet> tweets = twitter.timelineOperations().getUserTimeline();
+        long since_id =  tweets.get(0).getId();
+       
         SearchResults search = twitter.searchOperations().search("#jpacman");
         List<Tweet> jpacmanTweets = search.getTweets();
-        
-        //CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
+
         model.addAttribute("jpacmanTweets", jpacmanTweets);
-        return "startpage";
+    	return "startpage";
+    	
+        }catch(RateLimitExceededException ree){
+        	System.out.println("RateLimit Exceeded. Post has succeded. "
+        			+ "Wait 15 minutes to view Results on this webpage. "
+        			+ "Alternative see your twitter feed to see new post.");
+        	return "ratelimitexceeded"; //Webpage with the above message;
+        }
     }
     
 }
