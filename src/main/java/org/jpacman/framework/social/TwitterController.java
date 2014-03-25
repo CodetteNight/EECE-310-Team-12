@@ -1,9 +1,17 @@
 package org.jpacman.framework.social;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import javax.inject.Inject;
 
+import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.twitter.api.CursoredList;
+import org.springframework.social.twitter.api.SearchResults;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TweetData;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
@@ -19,12 +27,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/")
-public class TwitterController implements PostToTwitter {
+public class TwitterController {
 
     private Twitter twitter;
     
-    private String points = null;
-
     private ConnectionRepository connectionRepository;
 
     @Inject
@@ -33,52 +39,53 @@ public class TwitterController implements PostToTwitter {
         this.connectionRepository = connectionRepository;
     }
 
-    @Override
     @RequestMapping(method=RequestMethod.GET)
     public String helloTwitter(Model model) {
-    	//Establish a connection if one has not been made.
+    	//Authorize App.
         if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
             return "redirect:/connect/twitter";
         }
+        String points = PostToTwitter.points;
+        
+        System.out.println("TwitterController:helloTwitter(): points: ("+points+")");
 
         //Posting Tweet:
-          if (points != null){
-            twitter.timelineOperations().updateStatus("Completed a game of Jpacman. Got: "+points+" points");
+        if (points != null){
+        	try{
+        		DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        		String messagedate = df.format(new Date());
+        		TweetData td = new TweetData("Completed a game of Jpacman. Got: "+points+" points #jpacman " + messagedate);
+        		twitter.timelineOperations().updateStatus(td);
+        	} catch(DuplicateStatusException dse){
+        		System.out.println("#### Error: "+dse.getLocalizedMessage() );
+        	}
+        	PostToTwitter.points = null;
         }
+        System.out.println("TwitterController:helloTwitter(): points: ("+points+")");
 
         //Retrieve points ??:
         //Retrieve friends list
         model.addAttribute(twitter.userOperations().getUserProfile());
+        List<Tweet> tweets = twitter.timelineOperations().getUserTimeline();
+        SearchResults search = twitter.searchOperations().search("#jpacman");
+        List<Tweet> jpacmanTweets = search.getTweets();
+        
         CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
-        model.addAttribute("friends", friends);
+        model.addAttribute("jpacmanTweets", jpacmanTweets);
         return "startpage";
     }
-    
-    public String postToTwitter(Model model) {
-        if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
-            return "redirect:/connect/twitter";
-        }
 
-        //model.addAttribute(twitter.userOperations().getUserProfile());
-        twitter.timelineOperations().updateStatus("updating1");
-
-        return "startpage";
-    }
+	private TweetData TweetData(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
-    //TODO: Incomplete....
-    public String disconnectTwitter(Model model) {
-        if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
-            return "redirect:/disconnect/twitter";
-        }
-        return "";
-    }
-    
-	@Override
+/*	@Override
 	public void postPoints(int p) {
 		if(p == 0)
     		points = null;
 		else
 			points = Integer.toString(p);
 	}
-
+*/
 }

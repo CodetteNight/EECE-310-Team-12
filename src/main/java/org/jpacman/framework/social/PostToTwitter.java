@@ -1,9 +1,7 @@
 package org.jpacman.framework.social;
 
-import org.springframework.ui.Model;
 
-public interface PostToTwitter {
+public class PostToTwitter {
 
-	 public String helloTwitter(Model model);	
-	 public void postPoints(int p);
+	public static String points = null;
 }

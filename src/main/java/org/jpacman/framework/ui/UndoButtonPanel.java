@@ -1,16 +1,29 @@
 package org.jpacman.framework.ui;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Observable;
 
+import javax.inject.Inject;
 import javax.swing.JButton;
 
-import org.jpacman.framework.ui.ButtonPanel;
+import org.jpacman.framework.social.PostToTwitter;
 import org.jpacman.framework.ui.PacmanInteraction.MatchState;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.twitter.api.CursoredList;
+import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.TwitterProfile;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 public class UndoButtonPanel extends ButtonPanel {
-
 	
 	PacmanInteractionWithUndo pacmanInteractor;
 	/**
@@ -64,6 +77,17 @@ public class UndoButtonPanel extends ButtonPanel {
 	public void share(){
 		((IPacmanInteractionWithUndo) getPacmanInteractor()).share();
 		assert invariant();
+		int p = ((PacmanInteraction)getPacmanInteractor()).getGame().getPointManager().getFoodEaten();
+		PostToTwitter.points = Integer.toString(p);
+		System.out.println("UndoButtonPanel():Sharing points on twitter: ("+p+")");	
+		try {
+			URI uri = new URI("http://localhost:8080/");
+			Desktop.getDesktop().browse(uri);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void undo() {
@@ -97,5 +121,4 @@ public class UndoButtonPanel extends ButtonPanel {
 		else
 			shareButton.setEnabled(false);
 	}
-
 }

@@ -1,9 +1,6 @@
 package org.jpacman.framework.social;
 
-import javax.inject.Inject;
-
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.EnableInMemoryConnectionRepository;
 import org.springframework.social.connect.ConnectionFactoryLocator;

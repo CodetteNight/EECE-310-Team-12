@@ -133,6 +133,6 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 	@Override
 	public void share() {
-		System.out.println("Sharing points on twitter");		
+		System.out.println("UndoableGame():Sharing points on twitter");		
 	}
 }
