@@ -1,20 +1,18 @@
 <html>
 	<head>
-		<title>Hello Twitter</title>
+		<title>Jpacman Score</title>
 	</head>
 	<body>
 		<h3>Hello, <span th:text="${twitterProfile.name}">Some User</span>!</h3>
+			
+		<h4>You and your friends score for jpacman:</h4>
 		
-<!-- Not Completed....
-		<h4>These are recent points:</h4>
-		<ul>
-			<li th:each="points:${JpacmanPoints}" th:text="${points.name}">points</li>
-		</ul>
--->		
-		<h4>These are your friends:</h4>
-		
-		<ul>
-			<li th:each="jpacman:${jpacmanTweets}" th:text="${jpacman.text}">Friend</li>
-		</ul>
+		<table>
+			<tr th:each="jpacman:${jpacmanTweets}">
+				<td th:text="${jpacman.fromUser}">User</td>
+				<td> : </td>
+				<td th:text="${jpacman.text}">Tweets</td>
+			</tr>
+		</table>
 	</body>
 </html>
