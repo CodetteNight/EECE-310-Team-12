@@ -70,22 +70,9 @@ public class TwitterController {
         SearchResults search = twitter.searchOperations().search("#jpacman");
         List<Tweet> jpacmanTweets = search.getTweets();
         
-        CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
+        //CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
         model.addAttribute("jpacmanTweets", jpacmanTweets);
         return "startpage";
     }
-
-	private TweetData TweetData(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
     
-/*	@Override
-	public void postPoints(int p) {
-		if(p == 0)
-    		points = null;
-		else
-			points = Integer.toString(p);
-	}
-*/
 }
