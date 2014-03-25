@@ -33,7 +33,7 @@ public class Game extends Observable
 	/**
 	 * The lead player.
 	 */
-	private Player thePlayer;
+	private static Player thePlayer;
 	
 	/**
 	 * All the ghosts in the game.
@@ -168,7 +168,7 @@ public class Game extends Observable
 	/**
 	 * @return The player.
 	 */
-	public Player getPlayer() {
+	public static Player getPlayer() {
 		return thePlayer;
 	}
 	

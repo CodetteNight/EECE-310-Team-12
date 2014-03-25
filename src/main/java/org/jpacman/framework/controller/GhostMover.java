@@ -43,10 +43,12 @@ public class GhostMover extends AbstractGhostMover {
         return dir;
     }
     
-//    private Direction chaseMove() {
-//    	final Direction dir = Direction.RIGHT;
-//    	
-//    	return dir;
-//    }
+    private Direction chaseMove() {
+    	final Direction dir = Direction.RIGHT;
+    	theGhost.getTile().getX();
+    	Game.getPlayer().getTile().getX();
+    	
+    	return dir;
+    }
     
 }
