@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Jpacman Score</title>
+		<title>Developers</title>
 		<style>
 			ul
 			{
@@ -20,7 +20,6 @@
 			background-color:#dddddd;
 			}
 		</style>
-		
 	</head>
 	<body>
 		<ul>
@@ -30,16 +29,12 @@
 		<li><a href="/disconnect.html">Disconnect</a></li>
 		</ul>
 		<br></br>
-		<h3>Hello, <span th:text="${twitterProfile.name}">Some User</span>!</h3>
-			
-		<h4>You and your friends score for jpacman:</h4>
-		
-		<table>
-			<tr th:each="jpacman:${jpacmanTweets}">
-				<td th:text="${jpacman.fromUser}">User</td>
-				<td> : </td>
-				<td th:text="${jpacman.text}">Tweets</td>
-			</tr>
-		</table>
+		<h3>About the Developers</h3>		
+		<p>
+		Isaac Cheng<br>
+		Natasha Kumar<br>
+		Ishan Sahay<br>
+		Sarah Louise Leong
+		</p>		
 	</body>
 </html>

@@ -1,7 +1,7 @@
 <html>
 	<head>
-		<title>Jpacman Score</title>
-		<style>
+		<title>Disconnect</title>
+			<style>
 			ul
 			{
 			list-style-type:none;
@@ -30,16 +30,14 @@
 		<li><a href="/disconnect.html">Disconnect</a></li>
 		</ul>
 		<br></br>
-		<h3>Hello, <span th:text="${twitterProfile.name}">Some User</span>!</h3>
-			
-		<h4>You and your friends score for jpacman:</h4>
-		
-		<table>
-			<tr th:each="jpacman:${jpacmanTweets}">
-				<td th:text="${jpacman.fromUser}">User</td>
-				<td> : </td>
-				<td th:text="${jpacman.text}">Tweets</td>
-			</tr>
-		</table>
+		<h3>Connected to Twitter</h3>
+		 
+		<form action="/connect/twitter" method="POST">
+			<div class="formInfo">
+				<p>You are connected to Twitter. Click the <b>Disconnect</b> button to logout of your Twitter account.</p>
+			</div>
+			<p><button type="submit">Disconnect</button></p>
+			 <input type="hidden" name="_method" value="delete" />
+		</form>		
 	</body>
 </html>
