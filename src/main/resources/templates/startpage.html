@@ -41,5 +41,14 @@
 				<td th:text="${jpacman.text}">Tweets</td>
 			</tr>
 		</table>
+		
+<!--				
+		<h4>These are recent scores:</h4>
+		
+		<ul>
+			<li th:each="jpacman:${jpacmanTweets}" th:text="'@'+${jpacman.fromUser}+': '+${jpacman.text}">Scores</li>
+		</ul>
+-->
+
 	</body>
 </html>

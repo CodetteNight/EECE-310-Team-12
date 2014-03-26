@@ -9,6 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.social.DuplicateStatusException;
+import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.SearchResults;
@@ -43,6 +44,7 @@ public class TwitterController {
     @RequestMapping(method=RequestMethod.GET)
     public String helloTwitter(Model model) {
     	//Authorize App.
+        System.out.println("TwitterController:helloTwitter(): Establishing Connection.");
         if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
             return "redirect:/connect/twitter";
         }
@@ -64,25 +66,32 @@ public class TwitterController {
         }
         System.out.println("TwitterController:helloTwitter(): points: ("+points+")");
 
-        //Retrieve points ??:
-        //Retrieve friends list
-        model.addAttribute(twitter.userOperations().getUserProfile());
-//        List<Tweet> tweets = twitter.timelineOperations().getUserTimeline();
-//        SearchResults search = twitter.searchOperations().search("#Soyuz");
-//        List<Tweet> jpacmanTweets = search.getTweets();
+        //Retrieve points:
+        try{
+        	model.addAttribute(twitter.userOperations().getUserProfile());
+        	//List<Tweet> tweets = twitter.timelineOperations().getUserTimeline();
+        	//SearchResults search = twitter.searchOperations().search("#Soyuz");
+        	//List<Tweet> jpacmanTweets = search.getTweets();
 
-        List<Tweet> tweets = twitter.timelineOperations().getHomeTimeline();
-		List<Tweet> newTweetList = new ArrayList<Tweet>();
-        int i;
-        for(i = 0; i < tweets.size(); i++){
-        	if(tweets.get(i).getText().contains("#jpacman")){
-        		newTweetList.add(tweets.get(i));
+        	List<Tweet> tweets = twitter.timelineOperations().getHomeTimeline();
+        	List<Tweet> newTweetList = new ArrayList<Tweet>();
+        	int i;
+        	for(i = 0; i < tweets.size(); i++){
+        		if(tweets.get(i).getText().contains("#jpacman")){
+        			newTweetList.add(tweets.get(i));
+        		}
         	}
+
+        	//CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
+        	model.addAttribute("jpacmanTweets", newTweetList);
+        	return "startpage";
+
+        }catch(RateLimitExceededException ree){
+        	System.out.println("RateLimit Exceeded. Post has succeded. "
+        			+ "Wait 15 minutes to view Results on this webpage. "
+        			+ "Alternative see your twitter feed to see new post.");
+        	return "ratelimitexceeded"; //Webpage with the above error message
         }
-        
-        //CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
-        model.addAttribute("jpacmanTweets", newTweetList);
-        return "startpage";
     }
     
 }

@@ -1,0 +1,49 @@
+STORY 8 -- SHARE:
+
+As a player
+I want to be able to share my score with friends through social media(twitter), 
+so that I notify them of my Pacman score in the game.
+
+STORY 8.1 -- POST SCORE TO TWITTER FEED.
+
+As a player
+I want to share my score
+so that my friends can see my score in a twitter feed.
+
+Scenario S8.1.1: Share player score. 
+Given the game has ended,
+When I press the Share button;
+Then a website is launched to handle sharing scores with twitter.
+
+Scenario S8.1.2: "CONNECT" button on website
+Given the game has ended
+  and the website to post scores has been launched,
+When the player press the "Connect" button;
+Then an authorized-connection to twitter is established
+  and a tweet with my score is posted on my twitter feed.
+Note: The score should be posted once in the twitter feed.
+
+
+STORY 8.2 -- GET SCORE FROM TWITTER FEED.
+
+As a player
+I want to view my friends' Pacman scores from twitter
+so that I can compete with their score.
+
+Scenario S8.2.1: "Get Scores" button
+Given the game has ended
+  and the website to post my score has been launched,
+When the player press the "Get Scores" button;
+Then the tweets containing Pacman scores from other tweets in my Home Timeline are displayed.
+
+STORY 8.3 -- DISCONNECT FROM TWITTER.
+
+As a player,
+I want to be able to disconnect the connection from twitter;
+So that I can end the twitter session.
+
+Scenario S8.3.1: "Disconnect" button
+Given the game has ended
+  and my score has been posted to twitter,
+When the player press the "Disconnect" button on the website;
+Then the twitter session is completed.
