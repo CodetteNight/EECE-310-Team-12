@@ -44,6 +44,7 @@ public class TwitterController {
     @RequestMapping(method=RequestMethod.GET)
     public String helloTwitter(Model model) {
     	//Authorize App.
+        System.out.println("TwitterController:helloTwitter(): Establishing Connection.");
         if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
             return "redirect:/connect/twitter";
         }
@@ -65,9 +66,8 @@ public class TwitterController {
         }
         System.out.println("TwitterController:helloTwitter(): points: ("+points+")");
 
+        //Retrieve points:
         try{
-        //Retrieve points ??:
-        //Retrieve friends list
         	model.addAttribute(twitter.userOperations().getUserProfile());
         	//List<Tweet> tweets = twitter.timelineOperations().getUserTimeline();
         	//SearchResults search = twitter.searchOperations().search("#Soyuz");
@@ -90,7 +90,7 @@ public class TwitterController {
         	System.out.println("RateLimit Exceeded. Post has succeded. "
         			+ "Wait 15 minutes to view Results on this webpage. "
         			+ "Alternative see your twitter feed to see new post.");
-        	return "ratelimitexceeded"; //Webpage with the above message;
+        	return "ratelimitexceeded"; //Webpage with the above error message
         }
     }
     
