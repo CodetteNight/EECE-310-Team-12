@@ -2,6 +2,7 @@ package org.jpacman.framework.social;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,16 +68,24 @@ public class TwitterController {
         try{
         //Retrieve points ??:
         //Retrieve friends list
-        model.addAttribute(twitter.userOperations().getUserProfile());
-        List<Tweet> tweets = twitter.timelineOperations().getUserTimeline();
-        long since_id =  tweets.get(0).getId();
-       
-        SearchResults search = twitter.searchOperations().search("#jpacman");
-        List<Tweet> jpacmanTweets = search.getTweets();
+        	model.addAttribute(twitter.userOperations().getUserProfile());
+        	//List<Tweet> tweets = twitter.timelineOperations().getUserTimeline();
+        	//SearchResults search = twitter.searchOperations().search("#Soyuz");
+        	//List<Tweet> jpacmanTweets = search.getTweets();
 
-        model.addAttribute("jpacmanTweets", jpacmanTweets);
-    	return "startpage";
-    	
+        	List<Tweet> tweets = twitter.timelineOperations().getHomeTimeline();
+        	List<Tweet> newTweetList = new ArrayList<Tweet>();
+        	int i;
+        	for(i = 0; i < tweets.size(); i++){
+        		if(tweets.get(i).getText().contains("#jpacman")){
+        			newTweetList.add(tweets.get(i));
+        		}
+        	}
+
+        	//CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
+        	model.addAttribute("jpacmanTweets", newTweetList);
+        	return "startpage";
+
         }catch(RateLimitExceededException ree){
         	System.out.println("RateLimit Exceeded. Post has succeded. "
         			+ "Wait 15 minutes to view Results on this webpage. "
