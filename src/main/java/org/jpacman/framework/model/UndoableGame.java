@@ -61,7 +61,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 	public void movePlayer(Direction dir) {
 		assert getBoard() != null : "Board can't be null when moving";
 
-		System.out.println("Saving Player Before Move. " + getPlayer());
+		//System.out.println("Saving Player Before Move. " + getPlayer());
 
 		Tile player_tile = getPlayer().getTile();
 		Direction player_orientation = getPlayer().getDirection();
@@ -99,7 +99,7 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 		while (target.topSprite() != null) {
 			try {
 				food = target.topSprite();
-				if (food.getSpriteType() == SpriteType.FOOD) {
+				if (food.getSpriteType() == SpriteType.FOOD || food.getSpriteType() == SpriteType.FRUIT) {
 					System.out.println("Saving Food Move. " + food);
 					moves.add(new FoodMoves(food, food.getTile(), ((Food) food).getPoints()));
 				}
@@ -116,8 +116,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 	@Override
 	public void moveGhost(Ghost theGhost, Direction dir) {
-		System.out.println("Saving Ghost Move of " + theGhost.hashCode() + " at " 
-				+ theGhost.getTile() + " " + dir);
+		//System.out.println("Saving Ghost Move of " + theGhost.hashCode() + " at " 
+			//	+ theGhost.getTile() + " " + dir);
 		Tile ghostTile = theGhost.getTile();
 		super.moveGhost(theGhost, dir);
 		if (ghostTile != theGhost.getTile()) {
