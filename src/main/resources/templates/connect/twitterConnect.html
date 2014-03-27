@@ -1,14 +1,25 @@
 <html>
 	<head>
 		<title>Connect To Twitter</title>
+		<style>
+		#uiButton{
+			border: 2px #fff;
+			background: #ff9933;
+			font-family: 'Tahoma';
+			font-size: 20px;
+			text-decoration: none;
+			margin-left: 100px;
+		}
+		</style>
 	</head>
 	<body>
-		<h3>Connect to Twitter</h3>
+		<h2 style="font-size: 25px; margin-left: 100px; margin-top: 40px">CONNECT TO TWITTER</h2>
 		<form action="/connect/twitter" method="POST">
 			<div class="formInfo">
-				<p>You aren't connected to Twitter yet. Click the button to connect Jpacman with your Twitter account.</p>
+				<p style="font-size: 20px; margin-left: 100px">You aren't connected to Twitter yet</p> 
+				<p style="font-size: 16px; margin-left: 100px">Click the <b>Connect to Twitter</b> button to connect Jpacman with your Twitter account.</p>
 			</div>
-			<p><button type="submit">Connect to Twitter</button></p>
+			<p><button type="submit" id="uiButton">Connect to Twitter</button></p>
 		</form>
 	</body>
 </html>

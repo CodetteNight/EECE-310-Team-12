@@ -94,4 +94,19 @@ public class TwitterController {
         }
     }
     
+    @RequestMapping(value="/about", method=RequestMethod.GET)
+    public String aboutPage(){
+    	return "about";
+    }
+    
+    @RequestMapping(value="/developers", method=RequestMethod.GET)
+    public String developersPage(){
+    	return "developers";
+    }
+    
+    @RequestMapping(value="/disconnect", method=RequestMethod.GET)
+    public String disconnectPage(){
+    	return "disconnect";
+    }
+    
 }

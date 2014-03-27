@@ -1,31 +1,39 @@
 <html>
 	<head>
-		<title>Hello Twitter</title>
-		<!--<meta http-equiv="refresh" content="0; url=http://twitter.com/" /> -->
+		<title>Connected</title>
+		<style>
+		#uiButton{
+			border: 2px #fff;
+			background: #ff9933;
+			font-family: 'Tahoma';
+			font-size: 20px;
+			text-decoration: none;
+			margin-left: 100px;
+		}
+		</style>
 	</head>
 	<body>
-		<h3>Connected to Twitter</h3>
+		<h2 style="font-size: 25px; margin-left: 100px; margin-top: 40px">CONNECTED TO TWITTER</h2>
 		 
 		<form action="/connect/twitter" method="POST">
 			<div class="formInfo">
-				<p>You are connected to Twitter. Click the <b>Disconnect</b> button to logout of your Twitter account.</p>
+				<p style="font-size: 20px; margin-left: 100px">You are connected to Twitter!</p> 
+				<p style="font-size: 16px; margin-left: 100px">Click the <b>Disconnect</b> button to logout of your Twitter account.</p>
 			</div>
-			<p><button type="submit">Disconnect</button></p>
-			 <input type="hidden" name="_method" value="delete" />
+			<p><button type="submit" id="uiButton">Disconnect</button></p>
+			 <input type="hidden" name="_method" value="delete"/>
 		</form>
 		
-		<p>
+<!-- 		<p>
 			You are now connected to your Twitter account.
-			Click <b><a href="/">Get Scores</a></b> button to see get pacman scores with #jpacman.
+			Click <b><a href="/">Get Scores</a></b> button to see get pacman scores with #jpacman. -->
 		
 		<form action="/" method="GET">
 			<div class="formInfo">
-				<p>Click the <b>Get Scores</b> button to get recent scores from Twitter feed.</p>
+				<p style="font-size: 16px; margin-left: 100px">Click the <b>Get Scores</b> button to get recent scores from Twitter feed.</p>
 			</div>
-			<p><button type="submit">Get Scores</button></p>
+			<p><button type="submit" id="uiButton">Get Scores</button></p>
 			 <input type="hidden" name="_method" value="get" />
-		</form>
-		
-		</p>		
+		</form>		
 	</body>
 </html>
