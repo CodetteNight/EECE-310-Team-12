@@ -56,21 +56,19 @@ public class GhostMover extends AbstractGhostMover {
     }
     
     private Direction pathfinder() {
-		System.out.println("Pathfinder Start");
     	Direction dir = Direction.RIGHT;
     	int i = 0;
-    	Tile testTile = new Tile(Game.getPlayer().getTile().getX(),Game.getPlayer().getTile().getY());
+    	int j = 0;
+    	Tile testTile = Game.getPlayer().getTile();
     	count = 0;
-		System.out.println("Path init");
     	GhostPath pathTile = new GhostPath(testTile, count);
     	path.add(pathTile);
     	
-		System.out.println("Search Start");
-    	while(count<50){
+    	while(i == 0){
     		count++;
-    		for(GhostPath tile : path){
-     			if((tile.getCount() + 1) == count){
-    				i = checkDirection(tile.getTile());
+    		for(j=0;j<path.size();j++){
+     			if((path.get(j).getCount() + 1) == count){
+    				i = checkDirection(path.get(j).getTile());
     			}
     		}
     	}
@@ -98,7 +96,7 @@ public class GhostMover extends AbstractGhostMover {
     
     // TODO: check which ghost
     public int checkDirection(Tile tile){
-    	Tile testTile = new Tile(tile.getX() + 1, tile.getY());
+    	Tile testTile = tileAt(tile.getX()+1,tile.getY());
     	GhostPath pathTile;
     	switch(checkTile(testTile)){
     		case -1:
@@ -119,7 +117,7 @@ public class GhostMover extends AbstractGhostMover {
     			//other?
     	}
     	
-    	testTile = new Tile(tile.getX() - 1, tile.getY());
+    	testTile = tileAt(tile.getX()-1,tile.getY());
     	switch(checkTile(testTile)){
     		case -1:
     			// wall or visited tile
@@ -140,7 +138,7 @@ public class GhostMover extends AbstractGhostMover {
     			break;
     	}
     	
-    	testTile = new Tile(tile.getX(), tile.getY() + 1);
+    	testTile = tileAt(tile.getX(),tile.getY()+1);
     	switch(checkTile(testTile)){
     		case -1:
     			// wall or visited tile
@@ -160,7 +158,7 @@ public class GhostMover extends AbstractGhostMover {
     			//other?
     	}
     	
-    	testTile = new Tile(tile.getX(), tile.getY() - 1);
+    	testTile = tileAt(tile.getX(),tile.getY()-1);
     	switch(checkTile(testTile)){
     		case -1:
     			// wall or visited tile
@@ -197,6 +195,17 @@ public class GhostMover extends AbstractGhostMover {
 		}
 		else
 			return 0;
+	}
+	
+	/**
+	 * Convenience method to retun a tile at a given location.
+	 * Helpful for testing effect of moves.
+	 * @param x X-coordinate
+	 * @param y Y-coordinate
+	 * @return Tile at (x,y)
+	 */
+	protected Tile tileAt(int x, int y) {
+		return getTheGame().getBoardInspector().tileAt(x, y);
 	}
     
 }

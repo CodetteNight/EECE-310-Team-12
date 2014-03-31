@@ -65,7 +65,7 @@ IController {
      * @param game The underlying model of the game.
      */
     public AbstractGhostMover(Game game) {
-        theGame = game;
+        setTheGame(game);
         timer = new Timer(DELAY, this);
         assert controllerInvariant();
     }
@@ -75,7 +75,7 @@ IController {
      * @return true iff all vars non-null.
      */
     protected final boolean controllerInvariant() {
-        return timer != null && theGame != null;
+        return timer != null && getTheGame() != null;
     }
 
     /**
@@ -85,7 +85,7 @@ IController {
     @Override
 	public void actionPerformed(ActionEvent e) {
         assert controllerInvariant();
-        synchronized (theGame) {
+        synchronized (getTheGame()) {
             doTick();
         }
         assert controllerInvariant();
@@ -96,8 +96,8 @@ IController {
         assert controllerInvariant();
         // the game may have been restarted -- refresh the ghost list
         // contained.
-        synchronized (theGame) {
-            ghosts = theGame.getGhosts();
+        synchronized (getTheGame()) {
+            ghosts = getTheGame().getGhosts();
             numGhosts = ghosts.size();
             nextGhost = 0;
             timer.start();
@@ -145,6 +145,14 @@ IController {
      * @return The object to manipulate the game model.
      */
     protected IGameInteractor gameInteraction() {
-    	return theGame;
+    	return getTheGame();
     }
+
+	public Game getTheGame() {
+		return theGame;
+	}
+
+	public void setTheGame(Game theGame) {
+		this.theGame = theGame;
+	}
 }
