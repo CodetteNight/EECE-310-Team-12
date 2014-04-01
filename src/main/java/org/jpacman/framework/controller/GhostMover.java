@@ -41,8 +41,6 @@ public class GhostMover extends AbstractGhostMover {
     public void doTick() {
         synchronized (gameInteraction()) {
             theGhost = getNextGhost();
-            count = 0;
-            path.clear();
             if (theGhost == null) {
                 return;
             }
@@ -60,6 +58,8 @@ public class GhostMover extends AbstractGhostMover {
     
     private Direction pathfinder() {
     	System.out.println(nextGhost);
+        count = 0;
+        path.clear();
     	int i = 0;
     	int j = 0;
     	final Direction dir;
@@ -68,7 +68,7 @@ public class GhostMover extends AbstractGhostMover {
     	GhostPath pathTile = new GhostPath(testTile, count);
     	path.add(pathTile);
     	
-    	while((count < 50) && (i == 0)){ // while no path is returned, iterate through map
+    	while((i == 0)){ // while no path is returned, iterate through map
     		int plength = path.size();
     		System.out.println("count:" + count);
     		//System.out.println("size:" + plength);
@@ -106,108 +106,91 @@ public class GhostMover extends AbstractGhostMover {
     private int checkDirection(Tile tile){
     	Tile testTile;
     	GhostPath pathTile;
-    	if(tile.getX() + 1 < getTheGame().getBoard().getWidth()){
-        	testTile = tileAt(tile.getX()+1,tile.getY());
-        	switch(checkTile(testTile)){
-        		case -1:
-        			// wall or visited tile
-        			break;
-        		case 1:
-        			// ghost
-        			return 1;        				
-        		case 0:
-        			// open space
-        			pathTile = new GhostPath(testTile,count);
-        			path.add(pathTile);
-        			break;
-        		default:
-        			//other?
-        			System.out.println("error1");
-        			break;
-        	}
+	    	if(tile.getX() + 1 < getTheGame().getBoard().getWidth()){ // check if tile is in bounds
+	        	testTile = tileAt(tile.getX()+1,tile.getY()); // check right tile
+	        if(checkTile(testTile) == -1){
+	    			// wall or visited tile
+	    	}
+	    	else if(checkTile(testTile) == 1){
+	    		// ghost
+	    		return 1;
+	    	}
+	    	else if(checkTile(testTile) == 0){
+			    // open space
+				pathTile = new GhostPath(testTile,count);
+				path.add(pathTile);
+	    	}
     	}
 
-    	if(tile.getX() - 1 > 0){
-        	testTile = tileAt(tile.getX()-1,tile.getY());
-        	switch(checkTile(testTile)){
-        		case -1:
+    	if(tile.getX() - 1 > 0){ // check if tile is in bounds
+        	testTile = tileAt(tile.getX()-1,tile.getY()); //check left tile
+        	if(checkTile(testTile) == -1){
         			// wall or visited tile
-        			break;
-        		case 1:
-        			// ghost
-        			return 2;        				
-        		case 0:
-        			// open space
-        			pathTile = new GhostPath(testTile,count);
-        			path.add(pathTile);
-        			break;
-        		default:
-        			//other?
-        			System.out.println("error2");
-        			break;
+        	}
+        	else if(checkTile(testTile) == 1){
+        		// ghost
+        		return 2;
+        	}
+        	else if(checkTile(testTile) == 0){
+    		    // open space
+    			pathTile = new GhostPath(testTile,count);
+    			path.add(pathTile);
         	}
     	}
     	
-    	testTile = tileAt(tile.getX(),tile.getY()+1);
-    	switch(checkTile(testTile)){
-    		case -1:
-    			// wall or visited tile
-    			break;
-    		case 1:
-    			// ghost
-    			return 3;        				
-    		case 0:
-    			// open space
-    			pathTile = new GhostPath(testTile,count);
-    			path.add(pathTile);
-    			break;
-    		default:
-    			//other?
-    			System.out.println("error3");
-    			break;
-    	}
+    	testTile = tileAt(tile.getX(),tile.getY()+1); // check down tile
+    	if(checkTile(testTile) == -1){
+			// wall or visited tile
+		}
+		else if(checkTile(testTile) == 1){
+			// ghost
+			return 3;
+		}
+		else if(checkTile(testTile) == 0){
+		    // open space
+			pathTile = new GhostPath(testTile,count);
+			path.add(pathTile);
+		}
     	
-    	testTile = tileAt(tile.getX(),tile.getY()-1);
-    	switch(checkTile(testTile)){
-    		case -1:
-    			// wall or visited tile
-    			break;
-    		case 1:
-    			// ghost
-    			return 4;        				
-    		case 0:
-    			// open space
-    			pathTile = new GhostPath(testTile,count);
-    			path.add(pathTile);
-    			break;
-    		default:
-    			//other?
-    			System.out.println("error4");
-    			break;
-    	}
-		System.out.println("noghost");
-    	return 0;
-    }
+    	testTile = tileAt(tile.getX(),tile.getY()-1); //check up tile
+    	if(checkTile(testTile) == -1){
+			// wall or visited tile
+		}
+		else if(checkTile(testTile) == 1){
+			// ghost
+			return 4;
+		}
+		else if(checkTile(testTile) == 0){
+		    // open space
+			pathTile = new GhostPath(testTile,count);
+			path.add(pathTile);
+		}
+			//System.out.println("noghost");
+	    	return 0;
+	    }
     
 	private int checkTile(Tile tile){
 		for(GhostPath pathTile : path){
 			if((pathTile.getX() == tile.getX()) && (pathTile.getY() == tile.getY())){ // if tile has been visited before
-				System.out.println("parity");
+				//System.out.println("parity");
 				return -1; // dont add to path
 			}
 		}
 		if(tile.topSprite() == null){
 			return 0; // add to path
 		}
-		else if(tile.topSprite().getSpriteType() == SpriteType.WALL){
-			System.out.println("wall");
-			return -1; // dont add to path
-		}
-		else if(tile == theGhost.getTile()){
-			return 1; // return dir
-		}
 		else if(tile.topSprite().getSpriteType() == SpriteType.FOOD){
 			return 0; // add to path
+		}
+		else if(tile.topSprite().getSpriteType() == SpriteType.FRUIT){
+			return 0; // add to path
+		}
+		else if(tile.topSprite().getSpriteType() == SpriteType.WALL){
+			//System.out.println("wall");
+			return -1; // dont add to path
+		}
+		else if(tile.containsSprite(theGhost)){
+			return 1; // return dir
 		}
 		else
 			return -1;
@@ -223,5 +206,5 @@ public class GhostMover extends AbstractGhostMover {
 	protected Tile tileAt(int x, int y) {
 		return getTheGame().getBoardInspector().tileAt(x, y);
 	}
-    
+
 }
