@@ -10,6 +10,16 @@ import org.jpacman.framework.model.IBoardInspector.SpriteType;
 public class Ghost extends Sprite {
 
 	private int xBounds, yBounds;
+	private static int num = 0;
+	
+	public int id;
+	
+	public Ghost(){
+		super();
+		num++;
+		id = num;
+		//TODO: set x and y based on the id you just set
+	}
 	
 	/**
 	 * @return That this sprite is a ghost.
