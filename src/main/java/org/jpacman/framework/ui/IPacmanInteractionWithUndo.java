@@ -8,5 +8,10 @@ public interface IPacmanInteractionWithUndo extends IPacmanInteraction {
 	 * Undo the game.
 	 */
 	void undo();
+	
+	/**
+	 * Post points on social media
+	 */
+	void share();
 
 }

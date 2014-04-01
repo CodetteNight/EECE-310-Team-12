@@ -9,6 +9,8 @@ import org.jpacman.framework.ui.PacmanInteraction;
 public class PacmanInteractionWithUndo extends PacmanInteraction
         implements IPacmanInteractionWithUndo {
 
+	private IGameInteractorWithUndo gameInteractorUndo;
+
 	@Override
 	public void up() {
 		super.up();
@@ -75,5 +77,13 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 	public PacmanInteractionWithUndo controlling(IController controller) {
 		super.controlling(controller);
 		return this;
+	}
+
+	@Override
+	public void share() {
+		if (getGame().died() || getGame().won()){
+			((IGameInteractorWithUndo) this.getGame()).share();
+			updateState();
+		}
 	}
 }

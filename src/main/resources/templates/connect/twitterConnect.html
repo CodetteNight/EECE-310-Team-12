@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<title>Connect To Twitter</title>
+		<style>
+		#uiButton{
+			border: 2px #fff;
+			background: #33ccff;
+			font-family: 'Tahoma';
+			font-style: bold;
+			font-size: 20px;
+			color: #ffffff;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin-top: 20px;
+			margin-bottom: 40px;
+			margin-left: 100px;
+			padding: 20px 40px 20px 40px
+		}
+		div.text{
+			font-family: 'Arial';
+			color: #181818;
+			padding-left:30px;
+		}
+		div.transbox
+		{
+			margin:30px 70px 30px;
+			padding-bottom: 50px;
+			color: rgb(0, 0, 0);
+			background-color: rgba(255,255,255, 0.4);
+		}
+		
+		body{			
+			background:url(http://i.imgur.com/ieIP8X8.jpg) no-repeat;
+			background-size:cover;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="transbox">
+		<div class="text">
+		<h2 style="font-size: 25px; margin-left: 100px; padding-top: 40px"><font color="#181818" face="verdana">CONNECT TO TWITTER</font></h2>
+		<form action="/connect/twitter" method="POST">
+			<div class="formInfo">
+				<p style="font-size: 20px; margin-left: 100px">You aren't connected to Twitter yet</p> 
+				<p style="font-size: 16px; margin-left: 100px">Click the <b>Connect to Twitter</b> button to connect Jpacman with your Twitter account.</p>
+			</div>
+			<p><button type="submit" id="uiButton">Connect to Twitter</button></p>
+		</form>
+		</div>	
+		</div>	
+	</body>
+</html>

@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<title>Disconnect</title>	
+		<style>
+		#uiButton{
+			border: 2px #fff;
+			background: #33ccff;
+			font-family: 'Tahoma';
+			font-style: bold;
+			font-size: 20px;
+			color: #ffffff;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin-top: 40px;
+			padding: 20px 40px 20px 40px
+		}
+		#uiButtonHome{
+			border: 2px #fff;
+			background: #33ccff;
+			font-family: 'Tahoma';
+			font-style: bold;
+			font-size: 20px;
+			color: #ffffff;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin-top: 40px;
+			margin-left: 100px;
+			padding: 20px 40px 20px 40px
+		}
+		p.header{
+			font-size: 20px;
+		}
+		.formInfo{
+			padding-left: 100px;
+			padding-right: 100px;
+		}
+		
+		div.text{
+			font-family: 'Arial';
+			color: #181818;
+			padding-left:30px;
+		}
+		
+		div.transbox
+		{
+			margin:30px 70px 30px;
+			padding-bottom: 50px;
+			color: rgb(0, 0, 0);
+			background-color: rgba(255,255,255, 0.4);
+		}
+		body{			
+			background:url(http://i.imgur.com/ieIP8X8.jpg) no-repeat;
+			background-size:cover;
+		}
+		</style>	
+	</head>
+	<body>
+		<div class="transbox">
+		<table border="0">
+		<tr>
+			<td>
+				<form action="/" method="GET">
+				<input type="submit" value="Home" id="uiButtonHome"/>
+				</form>
+			</td>
+			<td>
+				<form action="/about" method="GET">
+				<input type="submit" value="About" id="uiButton"/>
+				</form>
+			</td>
+			<td>
+				<form action="/developers" method="GET">
+				<input type="submit" value="Developers" id="uiButton"/>
+				</form>
+			</td>
+			<td>
+				<form action="/disconnect" method="GET">
+				<input type="submit" value="Disconnect" id="uiButton"/>
+				</form>
+			</td>
+		</tr>
+		</table>
+		<h2 align="center"><font color="#181818" face="verdana">CONNECTED TO TWITTER</font></h2>
+		<div class="text">
+		<form action="/connect/twitter" method="POST">
+			<div class="formInfo">
+				<p class="header">You are currently connected to Twitter!</p>
+				<p>Click the <b>Disconnect</b> button to logout of your Twitter account.</p>
+			</div>
+			<p style="margin-left: 100px"><button type="submit" id="uiButton">Disconnect</button></p>
+			 <input type="hidden" name="_method" value="delete"/>
+		</form>		
+		</div>	
+		</div>
+	</body>
+</html>

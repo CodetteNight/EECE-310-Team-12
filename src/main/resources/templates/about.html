@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<title>About</title>
+		<style>
+		#uiButton{
+			border: 2px #fff;
+			background: #33ccff;
+			font-family: 'Tahoma';
+			font-style: bold;
+			font-size: 20px;
+			color: #ffffff;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin-top: 40px;
+			padding: 20px 40px 20px 40px
+		}
+		#uiButtonHome{
+			border: 2px #fff;
+			background: #33ccff;
+			font-family: 'Tahoma';
+			font-style: bold;
+			font-size: 20px;
+			color: #ffffff;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin-top: 40px;
+			margin-left: 100px;
+			padding: 20px 40px 20px 40px
+		}
+		p.text{
+			padding-left: 100px;
+			padding-right: 100px;
+			font-family: 'Arial';
+			color: #181818;
+		}
+		div.transbox
+		{
+			margin:30px 70px 30px;
+			padding-bottom: 50px;
+			color: rgb(0, 0, 0);
+			background-color: rgba(255,255,255, 0.4);
+		}
+		
+		body{			
+			background:url(http://i.imgur.com/ieIP8X8.jpg) no-repeat;
+			background-size:cover;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="transbox">
+		<table border="0">
+		<tr>
+			<td>
+				<form action="/" method="GET">
+				<input type="submit" value="Home" id="uiButtonHome"/>
+				</form>
+			</td>
+			<td>
+				<form action="/about" method="GET">
+				<input type="submit" value="About" id="uiButton"/>
+				</form>
+			</td>
+			<td>
+				<form action="/developers" method="GET">
+				<input type="submit" value="Developers" id="uiButton"/>
+				</form>
+			</td>
+			<td>
+				<form action="/disconnect" method="GET">
+				<input type="submit" value="Disconnect" id="uiButton"/>
+				</form>
+			</td>
+		</tr>
+		</table>
+		<h2 align="center"><font color="#181818" face="verdana">ABOUT JPACMAN</font></h2>		
+		<p class="text">			
+		JPacman is a very simple JPacman derivative, to be used for
+educational purposes. 
+
+The JPacman game is played on a rectangular board.  A cell on the
+board can be empty, or can contain the player itself, one of the
+several ghosts, a piece of food, or a wall. Moveable sprites such as
+the player and the ghosts can make single-step horizontal or vertical
+moves.  Tunnels on the border make it possible to move from one border
+to the opposite border.  When a player moves over a tile containing
+food, the player earns points and the food disappears. If a player and
+a ghost meet at the same cell, the player dies and the game is over.
+The player wins the game once he or she has eaten all food.
+<br></br><br></br>
+JPacman-Undo is an extension of JPacman made by a group of students from 
+UBC as a project assignment of EECE 310. Added feature of the game includes 
+an undo functionality and share functionality.
+<br></br><br></br>
+Share functionality currently only allows player to share their high score on twitter.
+<br></br><br></br><br></br>
+
+<center><img src="http://imgur.com/nXbioYJ.jpg" alt="Smiley face"></img></center>
+		</p>		
+		</div>
+	</body>
+</html>

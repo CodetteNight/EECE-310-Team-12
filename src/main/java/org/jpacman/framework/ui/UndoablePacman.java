@@ -7,8 +7,7 @@ import org.jpacman.framework.factory.FactoryException;
 import org.jpacman.framework.factory.UndoGameFactory;
 import org.jpacman.framework.model.IGameInteractorWithUndo;
 import org.jpacman.framework.model.UndoableGame;
-import org.jpacman.framework.ui.MainUI;
-import org.jpacman.framework.ui.PacmanInteraction;
+import org.jpacman.framework.social.ApplicationAccess;
 
 /**
  * @author
@@ -19,7 +18,6 @@ public class UndoablePacman extends MainUI {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 
 	/**
 	 * Mapping of UI events to model actions.
@@ -67,6 +65,7 @@ public class UndoablePacman extends MainUI {
 	 *             If reading game map fails.
 	 */
 	public static void main(String[] args) throws FactoryException {
+		ApplicationAccess.bootstrap(args);	
 		new UndoablePacman().main();
 	}
 
@@ -82,7 +81,7 @@ public class UndoablePacman extends MainUI {
 		pi = new PacmanInteractionWithUndo();
 		pi.withGameInteractor(new UndoableGame());
 		buttonPanel = (UndoButtonPanel) new UndoButtonPanel().withParent(this).withInteractor(pi);
-
+		
 		super.withFactory(new UndoGameFactory());
 		super.withModelInteractor(eventHandler());
 		super.withModelInteractor(pi).withButtonPanel(buttonPanel);
