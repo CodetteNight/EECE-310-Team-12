@@ -131,7 +131,6 @@ IController {
         	}
         	
         	theGhost = ghosts.get(nextGhost);
-        	theGhost.setID(nextGhost);
         } 
         return theGhost;
     }

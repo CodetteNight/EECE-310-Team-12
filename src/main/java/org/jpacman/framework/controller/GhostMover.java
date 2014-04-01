@@ -68,13 +68,13 @@ public class GhostMover extends AbstractGhostMover {
     	GhostPath pathTile = new GhostPath(testTile, count);
     	path.add(pathTile);
     	
-    	while(i == 0){ // while no path is returned, iterate through map
+    	while((count < 50) && (i == 0)){ // while no path is returned, iterate through map
     		int plength = path.size();
     		System.out.println("count:" + count);
     		//System.out.println("size:" + plength);
     		count++;
     		for(j=0;j<plength;j++){
-     			if((path.get(j).getCount() + 1) == count){
+     			if((path.get(j).getCount() + 1) == count){ // count is preincremented, so test each tile in the path list where count(current) == tile.count(prev) + 1
     				i = checkDirection(path.get(j).getTile());
     			}
     		}
@@ -206,8 +206,11 @@ public class GhostMover extends AbstractGhostMover {
 		else if(tile == theGhost.getTile()){
 			return 1; // return dir
 		}
-		else
+		else if(tile.topSprite().getSpriteType() == SpriteType.FOOD){
 			return 0; // add to path
+		}
+		else
+			return -1;
 	}
 	
 	/**

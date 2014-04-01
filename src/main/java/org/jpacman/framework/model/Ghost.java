@@ -11,16 +11,6 @@ public class Ghost extends Sprite {
 
 	private int xBounds, yBounds;
 	
-	private int id;
-	
-	public void setID(int id){
-		this.id = id;
-	}
-	
-	public int getID(){
-		return id;
-	}
-	
 	/**
 	 * @return That this sprite is a ghost.
 	 */
