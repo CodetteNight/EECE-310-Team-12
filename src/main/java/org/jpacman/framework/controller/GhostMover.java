@@ -59,10 +59,8 @@ public class GhostMover extends AbstractGhostMover {
     }
     
     private Direction pathfinder() {
-    	System.out.println(nextGhost);
         count = 0;
         path.clear();
-        System.out.println(path.size());
     	int i = 0;
     	int j = 0;
     	final Direction dir;
@@ -71,7 +69,7 @@ public class GhostMover extends AbstractGhostMover {
     	GhostPath pathTile = new GhostPath(testTile, count);
     	path.add(pathTile);
     	
-    	while(i == 0){ // while no path is returned, iterate through map
+    	while(i == 0 && count < 25){ // while no path is returned, iterate through map
     		int plength = path.size();
     		//System.out.println("count:" + count);
     		//System.out.println("size:" + plength);
@@ -79,7 +77,6 @@ public class GhostMover extends AbstractGhostMover {
     		for(j=0;j<plength;j++){
      			if((path.get(j).getCount() + 1) == count){ // count is preincremented, so test each tile in the path list where count(current) == tile.count(prev) + 1
     				i = checkDirection(path.get(j).getTile());
-    				System.out.println(i);
     				if(i == 1 || i == 2 || i == 3 || i == 4){
     					break;
     				}
@@ -191,6 +188,7 @@ public class GhostMover extends AbstractGhostMover {
 			}
 		}
 		if(tile.containsSprite(theGhost)){
+			System.out.println("(" + tile.getX()+","+tile.getY()+")");
 			return 1; // return dir
 		}
 		else if(tile.topSprite() == null){
