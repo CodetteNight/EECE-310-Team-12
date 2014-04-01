@@ -1,10 +1,56 @@
 <html>
 	<head>
 		<title>Excessive Request</title>
+		
+				<style>
+		#uiButton{
+			border: 2px #fff;
+			background: #33ccff;
+			font-family: 'Tahoma';
+			font-style: bold;
+			font-size: 20px;
+			color: #ffffff;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin-top: 40px;
+			padding: 20px 40px 20px 40px
+		}
+		p.text{
+			font-size: 18px;
+			font-family: 'Arial';
+			color: #181818;
+		}
+		div.transbox
+		{
+			margin:30px 70px 30px;
+			padding-top:50px;
+			padding-bottom: 50px;
+			color: rgb(0, 0, 0);
+			background-color: rgba(255,255,255, 0.4);
+		}
+		
+		body{			
+			background:url(http://i.imgur.com/ieIP8X8.jpg) no-repeat;
+			background-size:cover;
+		}
+		</style>
+		
 	</head>
 	<body>
-		<h3>Posting points to twitter feed has succeeded. Cannot retrieve points from your twitter feed.</h3>
-        <h3>Wait 15 minutes and Refresh to view points on this webpage.</h3>
-        <h3>Alternative see your <a href="http://twitter.com">twitter</a> feed to see the new post.</h3>
+	<div class="transbox">
+	<h2 align="center"><font color="#181818" face="verdana">EXCESSIVE REQUEST TO TWITTER</font></h2>
+		<p align="center" class="text">		
+			Posting points to twitter feed has exceeded the request limit<br></br>
+			Website cannot retrieve points from your twitter feed<br></br>
+			Wait 15 minutes and refresh the page to view points on the website<br></br>
+			Alternatively, you can view your twitter feed on the twitter page.<br></br>
+			Click the button to redirect you to Twitter<br></br>
+			
+			<form action="http://twitter.com">
+			    <input type="submit" value="Go to Twitter" id="uiButton">
+			</form>
+			
+		</p>
+	</div>
 	</body>
 </html>
