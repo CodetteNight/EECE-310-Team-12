@@ -3,6 +3,7 @@ package org.jpacman.framework.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jpacman.framework.model.Board;
 import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
@@ -40,6 +41,8 @@ public class GhostMover extends AbstractGhostMover {
     public void doTick() {
         synchronized (gameInteraction()) {
             theGhost = getNextGhost();
+            count = 0;
+            path.clear();
             if (theGhost == null) {
                 return;
             }
@@ -56,35 +59,41 @@ public class GhostMover extends AbstractGhostMover {
     }
     
     private Direction pathfinder() {
-    	Direction dir = Direction.RIGHT;
+    	System.out.println(nextGhost);
     	int i = 0;
     	int j = 0;
+    	final Direction dir;
+    	// init first tile as pacman's
     	Tile testTile = Game.getPlayer().getTile();
-    	count = 0;
     	GhostPath pathTile = new GhostPath(testTile, count);
     	path.add(pathTile);
     	
-    	while(i == 0){
+    	while(i == 0){ // while no path is returned, iterate through map
+    		int plength = path.size();
+    		System.out.println("count:" + count);
+    		//System.out.println("size:" + plength);
     		count++;
-    		for(j=0;j<path.size();j++){
+    		for(j=0;j<plength;j++){
      			if((path.get(j).getCount() + 1) == count){
     				i = checkDirection(path.get(j).getTile());
     			}
     		}
     	}
-		System.out.println("Switch Case");
+    	
+    	// return direction when ghost is found
+		System.out.println("Switch Case" + i);
     	switch(i){
     		case 1:
-    			dir = Direction.RIGHT;
-    			break;
-    		case 2:
     			dir = Direction.LEFT;
     			break;
+    		case 2:
+    			dir = Direction.RIGHT;
+    			break;
     		case 3:
-    			dir = Direction.DOWN;
+    			dir = Direction.UP;
     			break;
     		case 4:
-    			dir = Direction.UP;
+    			dir = Direction.DOWN;
     			break;
     		default:
     			dir = randomMove();
@@ -94,48 +103,49 @@ public class GhostMover extends AbstractGhostMover {
     	return dir;
     }
     
-    // TODO: check which ghost
-    public int checkDirection(Tile tile){
-    	Tile testTile = tileAt(tile.getX()+1,tile.getY());
+    private int checkDirection(Tile tile){
+    	Tile testTile;
     	GhostPath pathTile;
-    	switch(checkTile(testTile)){
-    		case -1:
-    			// wall or visited tile
-    			break;
-    		case 1:
-    			// ghost
-    			//if(theGhost == testTile.topSprite()){
-    				return 1;
-    			//}
-    			//break;
-    		case 0:
-    			// open space
-    			pathTile = new GhostPath(testTile,count);
-    			path.add(pathTile);
-    			break;
-    		default:
-    			//other?
+    	if(tile.getX() + 1 < getTheGame().getBoard().getWidth()){
+        	testTile = tileAt(tile.getX()+1,tile.getY());
+        	switch(checkTile(testTile)){
+        		case -1:
+        			// wall or visited tile
+        			break;
+        		case 1:
+        			// ghost
+        			return 1;        				
+        		case 0:
+        			// open space
+        			pathTile = new GhostPath(testTile,count);
+        			path.add(pathTile);
+        			break;
+        		default:
+        			//other?
+        			System.out.println("error1");
+        			break;
+        	}
     	}
-    	
-    	testTile = tileAt(tile.getX()-1,tile.getY());
-    	switch(checkTile(testTile)){
-    		case -1:
-    			// wall or visited tile
-    			break;
-    		case 1:
-    			// ghost
-    			//if(theGhost == testTile.topSprite()){
-    				return 2;
-    			//}
-    			//break;
-    		case 0:
-    			// open space
-    			pathTile = new GhostPath(testTile,count);
-    			path.add(pathTile);
-    			break;
-    		default:
-    			//other?
-    			break;
+
+    	if(tile.getX() - 1 > 0){
+        	testTile = tileAt(tile.getX()-1,tile.getY());
+        	switch(checkTile(testTile)){
+        		case -1:
+        			// wall or visited tile
+        			break;
+        		case 1:
+        			// ghost
+        			return 2;        				
+        		case 0:
+        			// open space
+        			pathTile = new GhostPath(testTile,count);
+        			path.add(pathTile);
+        			break;
+        		default:
+        			//other?
+        			System.out.println("error2");
+        			break;
+        	}
     	}
     	
     	testTile = tileAt(tile.getX(),tile.getY()+1);
@@ -145,10 +155,7 @@ public class GhostMover extends AbstractGhostMover {
     			break;
     		case 1:
     			// ghost
-    			//if(theGhost == testTile.topSprite()){
-    				return 3;
-    			//}
-    			//break;
+    			return 3;        				
     		case 0:
     			// open space
     			pathTile = new GhostPath(testTile,count);
@@ -156,6 +163,8 @@ public class GhostMover extends AbstractGhostMover {
     			break;
     		default:
     			//other?
+    			System.out.println("error3");
+    			break;
     	}
     	
     	testTile = tileAt(tile.getX(),tile.getY()-1);
@@ -165,10 +174,7 @@ public class GhostMover extends AbstractGhostMover {
     			break;
     		case 1:
     			// ghost
-    			//if(theGhost == testTile.topSprite()){
-    				return 4;
-    			//}
-    			//break;
+    			return 4;        				
     		case 0:
     			// open space
     			pathTile = new GhostPath(testTile,count);
@@ -176,29 +182,36 @@ public class GhostMover extends AbstractGhostMover {
     			break;
     		default:
     			//other?
+    			System.out.println("error4");
     			break;
     	}
+		System.out.println("noghost");
     	return 0;
     }
     
-	public int checkTile(Tile tile){
+	private int checkTile(Tile tile){
 		for(GhostPath pathTile : path){
-			if((pathTile.getX() == tile.getX()) && (pathTile.getY() == tile.getY()) && (pathTile.getCount() >= count)){
-				return -1;
+			if((pathTile.getX() == tile.getX()) && (pathTile.getY() == tile.getY())){ // if tile has been visited before
+				System.out.println("parity");
+				return -1; // dont add to path
 			}
 		}
-		if(tile.topSprite().getSpriteType() == SpriteType.WALL){
-			return -1;
+		if(tile.topSprite() == null){
+			return 0; // add to path
 		}
-		else if(tile.topSprite().getSpriteType() == SpriteType.GHOST){
-			return 1;
+		else if(tile.topSprite().getSpriteType() == SpriteType.WALL){
+			System.out.println("wall");
+			return -1; // dont add to path
+		}
+		else if(tile == theGhost.getTile()){
+			return 1; // return dir
 		}
 		else
-			return 0;
+			return 0; // add to path
 	}
 	
 	/**
-	 * Convenience method to retun a tile at a given location.
+	 * Convenience method to return a tile at a given location.
 	 * Helpful for testing effect of moves.
 	 * @param x X-coordinate
 	 * @param y Y-coordinate

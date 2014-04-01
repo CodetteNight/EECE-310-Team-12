@@ -51,12 +51,14 @@ IController {
     /**
      * The default delay between ghost moves.
      */
-    public static final int DELAY = 250;
+    public static final int DELAY = 500;
 
     /**
      * Number of ghosts and iterator.
      */
-   private int numGhosts, nextGhost;
+    private int numGhosts;
+
+	protected int nextGhost;
     
     /**
      * Create a new ghostcontroller using the default
@@ -129,6 +131,7 @@ IController {
         	}
         	
         	theGhost = ghosts.get(nextGhost);
+        	theGhost.setID(nextGhost);
         } 
         return theGhost;
     }

@@ -6,6 +6,9 @@ public class GhostPath{
 	private int count;
 	
 	public GhostPath(Tile tile, int count){
+		if( tile == null){
+			System.out.println("null tile");
+		}
 		this.tile = tile;
 		this.count = count;
 	}
