@@ -51,7 +51,7 @@ IController {
     /**
      * The default delay between ghost moves.
      */
-    public static final int DELAY = 200;
+    public static final int DELAY = 100;
 
     /**
      * Number of ghosts and iterator.

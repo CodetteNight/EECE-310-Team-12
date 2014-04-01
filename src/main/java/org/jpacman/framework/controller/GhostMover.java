@@ -9,7 +9,9 @@ import org.jpacman.framework.model.Game;
 import org.jpacman.framework.model.Ghost;
 import org.jpacman.framework.model.GhostPath;
 import org.jpacman.framework.model.IBoardInspector.SpriteType;
+import org.jpacman.framework.model.Sprite;
 import org.jpacman.framework.model.Tile;
+import org.jpacman.test.framework.model.SpriteTest;
 
 
 /**
@@ -60,6 +62,7 @@ public class GhostMover extends AbstractGhostMover {
     	System.out.println(nextGhost);
         count = 0;
         path.clear();
+        System.out.println(path.size());
     	int i = 0;
     	int j = 0;
     	final Direction dir;
@@ -68,16 +71,27 @@ public class GhostMover extends AbstractGhostMover {
     	GhostPath pathTile = new GhostPath(testTile, count);
     	path.add(pathTile);
     	
-    	while((i == 0)){ // while no path is returned, iterate through map
+    	while(i == 0){ // while no path is returned, iterate through map
     		int plength = path.size();
-    		System.out.println("count:" + count);
+    		//System.out.println("count:" + count);
     		//System.out.println("size:" + plength);
     		count++;
     		for(j=0;j<plength;j++){
      			if((path.get(j).getCount() + 1) == count){ // count is preincremented, so test each tile in the path list where count(current) == tile.count(prev) + 1
     				i = checkDirection(path.get(j).getTile());
+    				System.out.println(i);
+    				if(i == 1 || i == 2 || i == 3 || i == 4){
+    					break;
+    				}
     			}
     		}
+//    		if(count>50){
+//    			System.out.println("array start");
+//    			for(GhostPath tile : path){
+//    				System.out.println("("+tile.getX()+","+tile.getY()+")\t" +tile.getCount());
+//    			}
+//    			System.out.println("array end");
+//    		}
     	}
     	
     	// return direction when ghost is found
@@ -106,8 +120,9 @@ public class GhostMover extends AbstractGhostMover {
     private int checkDirection(Tile tile){
     	Tile testTile;
     	GhostPath pathTile;
-	    	if(tile.getX() + 1 < getTheGame().getBoard().getWidth()){ // check if tile is in bounds
-	        	testTile = tileAt(tile.getX()+1,tile.getY()); // check right tile
+    	
+	    if(tile.getX() + 1 < getTheGame().getBoard().getWidth()){ // check if tile is in bounds
+	        testTile = tileAt(tile.getX()+1,tile.getY()); // check right tile
 	        if(checkTile(testTile) == -1){
 	    			// wall or visited tile
 	    	}
@@ -155,19 +170,29 @@ public class GhostMover extends AbstractGhostMover {
     	testTile = tileAt(tile.getX(),tile.getY()-1); //check up tile
     	if(checkTile(testTile) == -1){
 			// wall or visited tile
+			if(testTile.getX() == 7 && testTile.getY() == 9){
+				System.out.println("found ghost -1");				
+			}
 		}
 		else if(checkTile(testTile) == 1){
 			// ghost
+			if(testTile.getX() == 7 && testTile.getY() == 9){
+				System.out.println("found ghost 1");				
+			}
+
 			return 4;
 		}
 		else if(checkTile(testTile) == 0){
 		    // open space
+			if(testTile.getX() == 7 && testTile.getY() == 9){
+				System.out.println("found ghost 0");				
+			}
 			pathTile = new GhostPath(testTile,count);
 			path.add(pathTile);
 		}
 			//System.out.println("noghost");
-	    	return 0;
-	    }
+    	return 0;
+	}
     
 	private int checkTile(Tile tile){
 		for(GhostPath pathTile : path){
@@ -176,7 +201,10 @@ public class GhostMover extends AbstractGhostMover {
 				return -1; // dont add to path
 			}
 		}
-		if(tile.topSprite() == null){
+		if(tile.containsSprite(theGhost)){
+			return 1; // return dir
+		}
+		else if(tile.topSprite() == null){
 			return 0; // add to path
 		}
 		else if(tile.topSprite().getSpriteType() == SpriteType.FOOD){
@@ -188,9 +216,6 @@ public class GhostMover extends AbstractGhostMover {
 		else if(tile.topSprite().getSpriteType() == SpriteType.WALL){
 			//System.out.println("wall");
 			return -1; // dont add to path
-		}
-		else if(tile.containsSprite(theGhost)){
-			return 1; // return dir
 		}
 		else
 			return -1;
