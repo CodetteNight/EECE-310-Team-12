@@ -7,8 +7,8 @@ package org.jpacman.framework.model;
  */
 public class Board implements IBoardInspector {
 
-	private final int height;
-	private final int width;
+	private static int height;
+	private static int width;
 	private final Tile[][] tiles;
 	
 	/**
@@ -185,4 +185,12 @@ public class Board implements IBoardInspector {
 			+ "not on board of size "
 			+ getWidth() + " * " + getHeight();
 	}
+
+	public static int width() {
+		return width;
+	}
+	public static int height() {
+		return height;
+	}
+
 }
