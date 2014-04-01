@@ -46,8 +46,12 @@ public class GhostMover extends AbstractGhostMover {
             if (theGhost == null) {
                 return;
             }
-            //final Direction dir = randomMove();
-            final Direction dir = pathfinder();
+            final Direction dir;
+            Tile playerTile = Game.getPlayer().getTile();
+            if(  theGhost.withinBorders(playerTile.getX(), playerTile.getY()))
+	            dir = pathfinder();
+            else
+            	dir = randomMove();
             gameInteraction().moveGhost(theGhost, dir);
         }
     }
