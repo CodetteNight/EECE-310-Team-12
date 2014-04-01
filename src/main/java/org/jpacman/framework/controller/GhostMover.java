@@ -95,7 +95,6 @@ public class GhostMover extends AbstractGhostMover {
     	}
     	
     	// return direction when ghost is found
-		System.out.println("Switch Case" + i);
     	switch(i){
     		case 1:
     			dir = Direction.LEFT;
@@ -170,23 +169,13 @@ public class GhostMover extends AbstractGhostMover {
     	testTile = tileAt(tile.getX(),tile.getY()-1); //check up tile
     	if(checkTile(testTile) == -1){
 			// wall or visited tile
-			if(testTile.getX() == 7 && testTile.getY() == 9){
-				System.out.println("found ghost -1");				
-			}
 		}
 		else if(checkTile(testTile) == 1){
 			// ghost
-			if(testTile.getX() == 7 && testTile.getY() == 9){
-				System.out.println("found ghost 1");				
-			}
-
 			return 4;
 		}
 		else if(checkTile(testTile) == 0){
 		    // open space
-			if(testTile.getX() == 7 && testTile.getY() == 9){
-				System.out.println("found ghost 0");				
-			}
 			pathTile = new GhostPath(testTile,count);
 			path.add(pathTile);
 		}
