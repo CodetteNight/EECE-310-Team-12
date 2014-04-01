@@ -4,22 +4,28 @@
 		<style>
 		#uiButton{
 			border: 2px #fff;
-			background: #ff9933;
+			background: #33ccff;
 			font-family: 'Tahoma';
+			font-style: bold;
 			font-size: 20px;
+			color: #ffffff;
 			text-decoration: none;
 			text-transform: uppercase;
 			margin-top: 40px;
+			padding: 20px 40px 20px 40px
 		}
 		#uiButtonHome{
 			border: 2px #fff;
-			background: #ff9933;
+			background: #33ccff;
 			font-family: 'Tahoma';
+			font-style: bold;
 			font-size: 20px;
+			color: #ffffff;
 			text-decoration: none;
 			text-transform: uppercase;
 			margin-top: 40px;
 			margin-left: 100px;
+			padding: 20px 40px 20px 40px
 		}
 		p.header{
 			font-size: 20px;
@@ -28,9 +34,28 @@
 			padding-left: 100px;
 			padding-right: 100px;
 		}
+		
+		div.text{
+			font-family: 'Arial';
+			color: #181818;
+			padding-left:30px;
+		}
+		
+		div.transbox
+		{
+			margin:30px 70px 30px;
+			padding-bottom: 50px;
+			color: rgb(0, 0, 0);
+			background-color: rgba(255,255,255, 0.4);
+		}
+		body{			
+			background:url(http://i.imgur.com/ieIP8X8.jpg) no-repeat;
+			background-size:cover;
+		}
 		</style>	
 	</head>
 	<body>
+		<div class="transbox">
 		<table border="0">
 		<tr>
 			<td>
@@ -55,8 +80,8 @@
 			</td>
 		</tr>
 		</table>
-		<h2 align="center">CONNECTED TO TWITTER</h2>
-		 
+		<h2 align="center"><font color="#181818" face="verdana">CONNECTED TO TWITTER</font></h2>
+		<div class="text">
 		<form action="/connect/twitter" method="POST">
 			<div class="formInfo">
 				<p class="header">You are currently connected to Twitter!</p>
@@ -65,5 +90,7 @@
 			<p style="margin-left: 100px"><button type="submit" id="uiButton">Disconnect</button></p>
 			 <input type="hidden" name="_method" value="delete"/>
 		</form>		
+		</div>	
+		</div>
 	</body>
 </html>

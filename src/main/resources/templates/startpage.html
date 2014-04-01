@@ -4,26 +4,52 @@
 		<style>
 		#uiButton{
 			border: 2px #fff;
-			background: #ff9933;
+			background: #33ccff;
 			font-family: 'Tahoma';
+			font-style: bold;
 			font-size: 20px;
+			color: #ffffff;
 			text-decoration: none;
 			text-transform: uppercase;
 			margin-top: 40px;
+			padding: 20px 40px 20px 40px
 		}
 		#uiButtonHome{
 			border: 2px #fff;
-			background: #ff9933;
+			background: #33ccff;
 			font-family: 'Tahoma';
+			font-style: bold;
 			font-size: 20px;
+			color: #ffffff;
 			text-decoration: none;
 			text-transform: uppercase;
 			margin-top: 40px;
 			margin-left: 100px;
+			padding: 20px 40px 20px 40px
 		}
+		
+		div.text{
+			font-family: 'Arial';
+			color: #181818;
+		}
+		
+		div.transbox
+		{
+			margin:30px 70px 30px;
+			padding-bottom: 50px;
+			color: rgb(0, 0, 0);
+			background-color: rgba(255,255,255, 0.4);
+		}
+		
+		body{			
+			background:url(http://i.imgur.com/ieIP8X8.jpg) no-repeat;
+			background-size:cover;
+		}
+		
 		</style>		
 	</head>
-	<body>		
+	<body>	
+		<div class="transbox">
 		<table border="0">
 		<tr>
 			<td>
@@ -49,9 +75,10 @@
 		</tr>
 		</table>
 		
-		<h2 style="margin-left: 100px">Hello, <span th:text="${twitterProfile.name}">Some User</span>!</h2>
+		<div class="text">
+		<h2 style="margin-left: 100px">Welcome <span th:text="${twitterProfile.name}">Some User</span>!</h2>
 			
-		<p style="margin-left: 100px; font-size: 16px">These are the recent scores shared by you and your friends on twitter</p>
+		<p style="margin-left: 100px; font-size: 20px">These are the recent scores shared by you and your friends on twitter</p>
 		
 		<table style="margin-left: 100px; margin-right: 100px">
 			<tr th:each="jpacman:${jpacmanTweets}">
@@ -60,14 +87,8 @@
 				<td th:text="${jpacman.text}">Tweets</td>
 			</tr>
 		</table>
-		
-<!--				
-		<h4>These are recent scores:</h4>
-		
-		<ul>
-			<li th:each="jpacman:${jpacmanTweets}" th:text="'@'+${jpacman.fromUser}+': '+${jpacman.text}">Scores</li>
-		</ul>
--->
+		</div>
+		</div>
 
 	</body>
 </html>
