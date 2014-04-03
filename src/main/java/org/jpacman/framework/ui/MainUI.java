@@ -198,6 +198,12 @@ public class MainUI extends JFrame implements Observer, IDisposable {
       	return this;
     }
     	
+	public void level() {
+		eventHandler().stop();
+		eventHandler().level();
+		eventHandler().start();
+	}
+    
     /**
      * Actually start the the controllers, and show the UI.
      */

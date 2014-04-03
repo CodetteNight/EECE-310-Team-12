@@ -28,6 +28,7 @@ public class ButtonPanel extends JPanel implements Observer {
 	private PacmanInteraction pacmanInteractor;
 	
 	private JFrame parent;
+	private boolean isClicked;
 	
 	/**
 	 * Set the listener capable of exercising the
@@ -60,6 +61,7 @@ public class ButtonPanel extends JPanel implements Observer {
 	
 	private JButton startButton;
 	private JButton stopButton;
+	private JButton levelButton;
 	
     /**
      * Actually create the buttons.
@@ -67,18 +69,32 @@ public class ButtonPanel extends JPanel implements Observer {
     public void initialize() {    	
     	startButton = new JButton("Start");
     	stopButton = new JButton("Stop");
+    	levelButton = new JButton("Level");
     	initializeStartButton();
     	initializeStopButton();
+    	initializeLevelButton();
     	
     	JButton exitButton = createExitButton();
     	    	
         setName("jpacman.buttonPanel");
         addButton(startButton);
         addButton(stopButton);
+        addButton(levelButton);
         addButton(exitButton);       
      }
     
-    /**
+    private void initializeLevelButton() {
+    	levelButton.addActionListener(new ActionListener() {
+    		@Override
+			public void actionPerformed(ActionEvent e) {
+    			level();
+    		}
+    	});
+    	levelButton.setName("jpacman.level");
+    	levelButton.requestFocusInWindow();
+	}
+
+	/**
      * Add a button to the panel, resetting the
      * width of the panel accordingly.
      * @param button The button to be added.
@@ -159,6 +175,24 @@ public class ButtonPanel extends JPanel implements Observer {
 		assert invariant();
     }
     
+    public void level() {
+//    	
+//    	if(!isClicked){
+//    		isClicked = true;
+//    		levelButton.setText("Level 1");
+//    	} else{
+//    		isClicked
+//    	}
+    	
+		assert pacmanInteractor != null : "PRE: Listeners initialized.";
+		assert invariant();
+		getPacmanInteractor().level();
+		// ensure the full window has the focus.
+		enableStartStop();
+		parent.requestFocusInWindow();
+		assert invariant();
+    }
+    
     /**
      * Provide the parent window.
      * @param parent The containing parent window
@@ -179,13 +213,16 @@ public class ButtonPanel extends JPanel implements Observer {
 		if (s == MatchState.PAUSING){ 
 			stopButton.setEnabled(false);
 			startButton.setEnabled(true);
+			levelButton.setEnabled(false);
 		} else if (s == MatchState.PLAYING){
 			stopButton.setEnabled(true);
 			startButton.setEnabled(false);
+			levelButton.setEnabled(false);
 		} else {
 			// game over
 			stopButton.setEnabled(false);
-			startButton.setEnabled(false);			
+			startButton.setEnabled(false);	
+			levelButton.setEnabled(false);
 		}
 	}
 }

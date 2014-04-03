@@ -14,6 +14,7 @@ public interface IGameInteractorWithUndo extends IGameInteractor {
 	 */
 	void undo();
 	
+	
 	/**
 	 * Post points on social media
 	 */

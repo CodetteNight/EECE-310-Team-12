@@ -58,4 +58,6 @@ public interface IGameInteractor {
 	 * @return true iff the player has won.
 	 */
 	boolean won();
+
+	void level();
 }

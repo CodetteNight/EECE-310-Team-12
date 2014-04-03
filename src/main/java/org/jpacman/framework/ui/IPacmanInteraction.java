@@ -44,5 +44,7 @@ public interface IPacmanInteraction extends Observer {
 	 * Exit the game.
 	 */
 	void exit();
+
+	void level();
 	
 }

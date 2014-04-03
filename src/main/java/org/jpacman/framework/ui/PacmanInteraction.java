@@ -8,6 +8,7 @@ import java.util.Observer;
 import org.jpacman.framework.controller.IController;
 import org.jpacman.framework.model.Direction;
 import org.jpacman.framework.model.IGameInteractor;
+import org.jpacman.framework.model.IGameInteractorWithUndo;
 
 /**
  * Class mapping events triggered by the UI to 
@@ -191,5 +192,14 @@ public class PacmanInteraction extends Observable implements IPacmanInteraction,
 		currentState = nextState;
 		setChanged();
 		notifyObservers();
+	}
+	
+	
+	@Override
+	public void level() {
+		// TODO Auto-generated method stub
+		stop();
+		this.getGame().level();
+		start();
 	}
 }

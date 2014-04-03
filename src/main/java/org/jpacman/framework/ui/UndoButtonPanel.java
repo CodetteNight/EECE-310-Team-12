@@ -110,7 +110,7 @@ public class UndoButtonPanel extends ButtonPanel {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void undo() {
 		((IPacmanInteractionWithUndo) getPacmanInteractor()).undo();
 		assert invariant();
