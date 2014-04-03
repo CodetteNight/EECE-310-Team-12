@@ -29,6 +29,7 @@ public class ButtonPanel extends JPanel implements Observer {
 	
 	private JFrame parent;
 	private boolean isClicked;
+	private int level;
 	
 	/**
 	 * Set the listener capable of exercising the
@@ -69,7 +70,7 @@ public class ButtonPanel extends JPanel implements Observer {
     public void initialize() {    	
     	startButton = new JButton("Start");
     	stopButton = new JButton("Stop");
-    	levelButton = new JButton("Level");
+    	levelButton = new JButton("Level 1");
     	initializeStartButton();
     	initializeStopButton();
     	initializeLevelButton();
@@ -176,21 +177,24 @@ public class ButtonPanel extends JPanel implements Observer {
     }
     
     public void level() {
-//    	
-//    	if(!isClicked){
-//    		isClicked = true;
-//    		levelButton.setText("Level 1");
-//    	} else{
-//    		isClicked
-//    	}
+    	if(!isClicked){
+    		isClicked = true;
+    		level = 2;
+    		levelButton.setText("Level 2");
+    		
+    	} else{
+    		isClicked = false;
+    		level = 1;
+    		levelButton.setText("Level 1");
+    	}
     	
 		assert pacmanInteractor != null : "PRE: Listeners initialized.";
 		assert invariant();
-		getPacmanInteractor().level();
+		getPacmanInteractor().level(level);
 		// ensure the full window has the focus.
-		enableStartStop();
-		parent.requestFocusInWindow();
-		assert invariant();
+//		enableStartStop();
+//		parent.requestFocusInWindow();
+//		assert invariant();
     }
     
     /**
@@ -213,7 +217,7 @@ public class ButtonPanel extends JPanel implements Observer {
 		if (s == MatchState.PAUSING){ 
 			stopButton.setEnabled(false);
 			startButton.setEnabled(true);
-			levelButton.setEnabled(false);
+//			levelButton.setEnabled(false);
 		} else if (s == MatchState.PLAYING){
 			stopButton.setEnabled(true);
 			startButton.setEnabled(false);

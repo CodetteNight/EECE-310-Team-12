@@ -196,10 +196,9 @@ public class PacmanInteraction extends Observable implements IPacmanInteraction,
 	
 	
 	@Override
-	public void level() {
+	public void level(int level) {
 		// TODO Auto-generated method stub
 		stop();
-		this.getGame().level();
-		start();
+		this.getGame().level(level);
 	}
 }

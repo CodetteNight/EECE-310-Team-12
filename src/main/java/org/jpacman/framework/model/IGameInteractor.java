@@ -59,5 +59,5 @@ public interface IGameInteractor {
 	 */
 	boolean won();
 
-	void level();
+	void level(int level);
 }

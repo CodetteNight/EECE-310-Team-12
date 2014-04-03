@@ -238,9 +238,12 @@ public class Game extends Observable
 	}
 	
 	@Override
-	public void level() {
-		// TODO Auto-generated method stub
-		diff = !diff;
+	public void level(int level) {
+		if(level == 1)
+			diff = false;
+		else if(level == 2)
+			diff = true;
+//		diff = !diff;
 	}
 	
 }

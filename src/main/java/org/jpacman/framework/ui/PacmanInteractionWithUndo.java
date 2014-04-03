@@ -86,10 +86,4 @@ public class PacmanInteractionWithUndo extends PacmanInteraction
 			updateState();
 		}
 	}
-
-	@Override
-	public void level() {
-		// TODO Auto-generated method stub
-		((IGameInteractorWithUndo) this.getGame()).level();
-	}
 }

@@ -200,7 +200,7 @@ public class MainUI extends JFrame implements Observer, IDisposable {
     	
 	public void level() {
 		eventHandler().stop();
-		eventHandler().level();
+		eventHandler().level(1);
 		eventHandler().start();
 	}
     

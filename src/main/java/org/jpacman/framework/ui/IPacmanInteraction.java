@@ -45,6 +45,6 @@ public interface IPacmanInteraction extends Observer {
 	 */
 	void exit();
 
-	void level();
+	void level(int level);
 	
 }

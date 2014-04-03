@@ -33,7 +33,6 @@ public class UndoButtonPanel extends ButtonPanel {
 
 	private JButton undoButton;
 	private JButton shareButton;
-	private JButton levelButton;
 
 	/**
 	 * Actually create the buttons.
@@ -42,26 +41,12 @@ public class UndoButtonPanel extends ButtonPanel {
 		super.initialize();
 		undoButton = new JButton("Undo");
 		shareButton = new JButton("Share");
-		levelButton = new JButton("Difficulty");
 		
 		initializeUndoButton();
 		initializeShareButton();
-		initializeLevelButton();
 
 		addButton(undoButton);
 		addButton(shareButton);
-		addButton(levelButton);
-	}
-
-	private void initializeLevelButton() {
-		levelButton.setEnabled(true);
-		levelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				share(); // temporary: change it to level()
-			}
-		});
-		levelButton.setName("jpacman.level");
 	}
 
 	/**
@@ -87,12 +72,6 @@ public class UndoButtonPanel extends ButtonPanel {
 			}
 		});
 		shareButton.setName("jpacman.share");
-	}
-	
-
-	public void level() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public void share(){
