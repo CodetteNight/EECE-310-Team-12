@@ -25,6 +25,8 @@ public class Game extends Observable
 	 */
 	private Board theBoard;
 	
+	private boolean diff = false;
+	
 	/**
 	 * The object to keep track of the points.
 	 */
@@ -231,4 +233,14 @@ public class Game extends Observable
         result.addAll(foods);
 		return result;
 	}
+	public boolean getDiff(){
+		return diff;
+	}
+	
+	@Override
+	public void level() {
+		// TODO Auto-generated method stub
+		diff = !diff;
+	}
+	
 }

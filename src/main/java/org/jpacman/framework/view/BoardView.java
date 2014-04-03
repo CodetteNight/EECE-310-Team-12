@@ -172,7 +172,7 @@ public class BoardView extends JPanel {
         g2.fill(fullCell);
 
         if (boardInspector.spriteTypeAt(x, y) == SpriteType.FRUIT) {
-        	Rectangle centeredCell = centeredArea(startx, starty, 2);
+        	Rectangle centeredCell = centeredArea(startx, starty, 5);
         	g2.setColor(Color.black);
             g2.fill(fullCell);
             g2.setColor(Color.red);  

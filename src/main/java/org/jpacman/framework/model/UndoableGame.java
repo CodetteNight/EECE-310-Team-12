@@ -12,7 +12,11 @@ import org.jpacman.framework.model.Tile;
 public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 	private ArrayDeque<Moves> moves = new ArrayDeque<Moves>();
+	
 
+	
+
+	
 	@Override
 	public void undo() {
 		Moves move;
@@ -133,6 +137,8 @@ public class UndoableGame extends Game implements IGameInteractorWithUndo {
 
 	@Override
 	public void share() {
-		System.out.println("UndoableGame():Sharing points on twitter");		
+		System.out.println("UndoableGame():Sharing points on twitter");
 	}
+
+	
 }

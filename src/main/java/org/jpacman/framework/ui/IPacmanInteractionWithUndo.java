@@ -9,6 +9,7 @@ public interface IPacmanInteractionWithUndo extends IPacmanInteraction {
 	 */
 	void undo();
 	
+	
 	/**
 	 * Post points on social media
 	 */
